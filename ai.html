@@ -19,6 +19,8 @@
             min-height: 100vh;
             color: #f8fafc;
             overflow: hidden;
+            -webkit-tap-highlight-color: transparent; /* Disable tap highlight */
+            touch-action: manipulation; /* Optimize touch actions */
         }
 
         .chat-container {
@@ -159,6 +161,8 @@
             min-height: 45px;
             max-height: 120px;
             transition: all 0.3s ease;
+            -webkit-appearance: none; /* Remove iOS styling */
+            user-select: text; /* Enable text selection */
         }
 
         #user-input:focus {
@@ -285,6 +289,9 @@
                     id="user-input" 
                     placeholder="Ask me anything..."
                     rows="1"
+                    autocomplete="off"
+                    autocorrect="on"
+                    spellcheck="true"
                 ></textarea>
                 <button class="send-button" onclick="sendMessage()">
                     <i class="fas fa-paper-plane"></i>
@@ -297,6 +304,13 @@
     <script>
         const HF_API_KEY = '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';
         const API_URL = 'https://api-inference.huggingface.co/models/Qwen/Qwen2.5-Coder-32B-Instruct';
+
+        // Prevent double-tap zoom on iOS
+        document.addEventListener('touchstart', function(event) {
+            if (event.target.tagName === 'TEXTAREA') {
+                event.stopPropagation();
+            }
+        }, {passive: true});
 
         async function sendMessage() {
             const userInput = document.getElementById('user-input');
@@ -405,10 +419,20 @@
                 '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
         });
 
+        // Focus handling for iOS
+        userInput.addEventListener('focus', function() {
+            // Add a small delay to ensure the keyboard is fully shown
+            setTimeout(() => {
+                userInput.scrollIntoView({behavior: 'smooth'});
+            }, 300);
+        });
+
         // Prevent zoom on double tap for iOS
         document.addEventListener('touchend', function(event) {
-            event.preventDefault();
-            event.target.click();
+            if (event.target.tagName !== 'TEXTAREA') {
+                event.preventDefault();
+                event.target.click();
+            }
         }, false);
     </script>
 </body>
