@@ -212,6 +212,117 @@
         </a>
    
     </nav>
+    <div class="updates-section" style="
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        padding: 2rem;
+        border-radius: 16px;
+        margin: 2rem auto;
+        max-width: 1200px;
+        text-align: center;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        border: 1px solid rgba(255,255,255,0.4);
+    ">
+        <h2 style="
+            color: #1e293b;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #6366f1, #4f46e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        ">✨ What's New at MeemoAI version 2.0</h2>
+        <div style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+        ">
+            <div style="
+                background: rgba(255,255,255,0.9);
+                padding: 1.5rem;
+                border-radius: 12px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                cursor: pointer;
+                border: 1px solid rgba(99,102,241,0.1);
+                backdrop-filter: blur(8px);
+            " onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)'"
+               onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)'">
+                <div style="font-size: 2rem; margin-bottom: 1rem;">🤖</div>
+                <h3 style="color: #4f46e5; margin-bottom: 0.75rem; font-size: 1.25rem;">Advanced new MeemoAI Model</h3>
+                <p style="color: #64748b; line-height: 1.6;">The best AI model for chatting/coding and more.</p>
+                <a href="ai.html" style="
+                    display: inline-block;
+                    margin-top: 1rem;
+                    padding: 0.75rem 1.5rem;
+                    background: linear-gradient(45deg, #6366f1, #4f46e5);
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    position: relative;
+                    overflow: hidden;
+                    &:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                    }
+                    &:active {
+                        transform: translateY(1px);
+                    }
+                    &:before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: -100%;
+                        width: 100%;
+                        height: 100%;
+                        background: linear-gradient(
+                            90deg,
+                            transparent,
+                            rgba(255,255,255,0.2),
+                            transparent
+                        );
+                        transition: 0.5s;
+                    }
+                    &:hover:before {
+                        left: 100%;
+                    }
+                ">Test the AI</a>
+            </div>
+            <div style="
+                background: rgba(255,255,255,0.9);
+                padding: 1.5rem;
+                border-radius: 12px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                cursor: pointer;
+                border: 1px solid rgba(99,102,241,0.1);
+                backdrop-filter: blur(8px);
+            " onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)'"
+               onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)'">
+                <div style="font-size: 2rem; margin-bottom: 1rem;">✨</div>
+                <h3 style="color: #4f46e5; margin-bottom: 0.75rem; font-size: 1.25rem;">Sleek New Interface</h3>
+                <p style="color: #64748b; line-height: 1.6;">Modern, intuitive design with smooth animations and enhanced accessibility features.</p>
+            </div>
+            <div style="
+                background: rgba(255,255,255,0.9);
+                padding: 1.5rem;
+                border-radius: 12px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                cursor: pointer;
+                border: 1px solid rgba(99,102,241,0.1);
+                backdrop-filter: blur(8px);
+            " onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)'"
+               onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)'">
+                <div style="font-size: 2rem; margin-bottom: 1rem;">📱</div>
+                <h3 style="color: #4f46e5; margin-bottom: 0.75rem; font-size: 1.25rem;">Mobile Excellence</h3>
+                <p style="color: #64748b; line-height: 1.6;">Seamless grammar checking on any device with our responsive mobile-first design.</p>
+            </div>
+        </div>
+    </div>
 
     <div class="main-content">
         <section class="hero-section">
@@ -232,7 +343,27 @@
             <div id="grammar-result" class="result-container"></div>
         </div>
     </div>
-
+    <a href="ai.html" class="chatbot-button" style="
+        display: block;
+        width: fit-content;
+        margin: 1rem auto;
+        padding: 12px 24px;
+        background: linear-gradient(45deg, #6366f1, #4f46e5);
+        color: white;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        transform: translateY(0);
+    ">
+        <i class="fas fa-robot"></i>
+        MeemoAI
+    </a>
     <script>
         async function checkGrammar() {
             const text = document.getElementById('grammar-input').value;
@@ -351,16 +482,16 @@
         pricingSection.className = 'pricing-section';
         pricingSection.innerHTML = `
             <div class="section-header">
-                <h2>Simple, Transparent Pricing</h2>
-                <p>Get started for free during our beta period</p>
+                <h2>Unlock Your Writing Potential</h2>
+                <p>Choose the plan that suits you best</p>
             </div>
             <div class="pricing-cards">
                 <div class="pricing-card">
                     <div class="pricing-header">
-                        <h3>Beta Access (v1)</h3>
+                        <h3>Premium</h3>
                         <div class="price">
-                            <span class="amount">Free</span>
-                            <span class="period">Limited Time</span>
+                            <span class="amount">$9.99</span>
+                            <span class="period">/month</span>
                         </div>
                     </div>
                     <ul class="features">
@@ -369,8 +500,10 @@
                         <li><i class="fas fa-check"></i> Vocabulary Enhancement</li>
                         <li><i class="fas fa-check"></i> Unlimited Text Length</li>
                         <li><i class="fas fa-check"></i> Priority Support</li>
+                        <li><i class="fas fa-check"></i> Redesigned Home Page</li>
+                        <li><i class="fas fa-check"></i> Enhanced AI Model</li>
                     </ul>
-                    <button class="cta-button">Already a Member</button>
+                    <button class="cta-button">Get Premium Now</button>
                 </div>
             </div>
         `;
@@ -1073,7 +1206,90 @@
                 faqItem.classList.toggle('active');
             });
         });
+        
+    // Add toggle button
+    const aiModelsToggleBtn = document.createElement('button');
+    aiModelsToggleBtn.textContent = 'AI Models';
+    aiModelsToggleBtn.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        padding: 12px 24px;
+        background: #6366f1;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        z-index: 999;
+    `;
 
+    // Add sidebar content
+    aiModelsSidebar.innerHTML = `
+        <button id="closeAiModelsSidebar" style="
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #64748b;
+        ">×</button>
+
+        <h2 style="color: #1e293b; margin-bottom: 2rem;">AI Models</h2>
+
+        <!-- Model 1 -->
+        <a href="model1.html" style="
+            display: block;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-decoration: none;
+            color: #1e293b;
+            transition: background 0.3s ease;
+        ">Model 1</a>
+
+        <!-- Model 2 -->
+        <a href="model2.html" style="
+            display: block;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-decoration: none;
+            color: #1e293b;
+            transition: background 0.3s ease;
+        ">Model 2</a>
+
+        <!-- Model 3 -->
+        <a href="model3.html" style="
+            display: block;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-decoration: none;
+            color: #1e293b;
+            transition: background 0.3s ease;
+        ">Model 3</a>
+    `;
+
+    document.body.appendChild(aiModelsToggleBtn);
+    document.body.appendChild(aiModelsSidebar);
+
+    // Add event listeners
+    aiModelsToggleBtn.addEventListener('click', () => {
+        aiModelsSidebar.style.left = aiModelsSidebar.style.left === '0px' ? '-400px' : '0px';
+    });
+
+    document.getElementById('closeAiModelsSidebar').addEventListener('click', () => {
+        aiModelsSidebar.style.left = '-400px';
+    });
     </script>
 </body>
 </html>

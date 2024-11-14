@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meemo AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #1a1c2e 0%, #2d3748 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+        }
+
+        .chat-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2.5rem;
+            background: rgba(26, 28, 46, 0.95);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 1rem;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .chat-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #6366f1, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-header p {
+            color: #a0aec0;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .chat-messages {
+            height: 600px;
+            overflow-y: auto;
+            padding: 2rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            background: rgba(26, 28, 46, 0.7);
+            scrollbar-width: thin;
+            scrollbar-color: #6366f1 #1a1c2e;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: #1a1c2e;
+            border-radius: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #6366f1;
+            border-radius: 4px;
+        }
+
+        .message {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            animation: messageAppear 0.3s ease-out;
+        }
+
+        @keyframes messageAppear {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+            margin-left: 4rem;
+            border-bottom-left-radius: 6px;
+        }
+
+        .bot-message {
+            background: linear-gradient(135deg, #2d3748 0%, #1a1c2e 100%);
+            margin-right: 4rem;
+            border-bottom-right-radius: 6px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .message pre {
+            background: #0f111a;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin-top: 1rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            font-family: 'Fira Code', monospace;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 1.5rem;
+            position: relative;
+            background: rgba(26, 28, 46, 0.8);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 1.5rem;
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            resize: vertical;
+            min-height: 60px;
+            background: rgba(26, 28, 46, 0.9);
+            color: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        #user-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+
+        .send-button {
+            padding: 0 3rem;
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(99, 102, 241, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .send-button i {
+            font-size: 1.2rem;
+        }
+
+        .send-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(99, 102, 241, 0.4);
+            background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
+        }
+
+        .send-button:active {
+            transform: translateY(1px);
+        }
+
+        @media (max-width: 768px) {
+            .chat-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            .chat-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .message {
+                margin-left: 1rem;
+                margin-right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>Meemo AI</h1>
+            <p>Your advanced AI coding assistant powered by MeemoArcticModel</p>
+        </div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="input-container">
+            <textarea 
+                id="user-input" 
+                placeholder="Ask me anything..."
+                rows="3"
+            ></textarea>
+            <button class="send-button" onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+                Send
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const HF_API_KEY = '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'; // Replace with your Hugging Face API key
+        const API_URL = 'https://api-inference.huggingface.co/models/Qwen/Qwen2.5-Coder-32B-Instruct';
+
+        async function sendMessage() {
+            const userInput = document.getElementById('user-input');
+            const chatMessages = document.getElementById('chat-messages');
+            const message = userInput.value.trim();
+
+            if (!message) return;
+
+            appendMessage('user', message);
+            userInput.value = '';
+
+            try {
+                const loadingId = appendMessage('bot', 'Thinking... 🤔');
+
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${HF_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        inputs: `<|im_start|>user\n${message}<|im_end|>\n<|im_start|>assistant\n`,
+                        parameters: {
+                            max_new_tokens: 2048,
+                            temperature: 0.7,
+                            top_p: 0.9,
+                            do_sample: true
+                        }
+                    })
+                });
+
+                const data = await response.json();
+                
+                // Remove loading message
+                document.getElementById(loadingId).remove();
+                
+                // Extract assistant's response from the generated text
+                const assistantResponse = data[0].generated_text.split('<|im_start|>assistant\n')[1].split('<|im_end|>')[0];
+                
+                // Add bot response
+                appendMessage('bot', assistantResponse);
+
+            } catch (error) {
+                console.error('Error:', error);
+                appendMessage('bot', 'Sorry, I encountered an error. Please try again later. 🤷‍♂️');
+            }
+        }
+
+        function appendMessage(sender, content) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            const messageId = `msg-${Date.now()}`;
+            
+            messageDiv.id = messageId;
+            messageDiv.className = `message ${sender}-message`;
+            
+            if (content.includes('```')) {
+                const parts = content.split('```');
+                let formattedContent = '';
+                
+                parts.forEach((part, index) => {
+                    if (index % 2 === 0) {
+                        formattedContent += `<p>${part}</p>`;
+                    } else {
+                        const language = part.split('\n')[0];
+                        const code = part.split('\n').slice(1).join('\n');
+                        formattedContent += `<pre><code class="language-${language}">${code}</code></pre>`;
+                    }
+                });
+                
+                messageDiv.innerHTML = formattedContent;
+            } else {
+                messageDiv.innerHTML = content.replace(/\n/g, '<br>');
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            return messageId;
+        }
+
+        document.getElementById('user-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Add home button with enhanced styling
+        const homeButton = document.createElement('button');
+        homeButton.innerHTML = '<i class="fas fa-home"></i> Home';
+        homeButton.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #6366f1, #4f46e5);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        `;
+        
+        homeButton.addEventListener('mouseover', () => {
+            homeButton.style.transform = 'translateY(-2px)';
+            homeButton.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.3)';
+        });
+        
+        homeButton.addEventListener('mouseout', () => {
+            homeButton.style.transform = 'translateY(0)';
+            homeButton.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.2)';
+        });
+        
+        homeButton.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+        
+        document.body.appendChild(homeButton);
+    </script>
+    <script>
+        // Create conversation history sidebar
+        const historySidebar = document.createElement('div');
+        historySidebar.style.cssText = `
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background: rgba(26, 28, 46, 0.95);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            transition: right 0.3s ease;
+            z-index: 999;
+            overflow-y: auto;
+            backdrop-filter: blur(12px);
+        `;
+
+        // Create toggle button
+        const historyToggle = document.createElement('button');
+        historyToggle.innerHTML = '<i class="fas fa-history"></i>';
+        historyToggle.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background: linear-gradient(45deg, #6366f1, #4f46e5);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        `;
+
+        // Create header for sidebar
+        const historyHeader = document.createElement('div');
+        historyHeader.style.cssText = `
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+        `;
+        historyHeader.innerHTML = `
+            <h3 style="color: #e2e8f0; font-size: 1.2rem;">Conversation History</h3>
+            <button id="closeHistory" style="
+                background: none;
+                border: none;
+                color: #e2e8f0;
+                cursor: pointer;
+                font-size: 1.2rem;
+            "><i class="fas fa-times"></i></button>
+        `;
+
+        // Create container for history items
+        const historyContainer = document.createElement('div');
+        historyContainer.id = 'history-container';
+        historyContainer.style.cssText = `
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        `;
+
+        // Assemble sidebar
+        historySidebar.appendChild(historyHeader);
+        historySidebar.appendChild(historyContainer);
+        document.body.appendChild(historySidebar);
+        document.body.appendChild(historyToggle);
+
+        // Toggle sidebar functionality
+        historyToggle.addEventListener('mouseover', () => {
+            historyToggle.style.transform = 'scale(1.1)';
+        });
+
+        historyToggle.addEventListener('mouseout', () => {
+            historyToggle.style.transform = 'scale(1)';
+        });
+
+        historyToggle.addEventListener('click', () => {
+            historySidebar.style.right = historySidebar.style.right === '0px' ? '-300px' : '0px';
+        });
+
+        document.getElementById('closeHistory').addEventListener('click', () => {
+            historySidebar.style.right = '-300px';
+        });
+
+        // Function to add conversation to history
+        function addToHistory(messageContent) {
+            const historyItem = document.createElement('div');
+            historyItem.style.cssText = `
+                padding: 10px;
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 8px;
+                color: #e2e8f0;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            `;
+            
+            // Truncate message if too long
+            const truncatedContent = messageContent.length > 50 
+                ? messageContent.substring(0, 50) + '...' 
+                : messageContent;
+            
+            historyItem.textContent = truncatedContent;
+            
+            historyItem.addEventListener('mouseover', () => {
+                historyItem.style.background = 'rgba(255, 255, 255, 0.1)';
+            });
+            
+            historyItem.addEventListener('mouseout', () => {
+                historyItem.style.background = 'rgba(255, 255, 255, 0.05)';
+            });
+            
+            document.getElementById('history-container').prepend(historyItem);
+        }
+
+        // Modify sendMessage function to add messages to history
+        const originalSendMessage = window.sendMessage;
+        window.sendMessage = function() {
+            const userInput = document.getElementById('user-input').value.trim();
+            if (userInput) {
+                addToHistory(userInput);
+            }
+            return originalSendMessage.apply(this, arguments);
+        };
+    </script>
+</body>
+</html>
