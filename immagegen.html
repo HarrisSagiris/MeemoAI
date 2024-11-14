@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeemoAI Image Generation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 1.2rem;
+        }
+
+        .image-generator {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .input-container {
+            margin-bottom: 2rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 1rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        .generate-button {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .generate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        .generate-button:active {
+            transform: translateY(1px);
+        }
+
+        .result-container {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .generated-image {
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .loading {
+            display: none;
+            color: #6366f1;
+            font-size: 1.2rem;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .image-generator {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI Image Generation</h1>
+            <p>Transform your ideas into stunning visuals with our advanced AI</p>
+            <p>MeemoAImg 1.0</p>
+        </div>
+        <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem;">
+            <a href="/" class="home-button" style="
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 12px 24px;
+                background: linear-gradient(45deg, #6366f1, #4f46e5);
+                color: white;
+                text-decoration: none;
+                border-radius: 12px;
+                font-weight: 600;
+                font-size: 1.1rem;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                transition: all 0.3s ease;
+                transform: translateY(0);
+                &:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 8px 15px rgba(99,102,241,0.3);
+                    background: linear-gradient(45deg, #818cf8, #6366f1);
+                }
+                &:active {
+                    transform: translateY(1px);
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                }
+                animation: pulse 2s infinite;
+                @keyframes pulse {
+                    0% {
+                        box-shadow: 0 4px 6px rgba(99,102,241,0.1);
+                    }
+                    50% {
+                        box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+                    }
+                    100% {
+                        box-shadow: 0 4px 6px rgba(99,102,241,0.1);
+                    }
+                }
+            ">
+                <i class="fas fa-home"></i>
+                Home
+            </a>
+
+            <button id="download-button" onclick="downloadImage()" class="download-button" style="
+                display: none;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 12px 24px;
+                background: linear-gradient(45deg, #10b981, #059669);
+                color: white;
+                border: none;
+                border-radius: 12px;
+                font-weight: 600;
+                font-size: 1.1rem;
+                cursor: pointer;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                transition: all 0.3s ease;
+            ">
+                <i class="fas fa-download"></i>
+                Download Image
+            </button>
+        </div>
+
+        <div class="image-generator">
+            <div class="input-container">
+                <textarea id="prompt" placeholder="Describe the image you want to generate..."></textarea>
+            </div>
+            <button onclick="generateImage()" class="generate-button">
+                <i class="fas fa-magic"></i> Generate Image
+            </button>
+            <div id="loading" class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Creating your masterpiece...
+            </div>
+            <div id="result" class="result-container"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://api-inference.huggingface.co/models/Artples/LAI-ImageGeneration-vSDXL-2';
+        const API_KEY = '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';
+
+        async function generateImage() {
+            const prompt = document.getElementById('prompt').value.trim();
+            const loadingDiv = document.getElementById('loading');
+            const resultDiv = document.getElementById('result');
+
+            if (!prompt) {
+                alert('Please enter a description for the image');
+                return;
+            }
+
+            loadingDiv.style.display = 'block';
+            resultDiv.innerHTML = '';
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        inputs: prompt,
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to generate image');
+                }
+
+                const blob = await response.blob();
+                const imageUrl = URL.createObjectURL(blob);
+                
+                resultDiv.innerHTML = `
+                    <img src="${imageUrl}" alt="Generated Image" class="generated-image">
+                `;
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `
+                    <div style="color: #ef4444; margin-top: 1rem;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Failed to generate image. Please try again.</p>
+                    </div>
+                `;
+            } finally {
+                loadingDiv.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
