@@ -13,83 +13,85 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             line-height: 1.6;
-            background: linear-gradient(135deg, #1a1c2e 0%, #2d3748 100%);
+            background: #0f172a;
             min-height: 100vh;
-            color: #e2e8f0;
+            color: #f8fafc;
         }
 
         .chat-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 2.5rem;
-            background: rgba(26, 28, 46, 0.95);
-            border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .chat-header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-            padding: 1rem;
-            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
         }
 
-        .chat-header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
+        .chat-header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 2.5rem;
             font-weight: 800;
-            background: linear-gradient(45deg, #6366f1, #818cf8);
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        .chat-header p {
-            color: #a0aec0;
-            font-size: 1.2rem;
-            font-weight: 500;
+        .chat-header-right {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .theme-toggle, .settings-btn {
+            padding: 0.75rem;
+            border-radius: 12px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .chat-messages {
-            height: 600px;
+            flex: 1;
             overflow-y: auto;
             padding: 2rem;
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 16px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 20px;
             margin-bottom: 2rem;
-            background: rgba(26, 28, 46, 0.7);
             scrollbar-width: thin;
-            scrollbar-color: #6366f1 #1a1c2e;
-        }
-
-        .chat-messages::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .chat-messages::-webkit-scrollbar-track {
-            background: #1a1c2e;
-            border-radius: 4px;
-        }
-
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: #6366f1;
-            border-radius: 4px;
+            scrollbar-color: #3b82f6 #1e293b;
         }
 
         .message {
-            margin-bottom: 1.5rem;
-            padding: 1.5rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            animation: messageAppear 0.3s ease-out;
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            animation: slideIn 0.3s ease-out;
         }
 
-        @keyframes messageAppear {
+        .user-message {
+            flex-direction: row-reverse;
+        }
+
+        @keyframes slideIn {
             from {
                 opacity: 0;
                 transform: translateY(20px);
@@ -100,238 +102,164 @@
             }
         }
 
-        .message:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #3b82f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
 
-        .user-message {
-            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
-            margin-left: 4rem;
-            border-bottom-left-radius: 6px;
-        }
-
-        .bot-message {
-            background: linear-gradient(135deg, #2d3748 0%, #1a1c2e 100%);
-            margin-right: 4rem;
-            border-bottom-right-radius: 6px;
-            border: 1px solid rgba(99, 102, 241, 0.3);
-        }
-
-        .message pre {
-            background: #0f111a;
-            color: #e2e8f0;
+        .message-content {
+            flex: 1;
             padding: 1.5rem;
-            border-radius: 12px;
-            overflow-x: auto;
-            margin-top: 1rem;
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            font-family: 'Fira Code', monospace;
+            border-radius: 16px;
+            background: rgba(30, 41, 59, 0.8);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-message .message-content {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
 
         .input-container {
-            display: flex;
-            gap: 1.5rem;
             position: relative;
-            background: rgba(26, 28, 46, 0.8);
+            background: rgba(30, 41, 59, 0.7);
             padding: 1.5rem;
-            border-radius: 16px;
-            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
         }
 
         #user-input {
             flex: 1;
-            padding: 1.5rem;
-            border: 2px solid rgba(99, 102, 241, 0.3);
+            padding: 1rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
             border-radius: 12px;
-            font-size: 1.1rem;
-            resize: vertical;
+            background: rgba(15, 23, 42, 0.7);
+            color: #f8fafc;
+            font-size: 1rem;
+            resize: none;
             min-height: 60px;
-            background: rgba(26, 28, 46, 0.9);
-            color: #e2e8f0;
             transition: all 0.3s ease;
         }
 
         #user-input:focus {
             outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
 
         .send-button {
-            padding: 0 3rem;
-            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            padding: 1rem 2rem;
+            background: #3b82f6;
             color: white;
             border: none;
             border-radius: 12px;
             font-weight: 600;
-            font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(99, 102, 241, 0.3);
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .send-button i {
-            font-size: 1.2rem;
-        }
-
         .send-button:hover {
+            background: #2563eb;
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(99, 102, 241, 0.4);
-            background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
         }
 
-        .send-button:active {
-            transform: translateY(1px);
+        .toolbar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .toolbar button {
+            padding: 0.5rem;
+            border-radius: 8px;
+            background: rgba(59, 130, 246, 0.1);
+            border: none;
+            color: #60a5fa;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         @media (max-width: 768px) {
             .chat-container {
-                margin: 1rem;
-                padding: 1.5rem;
+                padding: 1rem;
             }
 
-            .chat-header h1 {
-                font-size: 2.5rem;
+            .chat-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
             }
 
             .message {
-                margin-left: 1rem;
-                margin-right: 1rem;
-            }
-        }
-        /* Mobile Optimizations */
-        @media (max-width: 480px) {
-            .chat-container {
-                margin: 0;
-                padding: 1rem;
-                border-radius: 0;
-                min-height: 100vh;
+                margin-bottom: 1rem;
             }
 
-            .chat-header h1 {
-                font-size: 2rem;
-            }
-
-            .chat-header p {
-                font-size: 0.9rem;
-                padding: 0 1rem;
-            }
-
-            .input-container {
-                padding: 0.75rem;
+            .input-wrapper {
                 flex-direction: column;
-                gap: 0.75rem;
             }
 
             .send-button {
                 width: 100%;
-                justify-content: center;
-                padding: 0.75rem;
-            }
-
-            textarea {
-                font-size: 1rem;
-                padding: 0.75rem;
-                min-height: 80px;
-            }
-
-            .message {
-                padding: 0.75rem;
-                margin: 0.5rem 0;
-                font-size: 0.95rem;
-            }
-
-            .message.bot {
-                margin-right: 0.5rem;
-            }
-
-            .message.user {
-                margin-left: 0.5rem;
-            }
-
-            .chat-messages {
-                padding: 0.5rem;
-                max-height: calc(100vh - 220px);
-            }
-        }
-        /* iOS home screen bookmark styles */
-        @media screen and (display-mode: standalone) {
-            body {
-                /* Remove default iOS tap highlight */
-                -webkit-tap-highlight-color: transparent;
-                /* Prevent overscroll bounce effect */
-                overscroll-behavior: none;
-                /* Prevent text size adjustment */
-                -webkit-text-size-adjust: 100%;
-            }
-
-            /* Full viewport height accounting for iOS UI elements */
-            .chat-container {
-                height: 100vh;
-                height: -webkit-fill-available;
-                margin: 0;
-                border-radius: 0;
-                padding-top: env(safe-area-inset-top);
-                padding-bottom: env(safe-area-inset-bottom);
-                padding-left: env(safe-area-inset-left);
-                padding-right: env(safe-area-inset-right);
-            }
-
-            /* Prevent iOS double-tap zoom */
-            .send-button, 
-            textarea,
-            button {
-                touch-action: manipulation;
-            }
-
-            /* Disable text selection */
-            * {
-                -webkit-touch-callout: none;
-                -webkit-user-select: none;
-                user-select: none;
-            }
-
-            /* Enable text selection only in textarea */
-            textarea {
-                -webkit-user-select: text;
-                user-select: text;
-            }
-
-            /* Hide Safari UI when in standalone mode */
-            @media not all and (display-mode: standalone) {
-                .chat-container {
-                    padding-top: 0;
-                }
             }
         }
     </style>
 </head>
 <body>
     <div class="chat-container">
-        <div class="chat-header">
-            <h1>Meemo AI</h1>
-            <p>Your advanced AI coding assistant powered by MeemoAI 1.0</p>
-        </div>
-        <div class="chat-messages" id="chat-messages"></div>
+        <header class="chat-header">
+            <div class="chat-header-left">
+                <h1 class="logo">Meemo AI</h1>
+                <span class="version">2.0</span>
+            </div>
+            <div class="chat-header-right">
+                <button class="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="settings-btn">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="chat-messages" id="chat-messages"></main>
+
         <div class="input-container">
-            <textarea 
-                id="user-input" 
-                placeholder="Ask me anything..."
-                rows="3"
-            ></textarea>
-            <button class="send-button" onclick="sendMessage()">
-                <i class="fas fa-paper-plane"></i>
-                Send
-            </button>
+            <div class="toolbar">
+                <button title="Upload file"><i class="fas fa-paperclip"></i></button>
+                <button title="Code snippet"><i class="fas fa-code"></i></button>
+                <button title="Format text"><i class="fas fa-paragraph"></i></button>
+            </div>
+            <div class="input-wrapper">
+                <textarea 
+                    id="user-input" 
+                    placeholder="Ask me anything..."
+                    rows="3"
+                ></textarea>
+                <button class="send-button" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                    Send
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
-        const HF_API_KEY = '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'; // Replace with your Hugging Face API key
+        const HF_API_KEY = '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';
         const API_URL = 'https://api-inference.huggingface.co/models/Qwen/Qwen2.5-Coder-32B-Instruct';
 
         async function sendMessage() {
@@ -365,14 +293,9 @@
                 });
 
                 const data = await response.json();
-                
-                // Remove loading message
                 document.getElementById(loadingId).remove();
                 
-                // Extract assistant's response from the generated text
                 const assistantResponse = data[0].generated_text.split('<|im_start|>assistant\n')[1].split('<|im_end|>')[0];
-                
-                // Add bot response
                 appendMessage('bot', assistantResponse);
 
             } catch (error) {
@@ -389,6 +312,13 @@
             messageDiv.id = messageId;
             messageDiv.className = `message ${sender}-message`;
             
+            const avatar = document.createElement('div');
+            avatar.className = 'avatar';
+            avatar.textContent = sender === 'user' ? 'U' : 'M';
+
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            
             if (content.includes('```')) {
                 const parts = content.split('```');
                 let formattedContent = '';
@@ -403,11 +333,13 @@
                     }
                 });
                 
-                messageDiv.innerHTML = formattedContent;
+                messageContent.innerHTML = formattedContent;
             } else {
-                messageDiv.innerHTML = content.replace(/\n/g, '<br>');
+                messageContent.innerHTML = content.replace(/\n/g, '<br>');
             }
-            
+
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(messageContent);
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
             
@@ -421,178 +353,13 @@
             }
         });
 
-        // Add home button with enhanced styling
-        const homeButton = document.createElement('button');
-        homeButton.innerHTML = '<i class="fas fa-home"></i> Home';
-        homeButton.style.cssText = `
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            padding: 12px 24px;
-            background: linear-gradient(45deg, #6366f1, #4f46e5);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            z-index: 1000;
-        `;
-        
-        homeButton.addEventListener('mouseover', () => {
-            homeButton.style.transform = 'translateY(-2px)';
-            homeButton.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.3)';
+        // Theme toggle functionality
+        const themeToggle = document.querySelector('.theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            themeToggle.innerHTML = document.body.classList.contains('light-theme') ? 
+                '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
         });
-        
-        homeButton.addEventListener('mouseout', () => {
-            homeButton.style.transform = 'translateY(0)';
-            homeButton.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.2)';
-        });
-        
-        homeButton.addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
-        
-        document.body.appendChild(homeButton);
-    </script>
-    <script>
-        // Create conversation history sidebar
-        const historySidebar = document.createElement('div');
-        historySidebar.style.cssText = `
-            position: fixed;
-            top: 0;
-            right: -300px;
-            width: 300px;
-            height: 100vh;
-            background: rgba(26, 28, 46, 0.95);
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            transition: right 0.3s ease;
-            z-index: 999;
-            overflow-y: auto;
-            backdrop-filter: blur(12px);
-        `;
-
-        // Create toggle button
-        const historyToggle = document.createElement('button');
-        historyToggle.innerHTML = '<i class="fas fa-history"></i>';
-        historyToggle.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 25px;
-            background: linear-gradient(45deg, #6366f1, #4f46e5);
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        `;
-
-        // Create header for sidebar
-        const historyHeader = document.createElement('div');
-        historyHeader.style.cssText = `
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
-        `;
-        historyHeader.innerHTML = `
-            <h3 style="color: #e2e8f0; font-size: 1.2rem;">Conversation History</h3>
-            <button id="closeHistory" style="
-                background: none;
-                border: none;
-                color: #e2e8f0;
-                cursor: pointer;
-                font-size: 1.2rem;
-            "><i class="fas fa-times"></i></button>
-        `;
-
-        // Create container for history items
-        const historyContainer = document.createElement('div');
-        historyContainer.id = 'history-container';
-        historyContainer.style.cssText = `
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        `;
-
-        // Assemble sidebar
-        historySidebar.appendChild(historyHeader);
-        historySidebar.appendChild(historyContainer);
-        document.body.appendChild(historySidebar);
-        document.body.appendChild(historyToggle);
-
-        // Toggle sidebar functionality
-        historyToggle.addEventListener('mouseover', () => {
-            historyToggle.style.transform = 'scale(1.1)';
-        });
-
-        historyToggle.addEventListener('mouseout', () => {
-            historyToggle.style.transform = 'scale(1)';
-        });
-
-        historyToggle.addEventListener('click', () => {
-            historySidebar.style.right = historySidebar.style.right === '0px' ? '-300px' : '0px';
-        });
-
-        document.getElementById('closeHistory').addEventListener('click', () => {
-            historySidebar.style.right = '-300px';
-        });
-
-        // Function to add conversation to history
-        function addToHistory(messageContent) {
-            const historyItem = document.createElement('div');
-            historyItem.style.cssText = `
-                padding: 10px;
-                background: rgba(255, 255, 255, 0.05);
-                border-radius: 8px;
-                color: #e2e8f0;
-                cursor: pointer;
-                transition: all 0.2s ease;
-            `;
-            
-            // Truncate message if too long
-            const truncatedContent = messageContent.length > 50 
-                ? messageContent.substring(0, 50) + '...' 
-                : messageContent;
-            
-            historyItem.textContent = truncatedContent;
-            
-            historyItem.addEventListener('mouseover', () => {
-                historyItem.style.background = 'rgba(255, 255, 255, 0.1)';
-            });
-            
-            historyItem.addEventListener('mouseout', () => {
-                historyItem.style.background = 'rgba(255, 255, 255, 0.05)';
-            });
-            
-            document.getElementById('history-container').prepend(historyItem);
-        }
-
-        // Modify sendMessage function to add messages to history
-        const originalSendMessage = window.sendMessage;
-        window.sendMessage = function() {
-            const userInput = document.getElementById('user-input').value.trim();
-            if (userInput) {
-                addToHistory(userInput);
-            }
-            return originalSendMessage.apply(this, arguments);
-        };
     </script>
 </body>
 </html>

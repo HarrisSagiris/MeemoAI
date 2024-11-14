@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeemoAI Premium - Unlock Advanced Features</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f6f8ff 0%, #ffffff 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #0f172a;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo i {
+            color: #6366f1;
+        }
+
+        .premium-container {
+            max-width: 1200px;
+            width: 90%;
+            margin: 4rem auto;
+            text-align: center;
+        }
+
+        .premium-header {
+            margin-bottom: 3rem;
+        }
+
+        .premium-header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #6366f1, #4f46e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .premium-header p {
+            color: #64748b;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border: 1px solid rgba(99,102,241,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .pricing-card.featured {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+        }
+
+        .features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .features li {
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .subscribe-btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .featured .subscribe-btn {
+            background: white;
+            color: #4f46e5;
+        }
+
+        .featured .subscribe-btn:hover {
+            background: #f8fafc;
+            transform: scale(1.05);
+        }
+
+        .standard .subscribe-btn {
+            background: linear-gradient(45deg, #6366f1, #4f46e5);
+            color: white;
+        }
+
+        .standard .subscribe-btn:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <i class="fas fa-spell-check"></i>
+            MeemoAI
+        </a>
+    </nav>
+
+    <div class="premium-container">
+        <div class="premium-header">
+            <h1>Upgrade to Premium</h1>
+            <p>Unlock the full potential of MeemoAI with our premium features</p>
+        </div>
+
+        <div class="pricing-cards">
+            <div class="pricing-card standard">
+                <div class="plan-name">Standard</div>
+                <div class="price">$9.99<span style="font-size: 1rem">/month</span></div>
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> Basic AI Chat</li>
+                    <li><i class="fas fa-check"></i> Unlimited Requests on our AI</li>
+                    <li><i class="fas fa-check"></i> Standard Support</li>
+                    <li><i class="fas fa-check"></i> Basic Templates</li>
+                </ul>
+                <button class="subscribe-btn">Get Started</button>
+            </div>
+
+            <div class="pricing-card featured">
+                <div class="plan-name">Premium</div>
+                <div class="price">$19.99<span style="font-size: 1rem">/month</span></div>
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> Advanced AI Chat</li>
+                    <li><i class="fas fa-check"></i> Unlimited Requests</li>
+                    <li><i class="fas fa-check"></i> Priority Support</li>
+                    <li><i class="fas fa-check"></i> Premium Templates</li>
+                    <li><i class="fas fa-check"></i> Custom AI Training</li>
+                    <li><i class="fas fa-check"></i> API Access</li>
+                </ul>
+                <button class="subscribe-btn">Upgrade Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.subscribe-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                // Add payment processing logic here
+                alert('Payment processing will be implemented soon!');
+            });
+        });
+    </script>
+</body>
+</html>

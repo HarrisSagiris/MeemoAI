@@ -10,1328 +10,434 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Söhne', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #f6f8ff 0%, #ffffff 100%);
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
             min-height: 100vh;
-            color: #1e293b;
-        }
-
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            padding: 1.25rem 2rem;
+            color: #ECECF1;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            flex-direction: column;
         }
 
-        .logo {
-            font-size: 1.75rem;
-            font-weight: 800;
-            color: #0f172a;
+        .sidebar {
+            width: 260px;
+            background: rgba(32, 33, 35, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: fixed;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1001;
+            background: rgba(32, 33, 35, 0.8);
+            border: none;
+            color: #ECECF1;
+            padding: 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: #ECECF1;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .new-chat {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #ECECF1;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .new-chat:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .tools-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .tool-link {
+            padding: 1rem;
+            color: #ECECF1;
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            border-radius: 12px;
+            transition: all 0.3s;
+            margin-bottom: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        .logo i {
-            color: #6366f1;
+        .tool-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
         }
 
-        .nav-links {
+        .sidebar-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+            margin-top: auto;
+        }
+
+        .report-bug {
             display: flex;
-            gap: 2.5rem;
-        }
-
-        .nav-links a {
+            align-items: center;
+            gap: 0.75rem;
+            color: #ECECF1;
             text-decoration: none;
-            color: #64748b;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-        }
-
-        .nav-links a:hover {
-            color: #6366f1;
-        }
-
-        .main-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-        }
-
-        .hero-section {
-            text-align: center;
-            padding: 4rem 0;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .hero-section h1 {
-            font-size: 4rem;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-            font-weight: 800;
-        }
-
-        .hero-section p {
-            font-size: 1.5rem;
-            color: #64748b;
-            margin-bottom: 3rem;
-            line-height: 1.6;
-        }
-
-        .grammar-checker {
-            background: white;
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            margin: 2rem 0;
-        }
-
-        .input-section {
-            margin-bottom: 2rem;
-        }
-
-        .input-section textarea {
-            width: 100%;
-            min-height: 300px;
-            padding: 1.5rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #1e293b;
-            transition: all 0.3s ease;
-            resize: vertical;
-            margin-bottom: 1.5rem;
-        }
-
-        .input-section textarea:focus {
-            outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
-        .check-button {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: white;
-            padding: 1rem 2.5rem;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-block;
-            margin-right: 1rem;
-        }
-
-        .fix-button {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            padding: 1rem 2.5rem;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-
-        .check-button:hover, .fix-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
-        }
-
-        .result-container {
-            margin-top: 2rem;
-            padding: 2rem;
-            background: #f8fafc;
-            border-radius: 12px;
-            display: none;
-        }
-
-        .correction-item {
-            background: white;
-            padding: 1rem;
+            padding: 0.75rem;
             border-radius: 8px;
-            margin-bottom: 1rem;
-            border-left: 4px solid #6366f1;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 0, 0, 0.1);
+            margin-bottom: 0.75rem;
         }
 
-        .error-text {
-            color: #ef4444;
-            font-weight: 600;
+        .report-bug:hover {
+            background: rgba(255, 0, 0, 0.2);
+        }
+
+        .updates-box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .updates-box h4 {
+            color: #10A37F;
             margin-bottom: 0.5rem;
         }
 
-        .suggestion-text {
-            color: #10b981;
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 3rem;
+            background: radial-gradient(circle at top right, rgba(61, 65, 159, 0.15), transparent);
+        }
+
+        .welcome-container {
+            max-width: 1000px;
+            text-align: center;
+            margin-top: 8vh;
+        }
+
+        .typing-text {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            min-height: 120px;
+            background: linear-gradient(45deg, #60a5fa, #3b82f6, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 8s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 3rem;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            transition: all 0.4s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        .tool-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .tool-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .tool-description {
+            color: #c5c5d2;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .tool-button {
+            background: linear-gradient(45deg, #10A37F, #0E906F);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
             font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(16, 163, 127, 0.3);
+        }
+
+        .tool-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 163, 127, 0.4);
         }
 
         @media (max-width: 768px) {
-            .hero-section h1 {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+                width: 100%;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+                padding-top: 4rem;
+            }
+
+            .typing-text {
+                font-size: 2rem;
+                min-height: 80px;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .tool-card {
+                padding: 1.5rem;
+            }
+
+            .tool-icon {
                 font-size: 2.5rem;
             }
 
-            .navbar {
-                padding: 1rem;
+            .tool-title {
+                font-size: 1.3rem;
             }
 
-            .nav-links {
-                gap: 1.5rem;
+            .tool-description {
+                font-size: 1rem;
             }
 
-            .grammar-checker {
-                padding: 1.5rem;
+            .tool-button {
+                width: 100%;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <a href="/" class="logo">
-            <i class="fas fa-spell-check"></i>
-            MeemoAI
+    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <aside class="sidebar">
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search tools..." onkeyup="searchTools()">
+        </div>
+        <a href="/" class="new-chat">
+            <i class="fas fa-home"></i>
+            Home
         </a>
-   
-    </nav>
-    <div class="updates-section" style="
-        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-        padding: 2rem;
-        border-radius: 16px;
-        margin: 2rem auto;
-        max-width: 1200px;
-        text-align: center;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-        border: 1px solid rgba(255,255,255,0.4);
-    ">
-        <h2 style="
-            color: #1e293b;
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            font-weight: 800;
-            background: linear-gradient(45deg, #6366f1, #4f46e5);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        ">✨ What's New at MeemoAI version 2.0</h2>
-        <div style="
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            padding: 1rem;
-        ">
-            <div style="
-                background: rgba(255,255,255,0.9);
-                padding: 1.5rem;
-                border-radius: 12px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
-                cursor: pointer;
-                border: 1px solid rgba(99,102,241,0.1);
-                backdrop-filter: blur(8px);
-            " onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)'"
-               onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)'">
-                <div style="font-size: 2rem; margin-bottom: 1rem;">🤖</div>
-                <h3 style="color: #4f46e5; margin-bottom: 0.75rem; font-size: 1.25rem;">Advanced new MeemoAI Model</h3>
-                <p style="color: #64748b; line-height: 1.6;">The best AI model for chatting/coding and more.</p>
-                <a href="ai.html" style="
-                    display: inline-block;
-                    margin-top: 1rem;
-                    padding: 0.75rem 1.5rem;
-                    background: linear-gradient(45deg, #6366f1, #4f46e5);
-                    color: white;
-                    text-decoration: none;
-                    border-radius: 8px;
-                    font-weight: 600;
-                    transition: all 0.3s ease;
-                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                    position: relative;
-                    overflow: hidden;
-                    &:hover {
-                        transform: translateY(-2px);
-                        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-                    }
-                    &:active {
-                        transform: translateY(1px);
-                    }
-                    &:before {
-                        content: '';
-                        position: absolute;
-                        top: 0;
-                        left: -100%;
-                        width: 100%;
-                        height: 100%;
-                        background: linear-gradient(
-                            90deg,
-                            transparent,
-                            rgba(255,255,255,0.2),
-                            transparent
-                        );
-                        transition: 0.5s;
-                    }
-                    &:hover:before {
-                        left: 100%;
-                    }
-                ">MeemoAI</a>
-            </div>
-            <div style="
-                background: rgba(255,255,255,0.9);
-                padding: 1.5rem;
-                border-radius: 12px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
-                cursor: pointer;
-                border: 1px solid rgba(99,102,241,0.1);
-                backdrop-filter: blur(8px);
-            " onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)'"
-               onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)'">
-                <div style="font-size: 2rem; margin-bottom: 1rem;">✨</div>
-                <h3 style="color: #4f46e5; margin-bottom: 0.75rem; font-size: 1.25rem;">Ai immage generation</h3>
-                <p style="color: #64748b; line-height: 1.6;">The best AI image generation model (MeemoAImg 1.0).</p>
-            <a href="immagegen.html" style="
-                display: block;
-                width: fit-content;
-                margin: 1rem auto;
-                padding: 12px 24px;
-                background: linear-gradient(45deg, #6366f1, #4f46e5);
-                color: white;
-                text-decoration: none;
-                border-radius: 8px;
-                font-weight: 600;
-                transition: all 0.3s ease;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                position: relative;
-                overflow: hidden;
-                &:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-                }
-                &:active {
-                    transform: translateY(1px);
-                }
-                &:before {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: -100%;
-                    width: 100%;
-                    height: 100%;
-                    background: linear-gradient(
-                        90deg,
-                        transparent,
-                        rgba(255,255,255,0.2),
-                        transparent
-                    );
-                    transition: 0.5s;
-                }
-                &:hover:before {
-                    left: 100%;
-                }
-            ">MeemoAI Immage</a>
-            </div>
-            <div style="
-                background: rgba(255,255,255,0.9);
-                padding: 1.5rem;
-                border-radius: 12px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
-                cursor: pointer;
-                border: 1px solid rgba(99,102,241,0.1);
-                backdrop-filter: blur(8px);
-            " onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)'"
-               onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)'">
-                <div style="font-size: 2rem; margin-bottom: 1rem;">📱</div>
-                <h3 style="color: #4f46e5; margin-bottom: 0.75rem; font-size: 1.25rem;">Mobile Excellence</h3>
-                <p style="color: #64748b; line-height: 1.6;">Seamless grammar checking on any device with our responsive mobile-first design.</p>
+        <div class="tools-list">
+            <a href="ai.html" class="tool-link">
+                <i class="fas fa-robot"></i>
+                MeemoAI Chat
+            </a>
+            <a href="immagegen.html" class="tool-link">
+                <i class="fas fa-image"></i>
+                Image Generation
+            </a>
+            <a href="premium.html" class="tool-link">
+                <i class="fas fa-crown"></i>
+                Premium Features
+            </a>
+        </div>
+        <div class="sidebar-footer">
+            <a href="https://github.com/yourusername/meemoai/issues" class="report-bug" target="_blank">
+                <i class="fas fa-bug"></i>
+                Report a Bug
+            </a>
+            <div class="updates-box">
+                <h4>Latest Updates</h4>
+                <p>Version 2.0.1 - New interface and improved search functionality!</p>
             </div>
         </div>
-    </div>
+    </aside>
 
-    <div class="main-content">
-        <section class="hero-section">
-            <h1>Perfect Grammar, Every Time, With AI</h1>
-            <p>Advanced AI-powered grammar checker that catches every error and helps you write flawlessly. Perfect for students, professionals, and writers.</p>
-        </section>
-
-        <div class="grammar-checker">
-            <div class="input-section">
-                <textarea id="grammar-input" placeholder="Paste your text here to check for grammar, spelling, and style improvements..."></textarea>
-                <button onclick="checkGrammar()" class="check-button">
-                    <i class="fas fa-check-circle"></i> Check Grammar
-                </button>
-                <button onclick="fixText()" class="fix-button">
-                    <i class="fas fa-magic"></i> Fix My Text
-                </button>
-            </div>
-            <div id="grammar-result" class="result-container"></div>
-        </div>
-    </div>
-    <a href="ai.html" class="chatbot-button" style="
-        display: block;
-        width: fit-content;
-        margin: 1rem auto;
-        padding: 12px 24px;
-        background: linear-gradient(45deg, #6366f1, #4f46e5);
-        color: white;
-        border-radius: 12px;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 1.1rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
-        transform: translateY(0);
-    ">
-        <i class="fas fa-robot"></i>
-        MeemoAI
-    </a>
-    <script>
-        async function checkGrammar() {
-            const text = document.getElementById('grammar-input').value;
-            const resultDiv = document.getElementById('grammar-result');
-            
-            if (!text.trim()) {
-                alert('Please enter some text to check');
-                return;
-            }
-
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = '<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Analyzing your text...</div>';
-            
-            try {
-                const response = await fetch('https://api.languagetool.org/v2/check', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `text=${encodeURIComponent(text)}&language=en-US`
-                });
-                
-                const data = await response.json();
-                
-                if (data.matches.length === 0) {
-                    resultDiv.innerHTML = `
-                        <div style="text-align: center; padding: 2rem;">
-                            <i class="fas fa-check-circle" style="color: #10b981; font-size: 2rem;"></i>
-                            <h3 style="color: #10b981; margin-top: 1rem;">Perfect! No grammar errors found.</h3>
-                        </div>
-                    `;
-                } else {
-                    const corrections = data.matches.map(match => `
-                        <div class="correction-item">
-                            <div class="error-text">
-                                <i class="fas fa-exclamation-circle"></i> ${match.message}
-                            </div>
-                            <div class="suggestion-text">
-                                <i class="fas fa-lightbulb"></i> Suggestion: ${match.replacements[0]?.value || 'No suggestion available'}
-                            </div>
-                            <div style="margin-top: 0.5rem; color: #64748b;">
-                                Context: "...${text.substring(Math.max(0, match.offset - 20), match.offset)}<mark>${text.substring(match.offset, match.offset + match.length)}</mark>${text.substring(match.offset + match.length, match.offset + match.length + 20)}..."
-                            </div>
-                        </div>
-                    `).join('');
-                    
-                    resultDiv.innerHTML = `
-                        <h3 style="margin-bottom: 1.5rem; color: #1e293b;">Found ${data.matches.length} improvement${data.matches.length === 1 ? '' : 's'}:</h3>
-                        ${corrections}
-                    `;
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                resultDiv.innerHTML = `
-                    <div style="text-align: center; padding: 2rem; color: #ef4444;">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <h3 style="margin-top: 1rem;">Error checking grammar. Please try again.</h3>
-                    </div>
-                `;
-            }
-        }
-
-        async function fixText() {
-            const text = document.getElementById('grammar-input').value;
-            const resultDiv = document.getElementById('grammar-result');
-            
-            if (!text.trim()) {
-                alert('Please enter some text to fix');
-                return;
-            }
-
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = '<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Fixing your text...</div>';
-            
-            try {
-                const response = await fetch('https://api.languagetool.org/v2/check', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `text=${encodeURIComponent(text)}&language=en-US`
-                });
-                
-                const data = await response.json();
-                
-                let fixedText = text;
-                // Apply fixes from last to first to maintain correct offsets
-                for (let i = data.matches.length - 1; i >= 0; i--) {
-                    const match = data.matches[i];
-                    if (match.replacements && match.replacements.length > 0) {
-                        fixedText = fixedText.substring(0, match.offset) + 
-                                  match.replacements[0].value + 
-                                  fixedText.substring(match.offset + match.length);
-                    }
-                }
-                
-                document.getElementById('grammar-input').value = fixedText;
-                resultDiv.innerHTML = `
-                    <div style="text-align: center; padding: 2rem;">
-                        <i class="fas fa-magic" style="color: #10b981; font-size: 2rem;"></i>
-                        <h3 style="color: #10b981; margin-top: 1rem;">Text has been automatically fixed!</h3>
-                    </div>
-                `;
-            } catch (error) {
-                console.error('Error:', error);
-                resultDiv.innerHTML = `
-                    <div style="text-align: center; padding: 2rem; color: #ef4444;">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <h3 style="margin-top: 1rem;">Error fixing text. Please try again.</h3>
-                    </div>
-                `;
-            }
-        }
-        // Add pricing section
-        const pricingSection = document.createElement('section');
-        pricingSection.className = 'pricing-section';
-        pricingSection.innerHTML = `
-            <div class="section-header">
-                <h2>Unlock Your Writing Potential</h2>
-                <p>Choose the plan that suits you best</p>
-            </div>
-            <div class="pricing-cards">
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>Premium</h3>
-                        <div class="price">
-                            <span class="amount">$6.99</span>
-                            <span class="period">/month</span>
-                        </div>
-                    </div>
-                    <ul class="features">
-                        <li><i class="fas fa-check"></i> Advanced Grammar Checking</li>
-                        <li><i class="fas fa-check"></i> Style Suggestions</li>
-                        <li><i class="fas fa-check"></i> Vocabulary Enhancement</li>
-                        <li><i class="fas fa-check"></i> Unlimited Text Length and AI Chatting</li>
-                        <li><i class="fas fa-check"></i> Priority Support</li>
-                        <li><i class="fas fa-check"></i> Redesigned Home Page</li>
-                        <li><i class="fas fa-check"></i> Enhanced AI Model</li>
-                    </ul>
-                    <button class="cta-button">Free for 1 month (beta)</button>
-                </div>
-            </div>
-        `;
-        document.querySelector('.main-content').appendChild(pricingSection);
-
-        // Add AI Tools section with countdown
-        const aiToolsSection = document.createElement('section');
-        aiToolsSection.className = 'ai-tools-section';
-        aiToolsSection.innerHTML = `
-            <div class="section-header">
-                <h2>More AI Tools Coming Soon</h2>
-              
-                </div>
-            </div>
+    <main class="main-content">
+        <div class="welcome-container">
+            <div class="typing-text" id="typing-text"></div>
             <div class="tools-grid">
                 <div class="tool-card">
-                    <i class="fas fa-brain"></i>
-                    <h3>AI Writing Assistant</h3>
-                    <p>Generate creative content with advanced AI</p>
+                    <div class="tool-icon">🤖</div>
+                    <h2 class="tool-title">MeemoAI Chat</h2>
+                    <p class="tool-description">Experience intelligent conversations with our advanced AI powered by cutting-edge language models. Perfect for coding, writing, and problem-solving.</p>
+                    <a href="ai.html" class="tool-button">Start Chatting</a>
                 </div>
                 <div class="tool-card">
-                    <i class="fas fa-language"></i>
-                    <h3>Translation Pro</h3>
-                    <p>Neural machine translation for 100+ languages</p>
+                    <div class="tool-icon">🎨</div>
+                    <h2 class="tool-title">Image Generation</h2>
+                    <p class="tool-description">Transform your ideas into stunning visuals with MeemoAImg 1.0. Create unique, AI-generated artwork with just a few clicks.</p>
+                    <a href="immagegen.html" class="tool-button">Create Images</a>
                 </div>
                 <div class="tool-card">
-                    <i class="fas fa-pencil-alt"></i>
-                    <h3>Style Editor</h3>
-                    <p>Perfect your writing tone and style</p>
+                    <div class="tool-icon">✨</div>
+                    <h2 class="tool-title">Premium Features</h2>
+                    <p class="tool-description">Unlock the full potential with premium access. Enjoy faster processing, priority support, and exclusive AI tools.</p>
+                    <a href="premium.html" class="tool-button">Upgrade Now</a>
                 </div>
             </div>
-        `;
-        document.querySelector('.main-content').appendChild(aiToolsSection);
+        </div>
+    </main>
 
-        // Add new styles
-        const newStyles = `
-            .section-header {
-                text-align: center;
-                margin-bottom: 4rem;
-            }
-
-            .section-header h2 {
-                font-size: 2.5rem;
-                background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                margin-bottom: 1rem;
-            }
-
-            .section-header p {
-                color: #64748b;
-                font-size: 1.2rem;
-            }
-
-            .pricing-cards {
-                display: flex;
-                justify-content: center;
-                gap: 2rem;
-                margin: 2rem 0;
-            }
-
-            .pricing-card {
-                background: white;
-                border-radius: 20px;
-                padding: 2.5rem;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-                transition: transform 0.3s ease;
-                max-width: 400px;
-                width: 100%;
-            }
-
-            .pricing-card:hover {
-                transform: translateY(-5px);
-            }
-
-            .pricing-header {
-                text-align: center;
-                margin-bottom: 2rem;
-            }
-
-            .pricing-header h3 {
-                font-size: 1.5rem;
-                color: #0f172a;
-                margin-bottom: 1rem;
-            }
-
-            .price .amount {
-                font-size: 3rem;
-                font-weight: 800;
-                color: #6366f1;
-            }
-
-            .price .period {
-                color: #64748b;
-                font-size: 1rem;
-            }
-
-            .features {
-                list-style: none;
-                margin: 2rem 0;
-            }
-
-            .features li {
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-                margin-bottom: 1rem;
-                color: #334155;
-            }
-
-            .features i {
-                color: #10b981;
-            }
-
-            .cta-button {
-                width: 100%;
-                background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-                color: white;
-                padding: 1rem;
-                border: none;
-                border-radius: 12px;
-                font-weight: 600;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            }
-
-            .cta-button:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
-            }
-
-            .ai-tools-section {
-                margin-top: 6rem;
-            }
-
-            .countdown-container {
-                background: rgba(99, 102, 241, 0.1);
-                padding: 1rem 2rem;
-                border-radius: 12px;
-                display: inline-block;
-                margin-top: 1rem;
-            }
-
-            #countdown {
-                font-size: 1.5rem;
-                font-weight: 700;
-                color: #6366f1;
-            }
-
-            .tools-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 2rem;
-                margin-top: 3rem;
-            }
-
-            .tool-card {
-                background: white;
-                padding: 2rem;
-                border-radius: 20px;
-                text-align: center;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-                transition: transform 0.3s ease;
-            }
-
-            .tool-card:hover {
-                transform: translateY(-5px);
-            }
-
-            .tool-card i {
-                font-size: 2.5rem;
-                color: #6366f1;
-                margin-bottom: 1rem;
-            }
-
-            .tool-card h3 {
-                color: #0f172a;
-                margin-bottom: 0.5rem;
-            }
-
-            .tool-card p {
-                color: #64748b;
-            }
-        `;
-
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = newStyles;
-        document.head.appendChild(styleSheet);
-
-        // Countdown timer
-        function updateCountdown() {
-            const targetDate = new Date();
-            targetDate.setDate(targetDate.getDate() + 10);
-            
-            const countdown = setInterval(() => {
-                const now = new Date().getTime();
-                const distance = targetDate - now;
-                
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                
-                document.getElementById('countdown').innerHTML = 
-                    `${days}d ${hours}h ${minutes}m ${seconds}s`;
-                
-                if (distance < 0) {
-                    clearInterval(countdown);
-                    document.getElementById('countdown').innerHTML = "LAUNCHED!";
-                }
-            }, 1000);
-        }
-
-        updateCountdown();
-        // Add error popup styles
-        const errorPopupStyles = `
-            .error-popup {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: white;
-                padding: 2rem;
-                border-radius: 16px;
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-                z-index: 1000;
-                text-align: center;
-                animation: slideIn 0.3s ease-out;
-                border: 2px solid #fecaca;
-                max-width: 90%;
-                width: 400px;
-            }
-
-            .error-popup i {
-                font-size: 3rem;
-                color: #ef4444;
-                margin-bottom: 1rem;
-            }
-
-            .error-popup h3 {
-                color: #1e293b;
-                font-size: 1.25rem;
-                margin-bottom: 1rem;
-                font-weight: 600;
-            }
-
-            .error-popup button {
-                background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-                color: white;
-                border: none;
-                padding: 0.75rem 2rem;
-                border-radius: 8px;
-                font-weight: 600;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                margin-top: 1rem;
-            }
-
-            .error-popup button:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
-            }
-
-            .error-overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0, 0, 0, 0.5);
-                backdrop-filter: blur(4px);
-                z-index: 999;
-            }
-
-            @keyframes slideIn {
-                from {
-                    transform: translate(-50%, -60%);
-                    opacity: 0;
-                }
-                to {
-                    transform: translate(-50%, -50%);
-                    opacity: 1;
-                }
-            }
-        `;
-
-        const errorStyles = document.createElement('style');
-        errorStyles.textContent = errorPopupStyles;
-        document.head.appendChild(errorStyles);
-
-        // Replace all alert() calls with custom popup
-        function showError(message) {
-            const overlay = document.createElement('div');
-            overlay.className = 'error-overlay';
-            
-            const popup = document.createElement('div');
-            popup.className = 'error-popup';
-            popup.innerHTML = `
-                <i class="fas fa-exclamation-circle"></i>
-                <h3>${message}</h3>
-                <button onclick="closeError(this)">Got it</button>
-            `;
-            
-            document.body.appendChild(overlay);
-            document.body.appendChild(popup);
-        }
-
-        function closeError(button) {
-            const popup = button.closest('.error-popup');
-            const overlay = document.querySelector('.error-overlay');
-            popup.remove();
-            overlay.remove();
-        }
-
-        // Update the grammar check and fix text functions to use new error popup
-        const originalCheckGrammar = checkGrammar;
-        checkGrammar = function() {
-            const text = document.getElementById('grammar-input').value;
-            if (!text.trim()) {
-                showError('Please enter some text to check');
-                return;
-            }
-            originalCheckGrammar();
-        }
-
-        const originalFixText = fixText;
-        fixText = function() {
-            const text = document.getElementById('grammar-input').value;
-            if (!text.trim()) {
-                showError('Please enter some text to fix');
-                return;
-            }
-            originalFixText();
-        }
-        // Add smooth scroll animation for buttons
-        document.querySelectorAll('button').forEach(button => {
-            button.addEventListener('click', () => {
-                const resultDiv = document.getElementById('grammar-result');
-                if (resultDiv.style.display === 'block') {
-                    resultDiv.scrollIntoView({ 
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Add scroll-to-top button
-        const scrollButton = document.createElement('button');
-        scrollButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
-        scrollButton.className = 'scroll-top-button';
-        document.body.appendChild(scrollButton);
-
-        // Add styles for scroll button
-        const scrollStyles = `
-            .scroll-top-button {
-                position: fixed;
-                bottom: 30px;
-                right: 30px;
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-                color: white;
-                border: none;
-                cursor: pointer;
-                opacity: 0;
-                transition: opacity 0.3s, transform 0.3s;
-                transform: translateY(100px);
-                box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
-                z-index: 1000;
-            }
-
-            .scroll-top-button.visible {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
-            .scroll-top-button:hover {
-                transform: translateY(-5px);
-            }
-        `;
-
-        const scrollButtonStyles = document.createElement('style');
-        scrollButtonStyles.textContent = scrollStyles;
-        document.head.appendChild(scrollButtonStyles);
-
-        // Show/hide scroll button based on scroll position
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                scrollButton.classList.add('visible');
-            } else {
-                scrollButton.classList.remove('visible');
-            }
-        });
-
-        // Scroll to top when button clicked
-        scrollButton.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-        
-        // Add bug report button to navbar
-        const bugReportButton = document.createElement('button');
-        bugReportButton.className = 'bug-report-button';
-        bugReportButton.innerHTML = '<i class="fas fa-bug"></i> Report Bug';
-        document.querySelector('.navbar').appendChild(bugReportButton);
-
-        // Add bug report modal
-        const bugReportModal = document.createElement('div');
-        bugReportModal.className = 'bug-report-modal';
-        bugReportModal.innerHTML = `
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
-                <h2>Report a Bug</h2>
-                <form id="bug-report-form">
-                    <textarea id="bug-description" placeholder="Please describe the bug you encountered..." required></textarea>
-                    <button type="submit">Submit Report</button>
-                </form>
-                <div id="submission-message" class="submission-message"></div>
-            </div>
-        `;
-        document.body.appendChild(bugReportModal);
-
-        // Add styles for bug report features
-        const bugReportStyles = `
-            .bug-report-button {
-                background: transparent;
-                border: 2px solid #6366f1;
-                color: #6366f1;
-                padding: 0.5rem 1rem;
-                border-radius: 8px;
-                cursor: pointer;
-                font-weight: 600;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-                transition: all 0.3s ease;
-                margin-left: 20px;
-            }
-
-            .bug-report-button:hover {
-                background: #6366f1;
-                color: white;
-            }
-
-            .bug-report-modal {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.5);
-                z-index: 1001;
-            }
-
-            .modal-content {
-                background: white;
-                padding: 2rem;
-                border-radius: 12px;
-                width: 90%;
-                max-width: 500px;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-            }
-
-            .close-modal {
-                position: absolute;
-                right: 1rem;
-                top: 1rem;
-                font-size: 1.5rem;
-                cursor: pointer;
-                color: #64748b;
-            }
-
-            #bug-description {
-                width: 100%;
-                min-height: 150px;
-                padding: 1rem;
-                margin: 1rem 0;
-                border: 2px solid #e2e8f0;
-                border-radius: 8px;
-                resize: vertical;
-            }
-
-            #bug-report-form button {
-                background: #6366f1;
-                color: white;
-                padding: 0.75rem 1.5rem;
-                border: none;
-                border-radius: 8px;
-                cursor: pointer;
-                font-weight: 600;
-                transition: all 0.3s ease;
-            }
-
-            #bug-report-form button:hover {
-                background: #4f46e5;
-            }
-
-            .submission-message {
-                display: none;
-                text-align: center;
-                padding: 1rem;
-                margin-top: 1rem;
-                border-radius: 8px;
-                background: #10b981;
-                color: white;
-                font-weight: 600;
-            }
-        `;
-
-        const bugReportStyleElement = document.createElement('style');
-        bugReportStyleElement.textContent = bugReportStyles;
-        document.head.appendChild(bugReportStyleElement);
-
-        // Handle bug report modal
-        bugReportButton.addEventListener('click', () => {
-            bugReportModal.style.display = 'block';
-        });
-
-        document.querySelector('.close-modal').addEventListener('click', () => {
-            bugReportModal.style.display = 'none';
-            document.getElementById('submission-message').style.display = 'none';
-        });
-
-        window.addEventListener('click', (e) => {
-            if (e.target === bugReportModal) {
-                bugReportModal.style.display = 'none';
-                document.getElementById('submission-message').style.display = 'none';
-            }
-        });
-
-        // Handle bug report submission
-        document.getElementById('bug-report-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const description = document.getElementById('bug-description').value;
-            const emailBody = encodeURIComponent(description);
-            const emailSubject = encodeURIComponent('Bug Report from MeemoAI');
-            
-            window.location.href = `mailto:sagirisharris@gmail.com?subject=${emailSubject}&body=${emailBody}`;
-            
-            const submissionMessage = document.getElementById('submission-message');
-            submissionMessage.textContent = 'Thank you for reporting the bug! Your default email client will open to send the report.';
-            submissionMessage.style.display = 'block';
-            
-            document.getElementById('bug-description').value = '';
-            
-            setTimeout(() => {
-                bugReportModal.style.display = 'none';
-                submissionMessage.style.display = 'none';
-            }, 3000);
-        });
-        
-    </script>
     <script>
-        // Prevent auto-scrolling when clicking grammar check/fix buttons
-        document.querySelector('.check-button').addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            window.scrollTo(0, window.scrollY); // Maintain current scroll position
-            checkGrammar();
-            return false;
-        });
-
-        document.querySelector('.fix-button').addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            window.scrollTo(0, window.scrollY); // Maintain current scroll position 
-            fixText();
-            return false;
-        });
-        // Add FAQ section
-        const faqSection = document.createElement('section');
-        faqSection.className = 'faq-section';
-        faqSection.innerHTML = `
-            <div class="section-header">
-                <h2>Frequently Asked Questions</h2>
-                <p>Common questions about our grammar checker and bug reporting</p>
-            </div>
-            <div class="faq-container">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>What should I do if I encounter a bug?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>If you encounter any bugs or issues, please click the "Report Bug" button in the navigation bar. Provide a detailed description of the problem, including what you were doing when it occurred. Our team will investigate and fix it as soon as possible.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>How accurate is the grammar checker?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Our grammar checker uses advanced AI and the LanguageTool API to provide highly accurate suggestions. However, like all automated tools, it may occasionally miss some errors or make incorrect suggestions. We recommend using it as a helpful guide while maintaining your own judgment.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Is my text data secure?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Yes, we take data privacy seriously. Your text is only temporarily processed for grammar checking and is not stored on our servers. All communications are encrypted and secure.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>What languages are supported?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Currently, we support English (US & UK) during our beta period. We plan to add support for more languages in future updates.</p>
-                    </div>
-                </div>
-            </div>
-        `;
-        document.querySelector('.main-content').appendChild(faqSection);
-
-        // Add FAQ styles
-        const faqStyles = document.createElement('style');
-        faqStyles.textContent = `
-            .faq-section {
-                padding: 4rem 0;
-            }
-            
-            .faq-container {
-                max-width: 800px;
-                margin: 0 auto;
-            }
-            
-            .faq-item {
-                background: white;
-                border-radius: 12px;
-                margin-bottom: 1rem;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-                overflow: hidden;
-            }
-            
-            .faq-question {
-                padding: 1.5rem;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            }
-            
-            .faq-question h3 {
-                font-size: 1.1rem;
-                color: #1e293b;
-                margin: 0;
-            }
-            
-            .faq-question i {
-                color: #6366f1;
-                transition: transform 0.3s ease;
-            }
-            
-            .faq-answer {
-                padding: 0 1.5rem;
-                max-height: 0;
-                overflow: hidden;
-                transition: all 0.3s ease;
-            }
-            
-            .faq-answer p {
-                padding-bottom: 1.5rem;
-                color: #64748b;
-                line-height: 1.6;
-            }
-            
-            .faq-item.active .faq-question {
-                background: #f8fafc;
-            }
-            
-            .faq-item.active .faq-question i {
-                transform: rotate(180deg);
-            }
-            
-            .faq-item.active .faq-answer {
-                max-height: 300px;
-            }
-        `;
-        document.head.appendChild(faqStyles);
-
-        // Add FAQ interaction
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const faqItem = question.parentElement;
-                faqItem.classList.toggle('active');
-            });
-        });
+        const messages = [
+            "Welcome to MeemoAI 2.0",
+            "Your Creative AI Companion",
+            "Unleash the Power of AI",
+            "Transform Ideas into Reality"
+        ];
         
-    // Add toggle button
-    const aiModelsToggleBtn = document.createElement('button');
-    aiModelsToggleBtn.textContent = 'AI Models';
-    aiModelsToggleBtn.style.cssText = `
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        padding: 12px 24px;
-        background: #6366f1;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
-        z-index: 999;
-    `;
+        let messageIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingDelay = 100;
+        let deletingDelay = 50;
+        let newMessageDelay = 2000;
 
-    // Add sidebar content
-    aiModelsSidebar.innerHTML = `
-        <button id="closeAiModelsSidebar" style="
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 8px;
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #64748b;
-        ">×</button>
+        function typeMessage() {
+            const currentMessage = messages[messageIndex];
+            const typingText = document.getElementById('typing-text');
 
-        <h2 style="color: #1e293b; margin-bottom: 2rem;">AI Models</h2>
+            if (isDeleting) {
+                typingText.textContent = currentMessage.substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(typeMessage, deletingDelay);
+            } else {
+                typingText.textContent = currentMessage.substring(0, charIndex + 1);
+                charIndex++;
+                setTimeout(typeMessage, typingDelay);
+            }
 
-        <!-- Model 1 -->
-        <a href="model1.html" style="
-            display: block;
-            padding: 1rem;
-            background: #f8fafc;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            text-decoration: none;
-            color: #1e293b;
-            transition: background 0.3s ease;
-        ">Model 1</a>
+            if (!isDeleting && charIndex === currentMessage.length) {
+                setTimeout(() => {
+                    isDeleting = true;
+                }, newMessageDelay);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                messageIndex = (messageIndex + 1) % messages.length;
+            }
+        }
 
-        <!-- Model 2 -->
-        <a href="model2.html" style="
-            display: block;
-            padding: 1rem;
-            background: #f8fafc;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            text-decoration: none;
-            color: #1e293b;
-            transition: background 0.3s ease;
-        ">Model 2</a>
+        function searchTools() {
+            const searchInput = document.querySelector('.search-bar input').value.toLowerCase();
+            const toolLinks = document.querySelectorAll('.tool-link');
+            
+            toolLinks.forEach(link => {
+                const toolName = link.textContent.toLowerCase();
+                if (toolName.includes(searchInput)) {
+                    link.style.display = 'flex';
+                } else {
+                    link.style.display = 'none';
+                }
+            });
+        }
 
-        <!-- Model 3 -->
-        <a href="model3.html" style="
-            display: block;
-            padding: 1rem;
-            background: #f8fafc;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            text-decoration: none;
-            color: #1e293b;
-            transition: background 0.3s ease;
-        ">Model 3</a>
-    `;
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+        }
 
-    document.body.appendChild(aiModelsToggleBtn);
-    document.body.appendChild(aiModelsSidebar);
-
-    // Add event listeners
-    aiModelsToggleBtn.addEventListener('click', () => {
-        aiModelsSidebar.style.left = aiModelsSidebar.style.left === '0px' ? '-400px' : '0px';
-    });
-
-    document.getElementById('closeAiModelsSidebar').addEventListener('click', () => {
-        aiModelsSidebar.style.left = '-400px';
-    });
+        document.addEventListener('DOMContentLoaded', typeMessage);
     </script>
 </body>
 </html>
-
-
-<!-- Website publically available at https://meemoai.com -->

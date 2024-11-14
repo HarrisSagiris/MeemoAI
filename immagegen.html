@@ -3,91 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MeemoAI Image Generation</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>MeemoAI - Image Generation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Söhne', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #0f172a;
-            color: #e2e8f0;
-            line-height: 1.6;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
             min-height: 100vh;
+            color: #ECECF1;
+            display: flex;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
+        .sidebar {
+            width: 260px;
+            background: rgba(32, 33, 35, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: fixed;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .header h1 {
-            font-size: 3rem;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .search-bar {
             margin-bottom: 1rem;
+            position: relative;
         }
 
-        .header p {
-            color: #94a3b8;
-            font-size: 1.2rem;
+        .search-bar input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: #ECECF1;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .new-chat {
+            padding: 1rem;
+            color: #ECECF1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tools-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .tool-link {
+            padding: 1rem;
+            color: #ECECF1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-radius: 12px;
+            transition: all 0.3s;
+            margin-bottom: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tool-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .tool-link.active {
+            background: rgba(99, 102, 241, 0.2);
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+            margin-top: auto;
+        }
+
+        .report-bug, .updates-box {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #ECECF1;
+            text-decoration: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 0.75rem;
+        }
+
+        .report-bug:hover, .updates-box:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .updates-box h4 {
+            color: #10A37F;
+            margin-bottom: 0.5rem;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 3rem;
+            background: radial-gradient(circle at top right, rgba(61, 65, 159, 0.15), transparent);
         }
 
         .image-generator {
-            background: rgba(30, 41, 59, 0.5);
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(32, 33, 35, 0.8);
             border-radius: 16px;
             padding: 2rem;
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
-        .input-container {
-            margin-bottom: 2rem;
-        }
-
-        textarea {
+        .input-container textarea {
             width: 100%;
             min-height: 120px;
             padding: 1rem;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(99, 102, 241, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
-            color: #e2e8f0;
+            color: #ECECF1;
             font-size: 1rem;
             resize: vertical;
-            transition: all 0.3s ease;
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+            margin-bottom: 1rem;
         }
 
         .generate-button {
-            display: block;
             width: 100%;
             padding: 1rem;
-            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            background: linear-gradient(45deg, #6366f1, #4f46e5);
             color: white;
             border: none;
             border-radius: 8px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .generate-button:hover {
@@ -95,111 +172,67 @@
             box-shadow: 0 6px 12px rgba(99, 102, 241, 0.4);
         }
 
-        .generate-button:active {
-            transform: translateY(1px);
-        }
-
-        .result-container {
-            margin-top: 2rem;
-            text-align: center;
-        }
-
-        .generated-image {
-            max-width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-        }
-
         .loading {
             display: none;
-            color: #6366f1;
-            font-size: 1.2rem;
+            text-align: center;
             margin: 2rem 0;
+            color: #6366f1;
+        }
+
+        .result-container img {
+            max-width: 100%;
+            border-radius: 12px;
+            margin-top: 2rem;
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
+            .sidebar {
+                display: none;
             }
-
-            .header h1 {
-                font-size: 2.5rem;
-            }
-
-            .image-generator {
+            .main-content {
+                margin-left: 0;
                 padding: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>AI Image Generation</h1>
-            <p>Transform your ideas into stunning visuals with our advanced AI</p>
-            <p>MeemoAImg 1.0</p>
+    <aside class="sidebar">
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search tools..." onkeyup="searchTools()">
         </div>
-        <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem;">
-            <a href="/" class="home-button" style="
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-                padding: 12px 24px;
-                background: linear-gradient(45deg, #6366f1, #4f46e5);
-                color: white;
-                text-decoration: none;
-                border-radius: 12px;
-                font-weight: 600;
-                font-size: 1.1rem;
-                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-                transition: all 0.3s ease;
-                transform: translateY(0);
-                &:hover {
-                    transform: translateY(-3px);
-                    box-shadow: 0 8px 15px rgba(99,102,241,0.3);
-                    background: linear-gradient(45deg, #818cf8, #6366f1);
-                }
-                &:active {
-                    transform: translateY(1px);
-                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                }
-                animation: pulse 2s infinite;
-                @keyframes pulse {
-                    0% {
-                        box-shadow: 0 4px 6px rgba(99,102,241,0.1);
-                    }
-                    50% {
-                        box-shadow: 0 4px 12px rgba(99,102,241,0.3);
-                    }
-                    100% {
-                        box-shadow: 0 4px 6px rgba(99,102,241,0.1);
-                    }
-                }
-            ">
-                <i class="fas fa-home"></i>
-                Home
+        <a href="/" class="new-chat">
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+        <div class="tools-list">
+            <a href="ai.html" class="tool-link">
+                <i class="fas fa-robot"></i>
+                MeemoAI Chat
             </a>
-
-            <button id="download-button" onclick="downloadImage()" class="download-button" style="
-                display: none;
-                align-items: center;
-                gap: 0.75rem;
-                padding: 12px 24px;
-                background: linear-gradient(45deg, #10b981, #059669);
-                color: white;
-                border: none;
-                border-radius: 12px;
-                font-weight: 600;
-                font-size: 1.1rem;
-                cursor: pointer;
-                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-                transition: all 0.3s ease;
-            ">
-                <i class="fas fa-download"></i>
-                Download Image
-            </button>
+            <a href="immagegen.html" class="tool-link active">
+                <i class="fas fa-image"></i>
+                Image Generation
+            </a>
+            <a href="premium.html" class="tool-link">
+                <i class="fas fa-crown"></i>
+                Premium Features
+            </a>
         </div>
+        <div class="sidebar-footer">
+            <a href="https://github.com/yourusername/meemoai/issues" class="report-bug" target="_blank">
+                <i class="fas fa-bug"></i>
+                Report a Bug
+            </a>
+            <div class="updates-box">
+                <h4>Latest Updates</h4>
+                <p>Version 2.0.1 - New interface and improved search functionality!</p>
+            </div>
+        </div>
+    </aside>
 
+    <main class="main-content">
         <div class="image-generator">
             <div class="input-container">
                 <textarea id="prompt" placeholder="Describe the image you want to generate..."></textarea>
@@ -212,7 +245,7 @@
             </div>
             <div id="result" class="result-container"></div>
         </div>
-    </div>
+    </main>
 
     <script>
         const API_URL = 'https://api-inference.huggingface.co/models/Artples/LAI-ImageGeneration-vSDXL-2';
@@ -264,6 +297,17 @@
             } finally {
                 loadingDiv.style.display = 'none';
             }
+        }
+
+        function searchTools() {
+            const input = document.querySelector('.search-bar input');
+            const tools = document.querySelectorAll('.tool-link');
+            const filter = input.value.toLowerCase();
+
+            tools.forEach(tool => {
+                const text = tool.textContent.toLowerCase();
+                tool.style.display = text.includes(filter) ? '' : 'none';
+            });
         }
     </script>
 </body>
