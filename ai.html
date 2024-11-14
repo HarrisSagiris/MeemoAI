@@ -258,6 +258,56 @@
                 max-height: calc(100vh - 220px);
             }
         }
+        /* iOS home screen bookmark styles */
+        @media screen and (display-mode: standalone) {
+            body {
+                /* Remove default iOS tap highlight */
+                -webkit-tap-highlight-color: transparent;
+                /* Prevent overscroll bounce effect */
+                overscroll-behavior: none;
+                /* Prevent text size adjustment */
+                -webkit-text-size-adjust: 100%;
+            }
+
+            /* Full viewport height accounting for iOS UI elements */
+            .chat-container {
+                height: 100vh;
+                height: -webkit-fill-available;
+                margin: 0;
+                border-radius: 0;
+                padding-top: env(safe-area-inset-top);
+                padding-bottom: env(safe-area-inset-bottom);
+                padding-left: env(safe-area-inset-left);
+                padding-right: env(safe-area-inset-right);
+            }
+
+            /* Prevent iOS double-tap zoom */
+            .send-button, 
+            textarea,
+            button {
+                touch-action: manipulation;
+            }
+
+            /* Disable text selection */
+            * {
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+
+            /* Enable text selection only in textarea */
+            textarea {
+                -webkit-user-select: text;
+                user-select: text;
+            }
+
+            /* Hide Safari UI when in standalone mode */
+            @media not all and (display-mode: standalone) {
+                .chat-container {
+                    padding-top: 0;
+                }
+            }
+        }
     </style>
 </head>
 <body>
