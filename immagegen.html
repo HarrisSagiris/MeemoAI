@@ -2,34 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MeemoAI - Image Generation</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Söhne', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #2980b9;
+            --primary-light: #3498db;
+            --bg-dark: #1a1a1a;
+            --bg-light: #ffffff;
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --sidebar-width: 280px;
+            --header-height: 64px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --safe-area-inset-bottom: env(safe-area-inset-bottom);
         }
 
         body {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
             min-height: 100vh;
-            color: #ECECF1;
             display: flex;
+            overflow: hidden;
         }
 
         .sidebar {
-            width: 260px;
-            background: rgba(32, 33, 35, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
+            width: var(--sidebar-width);
+            background: #2d2d2d;
             height: 100vh;
             position: fixed;
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            left: 0;
+            top: 0;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+            transition: var(--transition);
+            z-index: 1000;
         }
 
         .search-bar {
@@ -40,10 +60,11 @@
         .search-bar input {
             width: 100%;
             padding: 0.75rem 1rem 0.75rem 2.5rem;
-            border-radius: 8px;
+            border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             background: rgba(255, 255, 255, 0.05);
-            color: #ECECF1;
+            color: var(--text-light);
+            font-size: 0.95rem;
         }
 
         .search-bar i {
@@ -51,19 +72,28 @@
             left: 0.75rem;
             top: 50%;
             transform: translateY(-50%);
+            color: rgba(255,255,255,0.5);
         }
 
         .new-chat {
-            padding: 1rem;
-            color: #ECECF1;
+            background: var(--primary);
+            color: white;
             text-decoration: none;
+            padding: 14px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            border-radius: 8px;
-            transition: all 0.3s;
-            margin-bottom: 1rem;
-            background: rgba(255, 255, 255, 0.05);
+            gap: 10px;
+            margin-bottom: 20px;
+            transition: var(--transition);
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(41, 128, 185, 0.2);
+        }
+
+        .new-chat:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
         }
 
         .tools-list {
@@ -72,131 +102,168 @@
         }
 
         .tool-link {
-            padding: 1rem;
-            color: #ECECF1;
+            padding: 14px;
+            color: var(--text-light);
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 12px;
             border-radius: 12px;
-            transition: all 0.3s;
-            margin-bottom: 0.75rem;
-            background: rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+            margin-bottom: 8px;
+            font-weight: 500;
         }
 
         .tool-link:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(5px);
+            background: rgba(255,255,255,0.1);
         }
 
         .tool-link.active {
-            background: rgba(99, 102, 241, 0.2);
+            background: var(--primary);
+            color: white;
         }
 
         .sidebar-footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 1rem;
             margin-top: auto;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1rem;
         }
 
-        .report-bug, .updates-box {
+        .report-bug {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            color: #ECECF1;
+            gap: 10px;
+            color: var(--text-light);
             text-decoration: none;
-            padding: 0.75rem;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            margin-bottom: 0.75rem;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            font-weight: 500;
         }
 
-        .report-bug:hover, .updates-box:hover {
-            background: rgba(255, 255, 255, 0.1);
+        .report-bug:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .updates-box {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 1rem;
         }
 
         .updates-box h4 {
-            color: #10A37F;
+            color: var(--primary);
             margin-bottom: 0.5rem;
+            font-weight: 600;
         }
 
         .main-content {
-            margin-left: 260px;
+            margin-left: var(--sidebar-width);
             flex: 1;
-            padding: 3rem;
-            background: radial-gradient(circle at top right, rgba(61, 65, 159, 0.15), transparent);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            padding: 2rem;
         }
 
         .image-generator {
             max-width: 800px;
             margin: 0 auto;
-            background: rgba(32, 33, 35, 0.8);
+            width: 100%;
+            background: rgba(45, 45, 45, 0.95);
             border-radius: 16px;
             padding: 2rem;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
         }
 
         .input-container textarea {
             width: 100%;
             min-height: 120px;
             padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: #ECECF1;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: var(--text-light);
             font-size: 1rem;
+            font-family: inherit;
             resize: vertical;
             margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .input-container textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(41,128,185,0.2);
         }
 
         .generate-button {
             width: 100%;
             padding: 1rem;
-            background: linear-gradient(45deg, #6366f1, #4f46e5);
+            background: var(--primary);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(41,128,185,0.2);
         }
 
         .generate-button:hover {
+            background: var(--primary-light);
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 6px 16px rgba(41,128,185,0.3);
         }
 
         .loading {
             display: none;
             text-align: center;
             margin: 2rem 0;
-            color: #6366f1;
+            color: var(--primary);
+            font-weight: 500;
         }
 
         .result-container img {
-            max-width: 100%;
+            width: 100%;
             border-radius: 12px;
             margin-top: 2rem;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
         }
 
         @media (max-width: 768px) {
             .sidebar {
-                display: none;
+                transform: translateX(-100%);
             }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
             .main-content {
                 margin-left: 0;
+                padding: 1rem;
+            }
+
+            .image-generator {
                 padding: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
+    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
     <aside class="sidebar">
         <div class="search-bar">
             <i class="fas fa-search"></i>
@@ -308,6 +375,11 @@
                 const text = tool.textContent.toLowerCase();
                 tool.style.display = text.includes(filter) ? '' : 'none';
             });
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
         }
     </script>
 </body>
