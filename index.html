@@ -425,7 +425,19 @@
                 top: auto;
                 bottom: 1rem;
                 right: 1rem;
-                flex-direction: column;
+                flex-direction: row;
+                width: calc(100% - 2rem);
+                justify-content: center;
+                gap: 0.5rem;
+            }
+
+            .top-right-links a {
+                flex: 1;
+                text-align: center;
+                white-space: nowrap;
+                max-width: 160px;
+                font-size: 0.9rem;
+                padding: 1rem;
             }
         }
 
