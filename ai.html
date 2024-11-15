@@ -35,6 +35,8 @@
             overflow: hidden;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
+            display: flex;
+            flex-direction: column;
         }
 
         body.light-theme {
@@ -51,6 +53,7 @@
             flex-direction: column;
             padding: 1rem;
             gap: 1rem;
+            width: 100%;
         }
 
         .chat-header {
@@ -98,6 +101,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             scrollbar-width: thin;
             scrollbar-color: rgba(59, 130, 246, 0.5) transparent;
+            margin-bottom: 1rem;
         }
 
         .light-theme .chat-messages {
@@ -163,6 +167,10 @@
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            bottom: 0;
+            width: 100%;
+            z-index: 100;
         }
 
         .light-theme .input-container {
@@ -381,6 +389,7 @@
                     autocomplete="off"
                     autocorrect="on"
                     spellcheck="true"
+                    onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendMessage(); }"
                 ></textarea>
                 <button class="send-button" onclick="sendMessage()">
                     <i class="fas fa-paper-plane"></i>
@@ -547,7 +556,7 @@
             this.style.height = (this.scrollHeight) + 'px';
         });
 
-        userInput.addEventListener('keypress', (e) => {
+        userInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 sendMessage();
