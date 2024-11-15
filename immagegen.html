@@ -34,6 +34,7 @@
             min-height: 100vh;
             display: flex;
             overflow: hidden;
+            overscroll-behavior-y: none;
         }
 
         .sidebar {
@@ -50,6 +51,8 @@
             box-shadow: 2px 0 10px rgba(0,0,0,0.2);
             transition: var(--transition);
             z-index: 1000;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
         }
 
         .search-bar {
@@ -59,12 +62,12 @@
 
         .search-bar input {
             width: 100%;
-            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            padding: 1rem 1rem 1rem 2.5rem;
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             background: rgba(255, 255, 255, 0.05);
             color: var(--text-light);
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
 
         .search-bar i {
@@ -79,7 +82,7 @@
             background: var(--primary);
             color: white;
             text-decoration: none;
-            padding: 14px;
+            padding: 1rem;
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -89,6 +92,7 @@
             font-weight: 600;
             font-size: 1.1rem;
             box-shadow: 0 4px 12px rgba(41, 128, 185, 0.2);
+            min-height: 3.5rem;
         }
 
         .new-chat:hover {
@@ -99,10 +103,11 @@
         .tools-list {
             flex: 1;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .tool-link {
-            padding: 14px;
+            padding: 1rem;
             color: var(--text-light);
             text-decoration: none;
             display: flex;
@@ -112,6 +117,7 @@
             transition: var(--transition);
             margin-bottom: 8px;
             font-weight: 500;
+            min-height: 3.5rem;
         }
 
         .tool-link:hover {
@@ -135,10 +141,11 @@
             gap: 10px;
             color: var(--text-light);
             text-decoration: none;
-            padding: 12px;
+            padding: 1rem;
             border-radius: 12px;
             margin-bottom: 1rem;
             font-weight: 500;
+            min-height: 3.5rem;
         }
 
         .report-bug:hover {
@@ -165,6 +172,7 @@
             height: 100vh;
             background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
             padding: 2rem;
+            padding-bottom: env(safe-area-inset-bottom);
         }
 
         .image-generator {
@@ -216,6 +224,7 @@
             justify-content: center;
             gap: 0.5rem;
             box-shadow: 0 4px 12px rgba(41,128,185,0.2);
+            min-height: 3.5rem;
         }
 
         .generate-button:hover {
@@ -239,9 +248,34 @@
             box-shadow: 0 8px 24px rgba(0,0,0,0.2);
         }
 
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1001;
+            background: rgba(32, 33, 35, 0.9);
+            border: none;
+            color: var(--text-light);
+            padding: 0.8rem;
+            border-radius: 12px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            height: 3rem;
+            width: 3rem;
+        }
+
         @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+                padding-top: env(safe-area-inset-top);
+            }
+
             .sidebar {
                 transform: translateX(-100%);
+                width: 100%;
             }
             
             .sidebar.active {
@@ -251,10 +285,29 @@
             .main-content {
                 margin-left: 0;
                 padding: 1rem;
+                padding-top: calc(1rem + env(safe-area-inset-top));
             }
 
             .image-generator {
-                padding: 1.5rem;
+                padding: 1.25rem;
+            }
+
+            .input-container textarea {
+                font-size: 16px;
+            }
+
+            .generate-button {
+                font-size: 1rem;
+            }
+
+            .tool-link, .new-chat, .report-bug {
+                padding: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .image-generator {
+                padding: 1rem;
             }
         }
     </style>
