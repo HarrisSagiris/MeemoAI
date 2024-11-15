@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MeemoAI - Multiple AI Tools</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://js.stripe.com/v3/"></script>
     <style>
         * {
             margin: 0;
@@ -147,6 +148,20 @@
             margin-bottom: 0.5rem;
         }
 
+        .updates-box .current-updates,
+        .updates-box .upcoming-updates {
+            margin-bottom: 0.75rem;
+        }
+
+        .updates-box .upcoming-updates {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 0.75rem;
+        }
+
+        .updates-box .upcoming-updates h4 {
+            color: #818cf8;
+        }
+
         .main-content {
             margin-left: 260px;
             flex: 1;
@@ -253,6 +268,7 @@
             font-weight: 600;
             letter-spacing: 0.5px;
             box-shadow: 0 4px 15px rgba(16, 163, 127, 0.3);
+            cursor: pointer;
         }
 
         .tool-button:hover {
@@ -347,8 +363,16 @@
                 Report a Bug
             </a>
             <div class="updates-box">
-                <h4>Latest Updates</h4>
-                <p>Version 2.0.1 - New interface and improved search functionality!</p>
+                <div class="current-updates">
+                    <h4>Latest Updates</h4>
+                    <p>Version 2.0.1 - New interface and improved search functionality!</p>
+                </div>
+                <div class="upcoming-updates">
+                    <h4>Coming with 2.1</h4>
+                    <p>• Enhanced AI model and limited time free premium</p>
+                    <p>• Dark/Light theme toggle</p>
+                    <p>• Mobile app release</p>
+                </div>
             </div>
         </div>
     </aside>
@@ -370,10 +394,10 @@
                     <a href="immagegen.html" class="tool-button">Create Images</a>
                 </div>
                 <div class="tool-card">
-                    <div class="tool-icon">✨</div>
+                    <div class="tool-icon">💫</div>
                     <h2 class="tool-title">Premium Features</h2>
                     <p class="tool-description">Unlock the full potential with premium access. Enjoy faster processing, priority support, and exclusive AI tools.</p>
-                    <a href="premium.html" class="tool-button">Upgrade Now</a>
+                    <button class="tool-button" onclick="startSubscription()">First month free</button>
                 </div>
             </div>
         </div>
@@ -381,7 +405,7 @@
 
     <script>
         const messages = [
-            "Welcome to MeemoAI 2.0",
+            "Welcome to MeemoAI Nova",
             "Your Creative AI Companion",
             "Unleash the Power of AI",
             "Transform Ideas into Reality"
@@ -393,6 +417,34 @@
         let typingDelay = 100;
         let deletingDelay = 50;
         let newMessageDelay = 2000;
+
+        // Initialize Stripe
+        const stripe = Stripe('your_publishable_key'); // Replace with your actual Stripe publishable key
+
+        async function startSubscription() {
+            try {
+                const response = await fetch('/create-checkout-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                
+                const session = await response.json();
+                
+                // Redirect to Stripe Checkout
+                const result = await stripe.redirectToCheckout({
+                    sessionId: session.id
+                });
+
+                if (result.error) {
+                    alert(result.error.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Something went wrong. Please try again later.');
+            }
+        }
 
         function typeMessage() {
             const currentMessage = messages[messageIndex];
@@ -438,6 +490,19 @@
         }
 
         document.addEventListener('DOMContentLoaded', typeMessage);
+        // Add essay tool to the sidebar
+        const toolsList = document.querySelector('.tools-list');
+        if (toolsList) {
+            const essayTool = document.createElement('a');
+            essayTool.href = 'essayai.html';
+            essayTool.className = 'tool-link';
+            essayTool.innerHTML = `
+                <i class="fas fa-pen-fancy"></i>
+                Essay AI
+            `;
+            toolsList.appendChild(essayTool);
+        }
+        
     </script>
 </body>
 </html>
