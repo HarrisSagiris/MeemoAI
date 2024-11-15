@@ -223,6 +223,38 @@
             transform: scale(1.1);
         }
 
+        /* Stop button styling */
+        .stop-button {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            background: #e74c3c;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 12px;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stop-button:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+
+        .stop-button.active {
+            display: flex;
+        }
+
+        .send-button.hidden {
+            display: none;
+        }
+
         /* Mobile Responsive */
         @media (max-width: 1024px) {
             .chat-messages,
@@ -331,7 +363,7 @@
 </head>
 <body>
     <aside class="sidebar">
-        <button class="new-chat-btn">
+        <button class="new-chat-btn" onclick="startNewChat()">
             <i class="fas fa-plus"></i>
             New Chat
         </button>
@@ -371,6 +403,9 @@
                 <button class="send-button" onclick="sendMessage()" title="Send message">
                     <i class="fas fa-paper-plane"></i>
                 </button>
+                <button class="stop-button" onclick="stopGeneration()" title="Stop generating">
+                    <i class="fas fa-stop"></i>
+                </button>
             </div>
         </div>
     </main>
@@ -378,6 +413,11 @@
     <script>
         const HF_API_KEY = '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';
         const API_URL = 'https://api-inference.huggingface.co/models/Qwen/Qwen2.5-Coder-32B-Instruct';
+
+        // Store chat history
+        let chatHistory = [];
+        let currentController = null;
+        let typingInterval = null;
 
         function updateVH() {
             const vh = window.innerHeight * 0.01;
@@ -395,13 +435,56 @@
                 if (index < text.length) {
                     element.innerHTML += text.charAt(index);
                     index++;
-                    setTimeout(type, speed);
+                    typingInterval = setTimeout(type, speed);
                 } else {
                     element.classList.remove('typing');
+                    // Hide stop button and show send button when typing is complete
+                    document.querySelector('.stop-button').classList.remove('active');
+                    document.querySelector('.send-button').classList.remove('hidden');
                 }
             }
             
             type();
+            return typingInterval;
+        }
+
+        function startNewChat() {
+            // Save current chat to history if it exists
+            if (chatHistory.length > 0) {
+                const currentChat = document.getElementById('chat-messages').innerHTML;
+                chatHistory.push(currentChat);
+            }
+
+            // Clear chat messages except welcome message
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.innerHTML = `
+                <div class="message bot-message">
+                    <div class="avatar">M</div>
+                    <div class="message-content">
+                        Hello! I'm Meemo AI Nova, your intelligent assistant. How can I help you today?
+                    </div>
+                </div>
+            `;
+
+            // Clear input
+            document.getElementById('user-input').value = '';
+        }
+
+        function stopGeneration() {
+            if (currentController) {
+                currentController.abort();
+                currentController = null;
+            }
+            
+            // Clear typing interval if it exists
+            if (typingInterval) {
+                clearTimeout(typingInterval);
+                typingInterval = null;
+            }
+            
+            // Hide stop button and show send button
+            document.querySelector('.stop-button').classList.remove('active');
+            document.querySelector('.send-button').classList.remove('hidden');
         }
 
         async function sendMessage() {
@@ -424,6 +507,13 @@
                 const loadingElement = loadingMessage.querySelector('.message-content');
                 typeText(loadingElement, 'Thinking...', 50);
 
+                // Show stop button and hide send button
+                document.querySelector('.stop-button').classList.add('active');
+                document.querySelector('.send-button').classList.add('hidden');
+
+                // Create new AbortController for this request
+                currentController = new AbortController();
+
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
@@ -438,7 +528,8 @@
                             top_p: 0.9,
                             do_sample: true
                         }
-                    })
+                    }),
+                    signal: currentController.signal
                 });
 
                 const data = await response.json();
@@ -447,17 +538,30 @@
                 const assistantResponse = data[0].generated_text.split('<|im_start|>assistant\n')[1].split('<|im_end|>')[0];
                 const botMessage = appendMessage('bot', '');
                 const botContent = botMessage.querySelector('.message-content');
-                typeText(botContent, assistantResponse);
+                
+                // Keep stop button visible during typing
+                document.querySelector('.stop-button').classList.add('active');
+                document.querySelector('.send-button').classList.add('hidden');
+                
+                typingInterval = typeText(botContent, assistantResponse);
 
                 // Play receive sound
                 const receiveAudio = new Audio('data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAASAAAeMwAUFBQUFCIiIiIiIjAwMDAwPz8/Pz8/TU1NTU1NW1tbW1tbaGhoaGhoaHd3d3d3d4aGhoaGhpSUlJSUlKMjIyMjIyMwMDAwMDA/Pz8/Pz9NTU1NTU1bW1tbW1toaGhoaGhod3d3d3d3hoaGhoaGlJSUlJSUo6Ojo6Ojo7e3t7e3t8bGxsbGxs7Ozs7Oznd3d3d3d4aGhoaGhpSUlJSUlKOjo6Ojo6O3t7e3t7fGxsbGxsbOzs7Ozs7i4uLi4uLi4uLi4uLi//tQZAAAA8oRTe3lQAI4wXp7vQgJjDxFaaDzM3AAAA0gAAABLiTOSSNE6dgYBoNQEeszREAAAAaQAAAE3/LxMf//ghiW//uSZBMAFoHvzWhhTQEEABgKgAAE8nKXP/6MAAAAABpAAAARNmdmY1ukSxMxsxVQuDEtXv/9FTD/eGBISEhUamRBH1MNmNqQNYINEDUZ8vBJ4sEDwVFduNb/JI4mF/lBmKiop+PJoihEqiQiMG4lsd5ew39Z/8b5T+kZjQ2NVE78IxMlXAGsBnpADoK0BKiMvpBUHPCkZ8MBp8jtUJ/llkni2nCE+Kj6P/+hOjEI4/qNHs9+1JFw1H/s9//1TIxMyRHQlNCCCRaArMg8ANXrAEBI9w1C0IyZTBvwSRthZOqRQH/+5JkQgAWJR/N7AzN4AAAA0gAAABP1J0toTB3IAAADSAAAASNM6ZFqb/P8b1f///mSK+Mxb///1JYbBZX0xLUzLdIqLf//0mUKjpBMQtNbnhf1pE20wk9an+7/+pRYLj2ZjTMlZrdf/+wm/IAhrQoEGlwPpzwPjcPCKJ3JkKTCE3Sj//qZHQmODQx1o0XNZWoU+lf///4iAPAAAAA==');
                 receiveAudio.play();
 
             } catch (error) {
-                console.error('Error:', error);
-                const errorMessage = appendMessage('bot', '');
-                const errorContent = errorMessage.querySelector('.message-content');
-                typeText(errorContent, 'Sorry, I encountered an error. Please try again later.');
+                if (error.name === 'AbortError') {
+                    const abortMessage = appendMessage('bot', '');
+                    const abortContent = abortMessage.querySelector('.message-content');
+                    typeText(abortContent, 'Generation stopped.');
+                } else {
+                    console.error('Error:', error);
+                    const errorMessage = appendMessage('bot', '');
+                    const errorContent = errorMessage.querySelector('.message-content');
+                    typeText(errorContent, 'Sorry, I encountered an error. Please try again later.');
+                }
+            } finally {
+                currentController = null;
             }
         }
 
