@@ -418,6 +418,7 @@
         let chatHistory = [];
         let currentController = null;
         let typingInterval = null;
+        let thinkingInterval = null;
 
         function updateVH() {
             const vh = window.innerHeight * 0.01;
@@ -427,9 +428,26 @@
         window.addEventListener('resize', updateVH);
         updateVH();
 
+        function animateThinking(element) {
+            let dots = 1;
+            element.textContent = 'Thinking' + '.'.repeat(dots);
+            
+            thinkingInterval = setInterval(() => {
+                dots = (dots % 3) + 1;
+                element.textContent = 'Thinking' + '.'.repeat(dots);
+            }, 500);
+            
+            return thinkingInterval;
+        }
+
         function typeText(element, text, speed = 30) {
             let index = 0;
             element.classList.add('typing');
+            
+            if (thinkingInterval) {
+                clearInterval(thinkingInterval);
+                thinkingInterval = null;
+            }
             
             function type() {
                 if (index < text.length) {
@@ -481,6 +499,12 @@
                 clearTimeout(typingInterval);
                 typingInterval = null;
             }
+
+            // Clear thinking interval if it exists
+            if (thinkingInterval) {
+                clearInterval(thinkingInterval);
+                thinkingInterval = null;
+            }
             
             // Hide stop button and show send button
             document.querySelector('.stop-button').classList.remove('active');
@@ -505,7 +529,7 @@
             try {
                 const loadingMessage = appendMessage('bot', '');
                 const loadingElement = loadingMessage.querySelector('.message-content');
-                typeText(loadingElement, 'Thinking...', 50);
+                animateThinking(loadingElement);
 
                 // Show stop button and hide send button
                 document.querySelector('.stop-button').classList.add('active');
