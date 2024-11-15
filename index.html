@@ -316,6 +316,29 @@
             transform: translateY(-2px);
         }
 
+        .top-right-links {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1002;
+        }
+
+        .top-right-links a {
+            color: #ECECF1;
+            text-decoration: none;
+            padding: 0.8rem 1.2rem;
+            background: rgba(32, 33, 35, 0.9);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .top-right-links a:hover {
+            background: rgba(41, 128, 185, 0.9);
+        }
+
         @media (max-width: 768px) {
             .mobile-menu-btn {
                 display: block;
@@ -380,7 +403,6 @@
                 font-size: 1.1rem;
             }
 
-            /* Improved scrollbar for mobile */
             .tools-list::-webkit-scrollbar {
                 width: 4px;
             }
@@ -390,7 +412,6 @@
                 border-radius: 4px;
             }
 
-            /* Add safe area padding for notched phones */
             .sidebar {
                 padding-top: env(safe-area-inset-top);
                 padding-bottom: env(safe-area-inset-bottom);
@@ -399,14 +420,19 @@
             .main-content {
                 padding-bottom: env(safe-area-inset-bottom);
             }
+
+            .top-right-links {
+                top: auto;
+                bottom: 1rem;
+                right: 1rem;
+                flex-direction: column;
+            }
         }
 
-        /* Prevent pull-to-refresh on mobile */
         body {
             overscroll-behavior-y: none;
         }
 
-        /* Improve touch targets */
         @media (max-width: 768px) {
             .tool-link, .new-chat, .report-bug {
                 min-height: 3.5rem;
@@ -424,6 +450,11 @@
     </style>
 </head>
 <body>
+    <div class="top-right-links">
+        <a href="faq.html">FAQ</a>
+        <a href="developerportal.html">Developer Portal</a>
+    </div>
+
     <button class="mobile-menu-btn" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
     </button>
@@ -512,8 +543,7 @@
         let deletingDelay = 50;
         let newMessageDelay = 2000;
 
-        // Initialize Stripe
-        const stripe = Stripe('your_publishable_key'); // Replace with your actual Stripe publishable key
+        const stripe = Stripe('your_publishable_key');
 
         async function startSubscription() {
             try {
@@ -526,7 +556,6 @@
                 
                 const session = await response.json();
                 
-                // Redirect to Stripe Checkout
                 const result = await stripe.redirectToCheckout({
                     sessionId: session.id
                 });

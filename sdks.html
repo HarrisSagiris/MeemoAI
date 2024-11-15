@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeemoAI - SDKs & Libraries</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ECECF1;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .sdk-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .sdk-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .sdk-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #10b981, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sdk-header p {
+            font-size: 1.2rem;
+            color: rgba(236, 236, 241, 0.8);
+        }
+
+        .sdk-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 1rem;
+        }
+
+        .sdk-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sdk-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .sdk-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #10b981;
+        }
+
+        .sdk-card p {
+            margin-bottom: 1.5rem;
+            color: rgba(236, 236, 241, 0.8);
+        }
+
+        .sdk-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .sdk-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            border-radius: 8px;
+            color: #10b981;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .sdk-link:hover {
+            background: #10b981;
+            color: #1a1a2e;
+        }
+
+        .sdk-link i {
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .sdk-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .sdk-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sdk-container">
+        <div class="sdk-header">
+            <h1>SDKs & Libraries</h1>
+            <p>Official MeemoAI SDKs and community libraries to integrate with your favorite programming language</p>
+        </div>
+
+        <div class="sdk-grid">
+            <div class="sdk-card">
+                <h2>Python SDK</h2>
+                <p>Official Python SDK for MeemoAI API with async support and type hints.</p>
+                <div class="sdk-links">
+                    <a href="#" class="sdk-link">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                    <a href="#" class="sdk-link">
+                        <i class="fas fa-book"></i> Docs
+                    </a>
+                </div>
+            </div>
+
+            <div class="sdk-card">
+                <h2>JavaScript SDK</h2>
+                <p>Official Node.js/JavaScript SDK with TypeScript support and browser compatibility.</p>
+                <div class="sdk-links">
+                    <a href="#" class="sdk-link">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                    <a href="#" class="sdk-link">
+                        <i class="fas fa-book"></i> Docs
+                    </a>
+                </div>
+            </div>
+
+            <div class="sdk-card">
+                <h2>Go SDK</h2>
+                <p>Official Go SDK with concurrent request handling and robust error management.</p>
+                <div class="sdk-links">
+                    <a href="#" class="sdk-link">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                    <a href="#" class="sdk-link">
+                        <i class="fas fa-book"></i> Docs
+                    </a>
+                </div>
+            </div>
+
+            <div class="sdk-card">
+                <h2>Java SDK</h2>
+                <p>Official Java SDK with Spring Boot integration and comprehensive documentation.</p>
+                <div class="sdk-links">
+                    <a href="#" class="sdk-link">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                    <a href="#" class="sdk-link">
+                        <i class="fas fa-book"></i> Docs
+                    </a>
+                </div>
+            </div>
+
+            <div class="sdk-card">
+                <h2>Ruby SDK</h2>
+                <p>Official Ruby SDK with Rails support and elegant Ruby-style interface.</p>
+                <div class="sdk-links">
+                    <a href="#" class="sdk-link">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                    <a href="#" class="sdk-link">
+                        <i class="fas fa-book"></i> Docs
+                    </a>
+                </div>
+            </div>
+
+            <div class="sdk-card">
+                <h2>PHP SDK</h2>
+                <p>Official PHP SDK with Laravel integration and PSR-compliant implementation.</p>
+                <div class="sdk-links">
+                    <a href="#" class="sdk-link">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                    <a href="#" class="sdk-link">
+                        <i class="fas fa-book"></i> Docs
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

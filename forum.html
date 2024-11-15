@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MeemoAI - FAQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --primary-light: #9f67ff;
+            --text: #333;
+            --background: #fff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--background);
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .faq-section {
+            margin-bottom: 2rem;
+        }
+
+        .faq-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .faq-question {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .faq-answer {
+            color: #555;
+            display: none;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+            margin-top: 0.5rem;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .search-container {
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Frequently Asked Questions</h1>
+            <p>Find answers to common questions about MeemoAI</p>
+        </header>
+
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search FAQ..." id="faq-search">
+        </div>
+
+        <div class="faq-section" id="faq-container">
+            <!-- FAQ items will be dynamically loaded here -->
+        </div>
+    </div>
+    
+    <script>
+        const faqs = [
+            {
+                question: "What is MeemoAI?",
+                answer: "MeemoAI is an advanced artificial intelligence assistant designed to help with various tasks including coding, writing, analysis, and problem-solving."
+            },
+            {
+                question: "How do I get started with MeemoAI?",
+                answer: "Simply create an account, choose your preferred interface, and start interacting with MeemoAI. No special setup or technical knowledge is required."
+            },
+            {
+                question: "Is MeemoAI free to use?",
+                answer: "MeemoAI offers both free and premium tiers. The free tier includes basic features, while premium subscribers get access to advanced capabilities and priority support."
+            },
+            {
+                question: "What programming languages does MeemoAI support?",
+                answer: "MeemoAI supports a wide range of programming languages including Python, JavaScript, Java, C++, Ruby, and many more."
+            },
+            {
+                question: "How secure is my data with MeemoAI?",
+                answer: "We take data security seriously. All communications are encrypted, and we follow industry best practices for data protection and privacy."
+            }
+        ];
+
+        function renderFAQs(faqs) {
+            const container = document.getElementById('faq-container');
+            container.innerHTML = faqs.map((faq, index) => `
+                <div class="faq-item" data-index="${index}">
+                    <div class="faq-question">
+                        ${faq.question}
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        ${faq.answer}
+                    </div>
+                </div>
+            `).join('');
+
+            // Add click handlers
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    item.classList.toggle('active');
+                });
+            });
+        }
+
+        function searchFAQs(query) {
+            const filtered = faqs.filter(faq => 
+                faq.question.toLowerCase().includes(query.toLowerCase()) ||
+                faq.answer.toLowerCase().includes(query.toLowerCase())
+            );
+            renderFAQs(filtered);
+        }
+
+        document.getElementById('faq-search').addEventListener('input', (e) => {
+            searchFAQs(e.target.value);
+        });
+
+        // Initial render
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFAQs(faqs);
+        });
+    </script>
+</body>
+</html>

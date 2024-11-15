@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeemoAI - Debug Console</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ECECF1;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .debug-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .debug-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .debug-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #10b981, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .debug-header p {
+            font-size: 1.2rem;
+            color: rgba(236, 236, 241, 0.8);
+        }
+
+        .debug-main {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .debug-log {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Fira Code', monospace;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .log-info {
+            color: #10b981;
+        }
+
+        .log-warning {
+            color: #f59e0b;
+        }
+
+        .log-error {
+            color: #ef4444;
+        }
+
+        .debug-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #ECECF1;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .debug-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .debug-main {
+                padding: 1.5rem;
+            }
+
+            .debug-controls {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <div class="debug-header">
+            <h1>Debug Console</h1>
+            <p>Monitor system logs and debug information in real-time</p>
+        </div>
+
+        <div class="debug-main">
+            <div class="debug-controls">
+                <button class="btn" onclick="clearLogs()">
+                    <i class="fas fa-trash"></i> Clear Logs
+                </button>
+                <button class="btn" onclick="toggleAutoScroll()">
+                    <i class="fas fa-scroll"></i> Toggle Auto-scroll
+                </button>
+                <button class="btn" onclick="downloadLogs()">
+                    <i class="fas fa-download"></i> Download Logs
+                </button>
+            </div>
+
+            <div id="debugLog" class="debug-log"></div>
+        </div>
+    </div>
+
+    <script>
+        let autoScroll = true;
+        const debugLog = document.getElementById('debugLog');
+
+        function addLogEntry(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.textContent = `[${new Date().toISOString()}] ${message}`;
+            debugLog.appendChild(entry);
+
+            if (autoScroll) {
+                debugLog.scrollTop = debugLog.scrollHeight;
+            }
+        }
+
+        function clearLogs() {
+            debugLog.innerHTML = '';
+            addLogEntry('Logs cleared');
+        }
+
+        function toggleAutoScroll() {
+            autoScroll = !autoScroll;
+            addLogEntry(`Auto-scroll ${autoScroll ? 'enabled' : 'disabled'}`);
+        }
+
+        function downloadLogs() {
+            const logs = debugLog.innerText;
+            const blob = new Blob([logs], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `debug_logs_${new Date().toISOString()}.txt`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            addLogEntry('Logs downloaded');
+        }
+
+        // Example log entries
+        addLogEntry('Debug console initialized');
+        addLogEntry('System healthy', 'info');
+    </script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeemoAI - API Console</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ECECF1;
+            min-height: 100vh;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .console-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .console-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .console-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #10b981, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(16, 185, 129, 0.2);
+        }
+
+        .console-header p {
+            font-size: 1.2rem;
+            color: rgba(236, 236, 241, 0.8);
+        }
+
+        .console-main {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .console-main:hover {
+            transform: translateY(-5px);
+        }
+
+        .endpoint-selector {
+            margin-bottom: 2.5rem;
+        }
+
+        .endpoint-selector select {
+            width: 100%;
+            padding: 1.2rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #ECECF1;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .endpoint-selector select:hover,
+        .endpoint-selector select:focus {
+            border-color: rgba(59, 130, 246, 0.5);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .request-editor {
+            margin-bottom: 2.5rem;
+        }
+
+        .request-editor textarea {
+            width: 100%;
+            height: 240px;
+            padding: 1.2rem;
+            background: rgba(0, 0, 0, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #ECECF1;
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .request-editor textarea:focus {
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+            outline: none;
+        }
+
+        .console-actions {
+            display: flex;
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(45deg, #10b981, #3b82f6);
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+        }
+
+        .btn:hover {
+            opacity: 0.95;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .response-section {
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .response-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.1rem;
+        }
+
+        .response-body {
+            font-family: 'Fira Code', monospace;
+            white-space: pre-wrap;
+            color: #10b981;
+            font-size: 1rem;
+            line-height: 1.6;
+            padding: 0.5rem;
+        }
+
+        .status-success {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .status-error {
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .console-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .console-main {
+                padding: 1.5rem;
+            }
+
+            .console-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="console-container">
+        <div class="console-header">
+            <h1>API Console</h1>
+            <p>Test API endpoints and debug responses in real-time</p>
+        </div>
+
+        <div class="console-main">
+            <div class="endpoint-selector">
+                <select id="endpointSelect">
+                    <option value="chat">POST /v1/chat</option>
+                    <option value="completion">POST /v1/completion</option>
+                    <option value="embedding">POST /v1/embedding</option>
+                </select>
+            </div>
+
+            <div class="request-editor">
+                <textarea id="requestBody" placeholder="Enter request body in JSON format...">{
+    "message": "Hello, MeemoAI!",
+    "model": "Meemo Nova-1"
+}</textarea>
+            </div>
+
+            <div class="console-actions">
+                <button class="btn" onclick="sendRequest()"><i class="fas fa-play"></i> Send Request</button>
+                <button class="btn" onclick="clearConsole()"><i class="fas fa-trash"></i> Clear</button>
+            </div>
+
+            <div class="response-section">
+                <div class="response-header">
+                    <span>Response</span>
+                    <span id="statusCode" class="status-success"></span>
+                </div>
+                <div id="responseBody" class="response-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function sendRequest() {
+            const endpoint = document.getElementById('endpointSelect').value;
+            const requestBody = document.getElementById('requestBody').value;
+            const statusElement = document.getElementById('statusCode');
+            const responseElement = document.getElementById('responseBody');
+
+            try {
+                // Simulate API call
+                const response = await simulateApiCall(endpoint, requestBody);
+                
+                statusElement.textContent = `Status: ${response.status}`;
+                statusElement.className = response.status === 200 ? 'status-success' : 'status-error';
+                
+                responseElement.textContent = JSON.stringify(response.data, null, 2);
+            } catch (error) {
+                statusElement.textContent = 'Status: 500';
+                statusElement.className = 'status-error';
+                responseElement.textContent = 'Error: ' + error.message;
+            }
+        }
+
+        function clearConsole() {
+            document.getElementById('requestBody').value = '';
+            document.getElementById('statusCode').textContent = '';
+            document.getElementById('responseBody').textContent = '';
+        }
+
+        // Simulate API call for demonstration
+        async function simulateApiCall(endpoint, requestBody) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({
+                        status: 200,
+                        data: {
+                            id: 'resp_' + Math.random().toString(36).substr(2, 9),
+                            created: new Date().toISOString(),
+                            response: "Hello! I'm MeemoAI. How can I assist you today?",
+                            model: "Meemo Nova-1",
+                            usage: {
+                                prompt_tokens: 12,
+                                completion_tokens: 24,
+                                total_tokens: 36
+                            }
+                        }
+                    });
+                }, 500);
+            });
+        }
+    </script>
+</body>
+</html>
