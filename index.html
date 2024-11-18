@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="MeemoAI">
+    <meta name="apple-mobile-web-app-title" content="MesemoAI">
     <link rel="apple-touch-icon" href="/icon.png">
     <link rel="apple-touch-icon" sizes="152x152" href="/icon-152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
@@ -13,548 +13,284 @@
     <link rel="icon" type="image/png" href="/meemoai.jpg">
     <title>MeemoAI - Multiple AI Tools</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://js.stripe.com/v3/"></script>
     <style>
         :root {
-            --primary: #2980b9;
-            --primary-light: #3498db;
+            --primary: #7C3AED;
+            --primary-light: #8B5CF6;
             --transition: all 0.3s ease;
+            --shadow: 0 10px 30px rgba(124, 58, 237, 0.1);
+            --bg-dark: #1A1A1A;
+            --bg-card: #2D2D2D;
+            --text-light: #FFFFFF;
+            --text-gray: #A1A1AA;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Söhne', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            background: var(--bg-dark);
+            color: var(--text-light);
             min-height: 100vh;
-            color: #ECECF1;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
         }
 
-        .sidebar {
-            width: 260px;
-            background: rgba(32, 33, 35, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem;
+        .navbar {
+            padding: 1.5rem 2rem;
             display: flex;
-            flex-direction: column;
-            height: 100vh;
-            position: fixed;
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 1000;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--bg-card);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
-        .mobile-menu-btn {
-            display: none;
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 1001;
-            background: rgba(32, 33, 35, 0.9);
-            border: none;
-            color: #ECECF1;
-            padding: 0.8rem;
-            border-radius: 12px;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .mobile-menu-btn:active {
-            transform: scale(0.95);
-        }
-
-        .search-bar {
-            margin-bottom: 1rem;
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
             position: relative;
         }
 
-        .search-bar input {
-            width: 100%;
-            padding: 0.75rem 1rem 0.75rem 2.5rem;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.05);
-            color: #ECECF1;
-            font-size: 1rem;
-        }
-
-        .search-bar input:focus {
-            outline: none;
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 0 2px rgba(41,128,185,0.2);
-        }
-
-        .search-bar i {
+        .logo::after {
+            content: '|';
             position: absolute;
-            left: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #666;
-        }
-
-        .new-chat {
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1rem;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: #ECECF1;
-            text-decoration: none;
-            transition: all 0.3s;
-            margin-bottom: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .new-chat:active {
-            transform: scale(0.98);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .tools-list {
-            flex: 1;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            padding-right: 0.5rem;
-        }
-
-        .tool-link {
-            padding: 1rem;
-            color: #ECECF1;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            border-radius: 12px;
-            transition: all 0.3s;
-            margin-bottom: 0.75rem;
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .tool-link:active {
-            transform: scale(0.98);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .tool-link.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        .sidebar-footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 1rem;
-            margin-top: auto;
-        }
-
-        .report-bug {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: #ECECF1;
-            text-decoration: none;
-            padding: 0.75rem;
-            border-radius: 12px;
-            background: rgba(255, 0, 0, 0.1);
-            margin-bottom: 0.75rem;
-            transition: all 0.3s;
-        }
-
-        .report-bug:active {
-            transform: scale(0.98);
-            background: rgba(255, 0, 0, 0.2);
-        }
-
-        .updates-box {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1rem;
-            border-radius: 12px;
-            font-size: 0.9rem;
-        }
-
-        .updates-box h4 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-        }
-
-        .updates-box .current-updates,
-        .updates-box .upcoming-updates {
-            margin-bottom: 0.75rem;
-        }
-
-        .updates-box .upcoming-updates {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 0.75rem;
-        }
-
-        .updates-box .upcoming-updates h4 {
+            right: -8px;
+            animation: blink 1s infinite;
             color: var(--primary-light);
         }
 
-        .main-content {
-            margin-left: 260px;
-            flex: 1;
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-light);
+            background: rgba(124, 58, 237, 0.2);
+        }
+
+        .hero {
+            padding: 8rem 2rem;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: linear-gradient(180deg, rgba(124, 58, 237, 0.1) 0%, rgba(26, 26, 26, 0) 100%);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            position: relative;
+            display: inline-block;
+            min-height: 4.2rem;
+        }
+
+        .hero p {
+            font-size: 1.35rem;
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.7;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            padding: 3rem;
-            background: radial-gradient(circle at top right, rgba(41, 128, 185, 0.15), transparent);
+            align-items: flex-start;
         }
 
-        .welcome-container {
-            max-width: 1000px;
-            text-align: center;
-            margin-top: 8vh;
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            border-color: var(--primary);
         }
 
-        .typing-text {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            min-height: 120px;
-            background: linear-gradient(45deg, var(--primary), var(--primary-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient 8s ease infinite;
-            background-size: 200% 200%;
-        }
-
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            width: 100%;
-            max-width: 1000px;
-            margin-top: 3rem;
-        }
-
-        .tool-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2rem;
-            border-radius: 20px;
-            transition: all 0.4s;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tool-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            transform: translateX(-100%);
-            transition: 0.5s;
-        }
-
-        .tool-card:hover::before {
-            transform: translateX(100%);
-        }
-
-        .tool-icon {
+        .feature-icon {
             font-size: 3rem;
             margin-bottom: 1.5rem;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .tool-title {
-            font-size: 1.5rem;
+        .feature-title {
+            font-size: 1.75rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            color: #fff;
+            color: var(--text-light);
         }
 
-        .tool-description {
-            color: #c5c5d2;
-            margin-bottom: 1.5rem;
+        .feature-description {
+            color: var(--text-gray);
+            line-height: 1.7;
+            margin-bottom: 2rem;
             font-size: 1.1rem;
-            line-height: 1.6;
         }
 
-        .tool-button {
-            width: 100%;
-            padding: 1rem;
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
             background: var(--primary);
             color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            box-shadow: 0 4px 12px rgba(41,128,185,0.2);
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
             text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
         }
 
-        .tool-button:hover {
+        .cta-button:hover {
             background: var(--primary-light);
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
         }
 
-        .top-right-links {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            display: flex;
-            gap: 1rem;
-            z-index: 1002;
-        }
-
-        .top-right-links a {
-            color: #ECECF1;
-            text-decoration: none;
-            padding: 0.8rem 1.2rem;
-            background: rgba(32, 33, 35, 0.9);
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .top-right-links a:hover {
-            background: rgba(41, 128, 185, 0.9);
+        .footer {
+            margin-top: auto;
+            padding: 3rem 2rem;
+            background: var(--bg-card);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 1.1rem;
         }
 
         @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .sidebar {
-                transform: translateX(-100%);
-                width: 85%;
-                max-width: 320px;
-            }
-
-            .sidebar.active {
-                transform: translateX(0);
-                box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
-            }
-
-            .main-content {
-                margin-left: 0;
-                padding: 1.5rem;
-                padding-top: 5rem;
-            }
-
-            .typing-text {
-                font-size: 2.2rem;
-                min-height: 90px;
-                margin-bottom: 1.5rem;
-            }
-
-            .tools-grid {
-                grid-template-columns: 1fr;
+            .navbar {
+                flex-direction: column;
                 gap: 1.5rem;
-                padding: 0 0.5rem;
-            }
-
-            .tool-card {
-                padding: 1.8rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .tool-card:active {
-                transform: scale(0.98);
-            }
-
-            .tool-icon {
-                font-size: 2.8rem;
-                margin-bottom: 1.2rem;
-            }
-
-            .tool-title {
-                font-size: 1.4rem;
-            }
-
-            .tool-description {
-                font-size: 1.05rem;
-                margin-bottom: 1.8rem;
-            }
-
-            .tool-button {
-                width: 100%;
                 text-align: center;
-                padding: 1.2rem;
-                font-size: 1.1rem;
-            }
-
-            .tools-list::-webkit-scrollbar {
-                width: 4px;
-            }
-
-            .tools-list::-webkit-scrollbar-thumb {
-                background: rgba(255, 255, 255, 0.2);
-                border-radius: 4px;
-            }
-
-            .sidebar {
-                padding-top: env(safe-area-inset-top);
-                padding-bottom: env(safe-area-inset-bottom);
-            }
-
-            .main-content {
-                padding-bottom: env(safe-area-inset-bottom);
-            }
-
-            .top-right-links {
-                top: auto;
-                bottom: 1rem;
-                right: 1rem;
-                flex-direction: row;
-                width: calc(100% - 2rem);
-                justify-content: center;
-                gap: 0.5rem;
-            }
-
-            .top-right-links a {
-                flex: 1;
-                text-align: center;
-                white-space: nowrap;
-                max-width: 160px;
-                font-size: 0.9rem;
                 padding: 1rem;
             }
-        }
 
-        body {
-            overscroll-behavior-y: none;
-        }
-
-        @media (max-width: 768px) {
-            .tool-link, .new-chat, .report-bug {
-                min-height: 3.5rem;
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+                width: 100%;
             }
 
-            .search-bar input {
-                height: 3rem;
+            .nav-links a {
+                display: block;
+                padding: 0.75rem;
+                background: rgba(255, 255, 255, 0.05);
             }
 
-            .mobile-menu-btn {
-                height: 3rem;
-                width: 3rem;
+            .hero {
+                padding: 4rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.75rem;
+                min-height: 3.3rem;
+            }
+
+            .hero p {
+                font-size: 1.15rem;
+                padding: 0 1rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+                gap: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="top-right-links">
-        <a href="faq.html">FAQ</a>
-        <a href="developerportal.html">Developer Portal</a>
-    </div>
+    <nav class="navbar">
+        <a href="/" class="logo">MeemoAI</a>
+        <div class="nav-links">
+            <a href="ai.html"><i class="fas fa-robot"></i> AI Chat</a>
+            <a href="immagegen.html"><i class="fas fa-palette"></i> Image Generation</a>
+            <a href="premium.html"><i class="fas fa-crown"></i> Premium</a>
+            <a href="faq.html"><i class="fas fa-question-circle"></i> FAQ</a>
+        </div>
+    </nav>
 
-    <button class="mobile-menu-btn" onclick="toggleSidebar()">
-        <i class="fas fa-bars"></i>
-    </button>
+    <section class="hero">
+        <h1 id="animated-title">Meet Meemo</h1>
+        <p>Unlock the power of artificial intelligence with MeemoAI Evo. From intelligent conversations to stunning image generation, we're here to transform your ideas into reality.</p>
+    </section>
 
-    <aside class="sidebar">
-        <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search tools..." onkeyup="searchTools()">
+    <section class="features">
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-robot"></i></div>
+            <h2 class="feature-title">AI Chat Assistant</h2>
+            <p class="feature-description">Engage in meaningful conversations with our advanced AI. Get help with coding, writing, analysis, and more. Experience natural, context-aware responses.</p>
+            <a href="ai.html" class="cta-button">Start Chatting <i class="fas fa-arrow-right"></i></a>
         </div>
-        <a href="/" class="new-chat">
-            <i class="fas fa-home"></i>
-            Home
-        </a>
-        <div class="tools-list">
-            <a href="ai.html" class="tool-link">
-                <i class="fas fa-robot"></i>
-                MeemoAI Chat
-            </a>
-            <a href="immagegen.html" class="tool-link">
-                <i class="fas fa-image"></i>
-                Image Generation
-            </a>
-            <a href="premium.html" class="tool-link">
-                <i class="fas fa-crown"></i>
-                Premium Features
-            </a>
-        </div>
-        <div class="sidebar-footer">
-            <a href="https://github.com/yourusername/meemoai/issues" class="report-bug" target="_blank">
-                <i class="fas fa-bug"></i>
-                Report a Bug
-            </a>
-            <div class="updates-box">
-                <div class="current-updates">
-                    <h4>Latest Updates</h4>
-                    <p>Version 2.0.1 - New interface and improved search functionality!</p>
-                </div>
-                <div class="upcoming-updates">
-                    <h4>Coming with 2.1</h4>
-                    <p>• Enhanced AI model and limited AI responses</p>
-                    <p>• Dark/Light theme toggle</p>
-                    <p>• Mobile app release</p>
-                </div>
-            </div>
-        </div>
-    </aside>
 
-    <main class="main-content">
-        <div class="welcome-container">
-            <div class="typing-text" id="typing-text"></div>
-            <div class="tools-grid">
-                <div class="tool-card">
-                    <div class="tool-icon">🤖</div>
-                    <h2 class="tool-title">MeemoAI Chat</h2>
-                    <p class="tool-description">Experience intelligent conversations with our advanced AI powered by cutting-edge language models. Perfect for coding, writing, and problem-solving.</p>
-                    <a href="ai.html" class="tool-button">Start Chatting</a>
-                </div>
-                <div class="tool-card">
-                    <div class="tool-icon">🎨</div>
-                    <h2 class="tool-title">Image Generation</h2>
-                    <p class="tool-description">Transform your ideas into stunning visuals with MeemoAImg 1.0. Create unique, AI-generated artwork with just a few clicks.</p>
-                    <a href="immagegen.html" class="tool-button">Create Images</a>
-                </div>
-                <div class="tool-card">
-                    <div class="tool-icon">💫</div>
-                    <h2 class="tool-title">Premium Features</h2>
-                    <p class="tool-description">Unlock the full potential with premium access. Enjoy faster processing, priority support, and exclusive AI tools.</p>
-                    <button class="tool-button" onclick="startSubscription()">First month free</button>
-                </div>
-            </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+            <h2 class="feature-title">Image Generation</h2>
+            <p class="feature-description">Transform your ideas into stunning visuals with our AI image generator. Create unique artwork, designs, and illustrations with just a text description.</p>
+            <a href="immagegen.html" class="cta-button">Generate Images <i class="fas fa-arrow-right"></i></a>
         </div>
-    </main>
+
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-crown"></i></div>
+            <h2 class="feature-title">Premium Features</h2>
+            <p class="feature-description">Upgrade to premium for unlimited access, priority processing, advanced AI models, and exclusive tools. Experience AI without limits.</p>
+            <button onclick="startSubscription()" class="cta-button">Try Premium Free <i class="fas fa-crown"></i></button>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2023 MeemoAI. All rights reserved. | Powering the future with artificial intelligence</p>
+    </footer>
 
     <script>
-        const messages = [
-            "Welcome to MeemoAI Nova",
-            "Your Creative AI Companion",
-            "Unleash the Power of AI",
-            "Transform Ideas into Reality"
-        ];
-        
-        let messageIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        let typingDelay = 100;
-        let deletingDelay = 50;
-        let newMessageDelay = 2000;
-
         const stripe = Stripe('your_publishable_key');
 
         async function startSubscription() {
@@ -581,51 +317,42 @@
             }
         }
 
-        function typeMessage() {
-            const currentMessage = messages[messageIndex];
-            const typingText = document.getElementById('typing-text');
+        // Typing animation for the title
+        const title = document.getElementById('animated-title');
+        const phrases = [
+            "Meet Meemo",
+            "Your AI Assistant",
+            "Let's Create",
+            "Chat with Meemo"
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 80;
+        let pauseEnd = 1500;
 
+        function typeAnimation() {
+            const currentPhrase = phrases[phraseIndex];
+            
             if (isDeleting) {
-                typingText.textContent = currentMessage.substring(0, charIndex - 1);
+                title.textContent = currentPhrase.substring(0, charIndex - 1);
                 charIndex--;
-                setTimeout(typeMessage, deletingDelay);
             } else {
-                typingText.textContent = currentMessage.substring(0, charIndex + 1);
+                title.textContent = currentPhrase.substring(0, charIndex + 1);
                 charIndex++;
-                setTimeout(typeMessage, typingDelay);
             }
 
-            if (!isDeleting && charIndex === currentMessage.length) {
-                setTimeout(() => {
-                    isDeleting = true;
-                }, newMessageDelay);
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                setTimeout(() => isDeleting = true, pauseEnd);
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
-                messageIndex = (messageIndex + 1) % messages.length;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
             }
+
+            setTimeout(typeAnimation, typingSpeed);
         }
 
-        function searchTools() {
-            const searchInput = document.querySelector('.search-bar input').value.toLowerCase();
-            const toolLinks = document.querySelectorAll('.tool-link');
-            
-            toolLinks.forEach(link => {
-                const toolName = link.textContent.toLowerCase();
-                if (toolName.includes(searchInput)) {
-                    link.style.display = 'flex';
-                } else {
-                    link.style.display = 'none';
-                }
-            });
-        }
-
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('active');
-        }
-
-        document.addEventListener('DOMContentLoaded', typeMessage);
-        
+        typeAnimation();
     </script>
 </body>
 </html>

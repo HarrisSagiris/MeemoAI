@@ -3,51 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MeemoAI Premium - Unlock Advanced Features</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MesemoAI">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icon-152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/icon-167.png">
+    <link rel="icon" type="image/png" href="/meemoai.jpg">
+    <title>MeemoAI - Premium Plans</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #7C3AED;
+            --primary-light: #8B5CF6;
+            --transition: all 0.3s ease;
+            --shadow: 0 10px 30px rgba(124, 58, 237, 0.1);
+            --bg-dark: #1A1A1A;
+            --bg-card: #2D2D2D;
+            --text-light: #FFFFFF;
+            --text-gray: #A1A1AA;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Söhne', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            background: var(--bg-dark);
+            color: var(--text-light);
             min-height: 100vh;
-            color: #ECECF1;
             display: flex;
             flex-direction: column;
-            align-items: center;
         }
 
         .navbar {
-            background: rgba(32, 33, 35, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 1rem;
+            padding: 1.5rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--bg-card);
             position: sticky;
             top: 0;
             z-index: 100;
-            width: 100%;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             font-weight: 800;
-            color: #ECECF1;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo i {
-            color: #10a37f;
+            position: relative;
         }
 
         .premium-container {
@@ -63,115 +78,92 @@
         }
 
         .premium-header h1 {
-            font-size: 2rem;
-            color: #ECECF1;
-            margin-bottom: 0.75rem;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .premium-header p {
-            color: #c5c5d2;
-            font-size: 1rem;
+            color: var(--text-gray);
+            font-size: 1.1rem;
             line-height: 1.5;
         }
 
         .pricing-cards {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        @media (min-width: 768px) {
-            .pricing-cards {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 2rem;
-            }
-
-            .premium-header h1 {
-                font-size: 3rem;
-            }
-
-            .premium-header p {
-                font-size: 1.2rem;
-            }
-
-            .navbar {
-                padding: 1.25rem 2rem;
-            }
-
-            .logo {
-                font-size: 1.75rem;
-            }
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
         }
 
         .pricing-card {
-            background: rgba(32, 33, 35, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            background: var(--bg-card);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease;
+            transition: var(--transition);
         }
 
         .pricing-card:hover {
             transform: translateY(-5px);
-            border-color: #10a37f;
+            border-color: var(--primary);
         }
 
         .pricing-card.featured {
-            background: rgba(16, 163, 127, 0.15);
-            border-color: #10a37f;
+            background: rgba(124, 58, 237, 0.1);
+            border-color: var(--primary);
         }
 
         .plan-name {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 0.75rem;
-            color: #ECECF1;
+            margin-bottom: 1rem;
         }
 
         .price {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 800;
+            color: var(--primary);
             margin-bottom: 1.5rem;
-            color: #10a37f;
         }
 
         .features {
             list-style: none;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .features li {
-            margin: 0.75rem 0;
+            margin: 1rem 0;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            color: #c5c5d2;
-            font-size: 0.95rem;
+            color: var(--text-gray);
         }
 
         .features li i {
-            color: #10a37f;
+            color: var(--primary);
         }
 
         .subscribe-btn {
-            padding: 0.875rem 1.5rem;
-            border-radius: 8px;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
             border: none;
             font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             width: 100%;
-            background: #10a37f;
-            color: #ECECF1;
+            background: var(--primary);
+            color: var(--text-light);
         }
 
         .subscribe-btn:hover {
-            background: #0e906f;
+            background: var(--primary-light);
             transform: scale(1.02);
         }
 
@@ -179,22 +171,20 @@
             transform: scale(0.98);
         }
 
-        .featured .subscribe-btn {
-            background: #10a37f;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+        @media (max-width: 768px) {
+            .premium-header h1 {
+                font-size: 2rem;
+            }
 
-        .featured .subscribe-btn:hover {
-            background: #0e906f;
+            .pricing-cards {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <nav class="navbar">
-        <a href="/" class="logo">
-            <i class="fas fa-spell-check"></i>
-            MeemoAI
-        </a>
+        <a href="/" class="logo">MeemoAI</a>
     </nav>
 
     <div class="premium-container">
@@ -206,7 +196,7 @@
         <div class="pricing-cards">
             <div class="pricing-card standard">
                 <div class="plan-name">Standard</div>
-                <div class="price">$9.99<span style="font-size: 0.875rem">/month</span></div>
+                <div class="price">$9.99<span style="font-size: 1rem">/month</span></div>
                 <ul class="features">
                     <li><i class="fas fa-check"></i> Basic AI Chat</li>
                     <li><i class="fas fa-check"></i> Unlimited Requests on our AI</li>
@@ -218,7 +208,7 @@
 
             <div class="pricing-card featured">
                 <div class="plan-name">Premium</div>
-                <div class="price">$19.99<span style="font-size: 0.875rem">/month</span></div>
+                <div class="price">$19.99<span style="font-size: 1rem">/month</span></div>
                 <ul class="features">
                     <li><i class="fas fa-check"></i> Advanced AI Chat</li>
                     <li><i class="fas fa-check"></i> Unlimited Requests</li>
