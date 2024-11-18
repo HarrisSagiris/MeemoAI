@@ -173,6 +173,7 @@
             scroll-behavior: smooth;
             scroll-padding: 2rem;
             overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
         }
 
         .message {
@@ -258,6 +259,7 @@
             box-shadow: 0 8px 24px rgba(0,0,0,0.2);
             font-family: inherit;
             line-height: 1.6;
+            -webkit-appearance: none;
         }
 
         #user-input:focus {
@@ -286,6 +288,7 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+            -webkit-tap-highlight-color: transparent;
         }
 
         .send-button:hover,
@@ -316,6 +319,7 @@
             margin: 1.25rem 0;
             box-shadow: 0 8px 24px rgba(0,0,0,0.2);
             border: 1px solid rgba(255,255,255,0.1);
+            -webkit-overflow-scrolling: touch;
         }
 
         code {
@@ -358,10 +362,12 @@
             .sidebar {
                 transform: translateX(-100%);
                 width: min(80vw, var(--sidebar-width));
+                box-shadow: none;
             }
 
             .sidebar.active {
                 transform: translateX(0);
+                box-shadow: 5px 0 20px rgba(0,0,0,0.3);
             }
 
             .main-content {
@@ -369,23 +375,53 @@
             }
 
             .chat-messages {
-                padding: clamp(1rem, 4vw, 1.5rem);
+                padding: clamp(0.75rem, 4vw, 1.5rem);
             }
 
             .input-container {
-                padding: clamp(1rem, 4vw, 1.5rem);
+                padding: clamp(0.75rem, 4vw, 1.5rem);
+                padding-bottom: calc(clamp(0.75rem, 4vw, 1.5rem) + env(safe-area-inset-bottom));
             }
 
             .chat-header {
-                padding: 0 clamp(1rem, 4vw, 1.5rem);
+                padding: 0 clamp(0.75rem, 4vw, 1.5rem);
+                height: clamp(60px, 10vh, var(--header-height));
             }
 
             .model-selector {
                 padding: 6px 12px;
+                max-width: 140px;
+            }
+
+            .model-label {
+                display: none;
+            }
+
+            #model-select {
+                width: 100%;
+                font-size: 0.85rem;
             }
 
             .header-actions {
                 gap: 0.5rem;
+            }
+
+            .message {
+                padding: clamp(0.75rem, 3vw, 1.25rem);
+                border-radius: 16px;
+                margin-bottom: clamp(0.75rem, 3vw, 1.5rem);
+            }
+
+            .avatar {
+                width: clamp(36px, 8vw, 40px);
+                height: clamp(36px, 8vw, 40px);
+                border-radius: 12px;
+            }
+
+            #user-input {
+                padding: clamp(0.75rem, 3vw, 1.25rem) clamp(2.5rem, 5vw, 3.5rem) clamp(0.75rem, 3vw, 1.25rem) clamp(1rem, 3vw, 1.5rem);
+                border-radius: 16px;
+                min-height: clamp(50px, 8vh, 60px);
             }
         }
 
@@ -399,6 +435,7 @@
             padding: 0.5rem;
             display: none;
             transition: var(--transition);
+            -webkit-tap-highlight-color: transparent;
         }
 
         @media (max-width: 768px) {
@@ -422,6 +459,7 @@
             padding: 0.5rem;
             transition: var(--transition);
             margin-left: 1rem;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .theme-toggle:hover {
@@ -434,6 +472,21 @@
             display: flex;
             align-items: center;
             gap: clamp(0.5rem, 2vw, 1rem);
+        }
+
+        /* iOS-specific fixes */
+        @supports (-webkit-touch-callout: none) {
+            .input-container {
+                padding-bottom: calc(clamp(1rem, 5vw, 2rem) + env(safe-area-inset-bottom));
+            }
+
+            .chat-messages {
+                -webkit-overflow-scrolling: touch;
+            }
+
+            #user-input {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
         }
 
     </style>
