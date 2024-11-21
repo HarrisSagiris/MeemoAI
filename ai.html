@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="MeemoAI">
@@ -27,6 +27,8 @@
             --gradient: linear-gradient(135deg, #000000, #b8b8b8);
             --glass: rgba(29, 29, 31, 0.95);
             --shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            --safe-area-inset-bottom: env(safe-area-inset-bottom);
+            --safe-area-inset-top: env(safe-area-inset-top);
             height: 100%;
         }
 
@@ -37,11 +39,15 @@
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
             -webkit-font-smoothing: antialiased;
             -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
         html {
             height: -webkit-fill-available;
             height: 100%;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
         }
 
         body {
@@ -54,6 +60,7 @@
             position: fixed;
             width: 100%;
             overscroll-behavior-y: none;
+            -webkit-overflow-scrolling: touch;
         }
 
         .chat-container {
@@ -68,7 +75,7 @@
         }
 
         .chat-header {
-            padding: env(safe-area-inset-top) 1rem 1rem 1rem;
+            padding: var(--safe-area-inset-top) 1rem 1rem 1rem;
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
@@ -193,8 +200,9 @@
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
             overscroll-behavior: contain;
-            padding-bottom: env(safe-area-inset-bottom);
+            padding-bottom: calc(var(--safe-area-inset-bottom) + 60px);
             will-change: transform;
+            position: relative;
         }
 
         .message {
@@ -247,12 +255,13 @@
             padding: 0.75rem;
             background: var(--bg-dark);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: calc(env(safe-area-inset-bottom) + 0.75rem);
-            position: sticky;
+            padding-bottom: calc(var(--safe-area-inset-bottom) + 0.75rem);
+            position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             z-index: 1000;
+            transform: translateZ(0);
         }
 
         .input-wrapper {
@@ -457,6 +466,10 @@
             .chat-header h1 {
                 font-size: 1.1rem;
             }
+
+            .chat-messages {
+                padding-bottom: calc(var(--safe-area-inset-bottom) + 120px);
+            }
         }
 
         /* Custom Scrollbar */
@@ -484,15 +497,17 @@
             }
             
             .input-container {
-                position: sticky;
+                position: fixed;
                 bottom: 0;
                 left: 0;
                 right: 0;
                 background: var(--bg-dark);
+                transform: translateZ(0);
             }
 
             .chat-messages {
-                padding-bottom: calc(60px + env(safe-area-inset-bottom));
+                padding-bottom: calc(var(--safe-area-inset-bottom) + 120px);
+                -webkit-overflow-scrolling: touch;
             }
         }
 
@@ -559,26 +574,38 @@
         let API_URL = 'https://api-inference.huggingface.co/models/Qwen/Qwen2.5-Coder-32B-Instruct';
         let currentController = null;
         let isKeyboardVisible = false;
+        let lastWindowHeight = window.innerHeight;
 
         // Handle viewport height for mobile browsers
         function setViewportHeight() {
-            let vh = window.innerHeight * 0.01;
+            const vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
+            
+            // Detect keyboard visibility
+            if (window.innerHeight < lastWindowHeight) {
+                document.body.classList.add('keyboard-visible');
+            } else {
+                document.body.classList.remove('keyboard-visible');
+            }
+            lastWindowHeight = window.innerHeight;
         }
 
-        setViewportHeight();
         window.addEventListener('resize', () => {
             setViewportHeight();
+            setTimeout(() => {
+                window.scrollTo(0, 0);
+                document.body.scrollTop = 0;
+            }, 100);
         });
+
+        window.addEventListener('orientationchange', () => {
+            setTimeout(setViewportHeight, 100);
+        });
+
+        setViewportHeight();
 
         // Prevent bounce effect on iOS
         document.addEventListener('touchmove', function(e) {
-            if (e.target.closest('.chat-messages')) return;
-            e.preventDefault();
-        }, { passive: false });
-
-        // Prevent rubber-band scrolling on iOS
-        document.body.addEventListener('touchstart', function(e) {
             if (e.target.closest('.chat-messages')) return;
             e.preventDefault();
         }, { passive: false });
@@ -589,18 +616,15 @@
                 const newKeyboardVisible = window.visualViewport.height < window.innerHeight;
                 if (newKeyboardVisible !== isKeyboardVisible) {
                     isKeyboardVisible = newKeyboardVisible;
-                    if (isKeyboardVisible) {
-                        document.body.style.height = `${window.visualViewport.height}px`;
-                        document.documentElement.style.height = `${window.visualViewport.height}px`;
-                    } else {
-                        document.body.style.height = '100%';
-                        document.documentElement.style.height = '100%';
-                    }
+                    document.body.style.height = `${window.visualViewport.height}px`;
+                    document.documentElement.style.height = `${window.visualViewport.height}px`;
+                    
+                    // Scroll chat to bottom when keyboard appears
+                    const chatMessages = document.getElementById('chat-messages');
+                    setTimeout(() => {
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }, 100);
                 }
-                
-                // Scroll chat to bottom when keyboard appears
-                const chatMessages = document.getElementById('chat-messages');
-                chatMessages.scrollTop = chatMessages.scrollHeight;
             });
         }
 
@@ -727,11 +751,7 @@
             userInput.style.height = 'auto';
             
             // Blur input to hide keyboard on mobile
-            if (window.innerWidth <= 768) {
-                userInput.blur();
-            } else {
-                userInput.focus();
-            }
+            userInput.blur();
 
             document.querySelector('.send-button').style.display = 'none';
             document.querySelector('.stop-button').style.display = 'flex';
