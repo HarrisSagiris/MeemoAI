@@ -176,6 +176,7 @@
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
             overscroll-behavior: contain;
+            padding-bottom: 60px; /* Add padding to prevent messages from being hidden behind keyboard */
         }
 
         .message {
@@ -229,8 +230,11 @@
             background: var(--bg-dark);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-bottom: calc(env(safe-area-inset-bottom) + 0.75rem);
-            position: sticky;
+            position: fixed;
             bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
         }
 
         .input-wrapper {
@@ -242,6 +246,7 @@
             padding: 0.5rem;
             transition: all 0.3s ease;
             margin: 0 auto;
+            position: relative;
         }
 
         .input-wrapper:focus-within {
@@ -262,6 +267,8 @@
             max-height: 120px;
             line-height: 1.5;
             -webkit-appearance: none;
+            position: relative;
+            z-index: 1;
         }
 
         .send-button, .stop-button {
@@ -277,6 +284,8 @@
             transition: all 0.3s ease;
             background: transparent;
             touch-action: manipulation;
+            position: relative;
+            z-index: 2;
         }
 
         .send-button {
@@ -433,6 +442,17 @@
                 left: 0;
                 right: 0;
             }
+
+            /* Fix for iOS keyboard issues */
+            .chat-messages {
+                padding-bottom: 60px;
+            }
+
+            body {
+                position: fixed;
+                width: 100%;
+                height: 100%;
+            }
         }
     </style>
 </head>
@@ -489,6 +509,7 @@
         const HF_API_KEY = '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';
         let API_URL = 'https://api-inference.huggingface.co/models/Qwen/Qwen2.5-Coder-32B-Instruct';
         let currentController = null;
+        let isKeyboardVisible = false;
 
         // Prevent bounce effect on iOS
         document.addEventListener('touchmove', function(e) {
@@ -501,6 +522,19 @@
             if (e.target.closest('.chat-messages')) return;
             e.preventDefault();
         }, { passive: false });
+
+        // Handle keyboard visibility
+        window.addEventListener('resize', () => {
+            const newKeyboardVisible = window.visualViewport.height < window.innerHeight;
+            if (newKeyboardVisible !== isKeyboardVisible) {
+                isKeyboardVisible = newKeyboardVisible;
+                if (isKeyboardVisible) {
+                    document.body.style.height = window.visualViewport.height + 'px';
+                } else {
+                    document.body.style.height = '100%';
+                }
+            }
+        });
 
         function toggleModelDropdown() {
             const button = document.querySelector('.model-selector-button');
@@ -665,6 +699,8 @@
             setTimeout(() => {
                 window.scrollTo(0, 0);
                 document.body.scrollTop = 0;
+                const chatMessages = document.getElementById('chat-messages');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
             }, 100);
         });
 
