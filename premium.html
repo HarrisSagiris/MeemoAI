@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="MesemoAI">
+    <meta name="theme-color" content="#000000">
     <link rel="apple-touch-icon" href="/icon.png">
     <link rel="apple-touch-icon" sizes="152x152" href="/icon-152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
@@ -13,83 +14,86 @@
     <link rel="icon" type="image/png" href="/meemoai.jpg">
     <title>MeemoAI - Premium Plans</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #7C3AED;
-            --primary-light: #8B5CF6;
-            --transition: all 0.3s ease;
-            --shadow: 0 10px 30px rgba(124, 58, 237, 0.1);
-            --bg-dark: #1A1A1A;
-            --bg-card: #2D2D2D;
+            --primary: #FFFFFF;
+            --primary-light: #FFFFFF;
+            --bg-dark: #000000;
             --text-light: #FFFFFF;
-            --text-gray: #A1A1AA;
+            --text-gray: #CCCCCC;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-hover: rgba(255, 255, 255, 0.08);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
         }
 
         body {
             background: var(--bg-dark);
             color: var(--text-light);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            overflow-x: hidden;
+            line-height: 1.6;
         }
 
         .navbar {
-            padding: 1.5rem 2rem;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            background: var(--bg-card);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
         .logo {
-            font-size: 1.75rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-light);
             text-decoration: none;
-            position: relative;
         }
 
         .premium-container {
             max-width: 1200px;
-            width: 95%;
-            margin: 2rem auto;
-            text-align: center;
-            padding: 0 1rem;
+            margin: 120px auto 40px;
+            padding: 0 2rem;
         }
 
         .premium-header {
-            margin-bottom: 2rem;
+            text-align: center;
+            margin-bottom: 4rem;
         }
 
         .premium-header h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
+            font-size: 3.5rem;
+            font-weight: 700;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            background: linear-gradient(135deg, #fff, #ccc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .premium-header p {
+            font-size: 1.2rem;
             color: var(--text-gray);
-            font-size: 1.1rem;
-            line-height: 1.5;
         }
 
         .pricing-cards {
@@ -100,35 +104,33 @@
         }
 
         .pricing-card {
-            background: var(--bg-card);
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: var(--shadow);
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: var(--transition);
         }
 
         .pricing-card:hover {
+            background: var(--card-hover);
             transform: translateY(-5px);
-            border-color: var(--primary);
-        }
-
-        .pricing-card.featured {
-            background: rgba(124, 58, 237, 0.1);
-            border-color: var(--primary);
         }
 
         .plan-name {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 1.8rem;
+            font-weight: 600;
             margin-bottom: 1rem;
         }
 
         .price {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .price span {
+            font-size: 1.2rem;
+            color: var(--text-gray);
         }
 
         .features {
@@ -138,44 +140,44 @@
 
         .features li {
             margin: 1rem 0;
+            color: var(--text-gray);
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            color: var(--text-gray);
+            gap: 0.8rem;
         }
 
         .features li i {
-            color: var(--primary);
-        }
-
-        .subscribe-btn {
-            padding: 1rem 2rem;
-            border-radius: 0.5rem;
-            border: none;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            width: 100%;
-            background: var(--primary);
             color: var(--text-light);
         }
 
-        .subscribe-btn:hover {
-            background: var(--primary-light);
-            transform: scale(1.02);
+        .subscribe-btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 12px;
+            border: none;
+            background: var(--text-light);
+            color: var(--bg-dark);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .subscribe-btn:active {
-            transform: scale(0.98);
+        .subscribe-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
         }
 
         @media (max-width: 768px) {
             .premium-header h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
-
+            
+            .premium-container {
+                padding: 0 1rem;
+                margin-top: 100px;
+            }
+            
             .pricing-cards {
                 grid-template-columns: 1fr;
             }
@@ -184,51 +186,50 @@
 </head>
 <body>
     <nav class="navbar">
-        <a href="/" class="logo">MeemoAI</a>
+        <div class="nav-content">
+            <a href="/" class="logo">MeemoAI</a>
+            <div class="nav-links">
+                <a href="ai.html">Academic AI</a>
+                <a href="imagegen.html">Image Creation</a>
+                <a href="faq.html">Frequently asked questions</a>
+                <a href="premium.html">Premium</a>
+            </div>
+        </div>
     </nav>
 
     <div class="premium-container">
         <div class="premium-header">
-            <h1>Upgrade to Premium</h1>
-            <p>Unlock the full potential of MeemoAI with our premium features</p>
+            <h1>Choose Your Plan</h1>
+            <p>Unlock the full potential of AI with our premium features</p>
         </div>
 
         <div class="pricing-cards">
-            <div class="pricing-card standard">
-                <div class="plan-name">Standard</div>
-                <div class="price">$9.99<span style="font-size: 1rem">/month</span></div>
+            <div class="pricing-card">
+                <div class="plan-name">Enterprise</div>
+                <div class="price">$4.99<span>/month</span></div>
                 <ul class="features">
-                    <li><i class="fas fa-check"></i> Basic AI Chat</li>
-                    <li><i class="fas fa-check"></i> Unlimited Requests on our AI</li>
-                    <li><i class="fas fa-check"></i> Standard Support</li>
-                    <li><i class="fas fa-check"></i> Basic Templates</li>
+                    <li><i class="fas fa-check"></i>Advanced AI Chat</li>
+                    <li><i class="fas fa-check"></i>Unlimited Conversations</li>
+                    <li><i class="fas fa-check"></i>Basic Templates</li>
+                    <li><i class="fas fa-check"></i>Email Support</li>
                 </ul>
-                <button class="subscribe-btn">Get Started</button>
+                <a href="https://buy.stripe.com/fZe3d12pH0j63E46op" class="subscribe-btn">Get Essential</a>
             </div>
 
-            <div class="pricing-card featured">
-                <div class="plan-name">Premium</div>
-                <div class="price">$19.99<span style="font-size: 1rem">/month</span></div>
+            <div class="pricing-card">
+                <div class="plan-name">Pro (business)</div>
+                <div class="price">$20.00<span>/month</span></div>
                 <ul class="features">
-                    <li><i class="fas fa-check"></i> Advanced AI Chat</li>
-                    <li><i class="fas fa-check"></i> Unlimited Requests</li>
-                    <li><i class="fas fa-check"></i> Priority Support</li>
-                    <li><i class="fas fa-check"></i> Premium Templates</li>
-                    <li><i class="fas fa-check"></i> Custom AI Training</li>
-                    <li><i class="fas fa-check"></i> API Access</li>
+                    <li><i class="fas fa-check"></i>Everything in Essential</li>
+                    <li><i class="fas fa-check"></i>Priority Support</li>
+                    <li><i class="fas fa-check"></i>Custom AI Training</li>
+                    <li><i class="fas fa-check"></i>API Access</li>
+                    <li><i class="fas fa-check"></i>Advanced Analytics</li>
+                    <li><i class="fas fa-check"></i>Premium Templates</li>
                 </ul>
-                <button class="subscribe-btn">Upgrade Now</button>
+                <a href="https://buy.stripe.com/bIY3d1e8p4zmdeE4gi" class="subscribe-btn">Get Pro</a>
             </div>
         </div>
     </div>
-
-    <script>
-        document.querySelectorAll('.subscribe-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                // Add payment processing logic here
-                alert('Payment processing will be implemented soon!');
-            });
-        });
-    </script>
 </body>
 </html>

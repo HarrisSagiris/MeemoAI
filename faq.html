@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="MeemoAI">
+    <meta name="theme-color" content="#000000">
     <link rel="apple-touch-icon" href="/icon.png">
     <link rel="apple-touch-icon" sizes="152x152" href="/icon-152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
@@ -13,26 +14,30 @@
     <link rel="icon" type="image/png" href="/meemoai.jpg">
     <title>MeemoAI - FAQ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #7C3AED;
-            --primary-light: #8B5CF6;
-            --transition: all 0.3s ease;
-            --shadow: 0 10px 30px rgba(124, 58, 237, 0.1);
+            --primary: #FFFFFF;
+            --primary-light: #FFFFFF;
+            --bg-dark: #000000;
+            --text-light: #FFFFFF;
+            --text-gray: #CCCCCC;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-hover: rgba(255, 255, 255, 0.08);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
         }
 
         body {
-            background: #FAFAFA;
-            color: #1A1A1A;
+            background: var(--bg-dark);
+            color: var(--text-light);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -48,21 +53,21 @@
             text-align: center;
             margin-bottom: 4rem;
             padding: 4rem 2rem;
-            background: linear-gradient(180deg, rgba(124, 58, 237, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .header h1 {
             font-size: 3.5rem;
-            font-weight: 800;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 1.5rem;
         }
 
         .header p {
             font-size: 1.2rem;
-            color: #4B5563;
+            color: var(--text-gray);
             margin-bottom: 2rem;
         }
 
@@ -74,19 +79,18 @@
         .search-input {
             width: 100%;
             padding: 1rem 1.5rem;
-            border: 1px solid #E5E7EB;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 0.5rem;
             font-size: 1rem;
-            transition: var(--transition);
-            background: white;
-            color: #1A1A1A;
-            box-shadow: var(--shadow);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            transition: all 0.3s ease;
         }
 
         .search-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .faq-section {
@@ -99,32 +103,30 @@
         }
 
         .faq-category h2 {
-            color: #1A1A1A;
+            color: var(--text-light);
             margin-bottom: 1.5rem;
             font-size: 1.8rem;
-            font-weight: 700;
+            font-weight: 600;
         }
 
         .faq-item {
-            background: white;
+            background: var(--card-bg);
             border-radius: 0.5rem;
             padding: 1.5rem;
             margin-bottom: 1rem;
-            box-shadow: var(--shadow);
             cursor: pointer;
-            transition: var(--transition);
-            border: 1px solid #E5E7EB;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .faq-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(124, 58, 237, 0.1);
+            background: var(--card-hover);
         }
 
         .faq-question {
             font-size: 1.1rem;
-            font-weight: 600;
-            color: #1A1A1A;
+            font-weight: 500;
+            color: var(--text-light);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -133,9 +135,9 @@
         .faq-answer {
             margin-top: 1rem;
             display: none;
-            color: #4B5563;
+            color: var(--text-gray);
             padding-top: 1rem;
-            border-top: 1px solid #E5E7EB;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             line-height: 1.6;
         }
 
@@ -148,17 +150,16 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: #F3F4F6;
-            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.05);
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-light);
+            background: rgba(255, 255, 255, 0.3);
         }
 
         @media (max-width: 768px) {
@@ -168,6 +169,14 @@
 
             .container {
                 padding: 1rem;
+            }
+
+            .faq-question {
+                font-size: 1rem;
+            }
+
+            .faq-answer {
+                font-size: 0.9rem;
             }
         }
     </style>

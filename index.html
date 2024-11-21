@@ -6,438 +6,606 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="MesemoAI">
-    <meta name="theme-color" content="#1A1A1A">
+    <meta name="theme-color" content="#000000">
     <link rel="apple-touch-icon" href="/icon.png">
     <link rel="apple-touch-icon" sizes="152x152" href="/icon-152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
     <link rel="apple-touch-icon" sizes="167x167" href="/icon-167.png">
     <link rel="icon" type="image/png" href="/meemoai.jpg">
-    <title>MeemoAI - Multiple AI Tools</title>
+    <title>MeemoAI - Your Creative AI Partner</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://js.stripe.com/v3/"></script>
     <style>
         :root {
-            --primary: #7C3AED;
-            --primary-light: #8B5CF6;
-            --transition: all 0.3s ease;
-            --shadow: 0 10px 30px rgba(124, 58, 237, 0.1);
-            --bg-dark: #1A1A1A;
-            --bg-card: #2D2D2D;
+            --primary: #FFFFFF;
+            --primary-light: #FFFFFF;
+            --bg-dark: #000000;
             --text-light: #FFFFFF;
-            --text-gray: #A1A1AA;
-            --vh: 1vh;
+            --text-gray: #CCCCCC;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-hover: rgba(255, 255, 255, 0.08);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
-        }
-
-        html {
-            font-size: 16px;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
             scroll-behavior: smooth;
-            height: -webkit-fill-available;
         }
 
         body {
             background: var(--bg-dark);
             color: var(--text-light);
             min-height: 100vh;
-            min-height: -webkit-fill-available;
-            display: flex;
-            flex-direction: column;
             overflow-x: hidden;
-            position: fixed;
-            width: 100%;
-            -webkit-overflow-scrolling: touch;
+            line-height: 1.6;
         }
 
         .navbar {
-            padding: clamp(1rem, 3vw, 1.5rem) clamp(1rem, 5vw, 2rem);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .navbar.hidden {
+            transform: translateY(-100%);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            background: var(--bg-card);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
         }
 
         .logo {
-            font-size: clamp(1.5rem, 4vw, 1.75rem);
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-decoration: none;
-            position: relative;
-            padding: 0.5rem;
         }
 
-        .logo::after {
-            content: '|';
-            position: absolute;
-            right: -8px;
-            animation: blink 1s infinite;
-            color: var(--primary-light);
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+        .logo:hover {
+            transform: scale(1.05);
         }
 
         .nav-links {
             display: flex;
-            gap: clamp(1rem, 3vw, 2.5rem);
+            gap: 2rem;
         }
 
         .nav-links a {
             color: var(--text-light);
             text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-            padding: 0.75rem 1rem;
-            border-radius: 0.75rem;
-            white-space: nowrap;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-
-        .nav-links a i {
-            margin-right: 0.5rem;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-light);
-            background: rgba(124, 58, 237, 0.2);
-        }
-
-        .nav-links a:active {
-            transform: scale(0.95);
-        }
-
-        .hero {
-            padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 2rem);
-            text-align: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            background: linear-gradient(180deg, rgba(124, 58, 237, 0.1) 0%, rgba(26, 26, 26, 0) 100%);
-        }
-
-        .hero h1 {
-            font-size: clamp(2rem, 6vw, 3.5rem);
-            font-weight: 800;
-            color: var(--text-light);
-            margin-bottom: clamp(1rem, 3vw, 1.5rem);
-            line-height: 1.2;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
             position: relative;
-            display: inline-block;
-            min-height: 3.5rem;
         }
 
-        .hero p {
-            font-size: clamp(1rem, 2.5vw, 1.35rem);
-            color: var(--text-gray);
-            max-width: 700px;
-            margin: 0 auto clamp(2rem, 5vw, 3rem);
-            line-height: 1.7;
-            padding: 0 clamp(0.5rem, 2vw, 1rem);
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
         }
 
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-            gap: clamp(1.5rem, 4vw, 2.5rem);
-            padding: clamp(1rem, 3vw, 2rem);
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-content {
             max-width: 1200px;
             margin: 0 auto;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: env(safe-area-inset-bottom);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            padding: 0 1rem;
         }
 
-        .feature-card {
-            background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1.5rem;
-            padding: clamp(1.5rem, 4vw, 2.5rem);
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            height: 100%;
-            touch-action: manipulation;
-        }
-
-        @supports (-webkit-touch-callout: none) {
-            .feature-card {
-                -webkit-transform: translateZ(0);
-            }
-        }
-
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-            border-color: var(--primary);
-        }
-
-        .feature-icon {
-            font-size: clamp(2rem, 5vw, 3rem);
+        .section h2 {
+            font-size: clamp(2rem, 5vw, 4.5rem);
+            font-weight: 700;
             margin-bottom: 1.5rem;
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
         }
 
-        .feature-title {
-            font-size: clamp(1.5rem, 4vw, 1.75rem);
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text-light);
+        .section.active h2 {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .feature-description {
+        .section p {
+            font-size: clamp(1rem, 3vw, 1.5rem);
             color: var(--text-gray);
-            line-height: 1.7;
-            margin-bottom: 2rem;
-            font-size: clamp(1rem, 2.5vw, 1.1rem);
-            flex-grow: 1;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease 0.2s;
+            padding: 0 1rem;
+        }
+
+        .section.active p {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .chat-window {
+            background: rgba(28, 28, 30, 0.95);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .chat-window.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .chat-window:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .feature-text {
+            text-align: center;
+            margin-top: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+            padding: 0 1rem;
+        }
+
+        .feature-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-text p {
+            color: var(--text-gray);
+            margin: 0.5rem 0;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+        }
+
+        .chat-header {
+            background: rgba(50, 50, 50, 0.95);
+            padding: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .control {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .control:hover {
+            transform: scale(1.1);
+        }
+
+        .control.red { background: #FF5F56; }
+        .control.yellow { background: #FFBD2E; }
+        .control.green { background: #27C93F; }
+
+        .chat-title {
+            margin-left: 1rem;
+            color: var(--text-gray);
+            font-size: 0.8rem;
+        }
+
+        .chat-messages {
+            padding: 1rem;
+        }
+
+        .message {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 0.8rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .message.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+            font-size: 0.8rem;
+        }
+
+        .user-avatar {
+            background: #147CE5;
+        }
+
+        .ai-avatar {
+            background: #333;
+        }
+
+        .message-content {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            width: 100%;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 12px;
+            font-family: monospace;
+            margin-top: 0.5rem;
+            overflow-x: auto;
+            font-size: 0.8rem;
+            white-space: pre-wrap;
         }
 
         .cta-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            background: var(--primary);
-            color: white;
-            padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 3vw, 2rem);
-            border-radius: 0.75rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: black;
+            padding: 0.8rem 2rem;
+            border-radius: 3rem;
             text-decoration: none;
             font-weight: 600;
-            transition: var(--transition);
-            border: none;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            display: inline-block;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
             cursor: pointer;
-            font-size: clamp(1rem, 2.5vw, 1.1rem);
-            width: 100%;
-            justify-content: center;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease 0.4s;
+        }
+
+        .section.active .cta-button {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .cta-button:hover {
-            background: var(--primary-light);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
-        }
-
-        .cta-button:active {
-            transform: translateY(1px);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.3);
         }
 
         .footer {
-            margin-top: auto;
-            padding: clamp(2rem, 5vw, 3rem) clamp(1rem, 3vw, 2rem);
-            background: var(--bg-card);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem 1rem;
             text-align: center;
             color: var(--text-gray);
-            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-            padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         @media (max-width: 768px) {
-            body {
-                height: 100vh;
-                height: calc(var(--vh, 1vh) * 100);
-                overflow-y: auto;
-            }
-
             .navbar {
+                padding: 0.8rem;
+            }
+            
+            .nav-content {
                 flex-direction: column;
                 gap: 1rem;
-                text-align: center;
-                padding: 1rem;
-                padding-top: env(safe-area-inset-top);
             }
 
             .nav-links {
                 flex-direction: column;
-                gap: 0.5rem;
+                gap: 1rem;
+                text-align: center;
                 width: 100%;
             }
 
             .nav-links a {
                 display: block;
-                padding: 1rem;
-                background: rgba(255, 255, 255, 0.05);
+                padding: 0.5rem;
             }
 
-            .feature-card {
-                text-align: center;
-                align-items: center;
+            .section {
+                padding: 4rem 1rem;
             }
 
-            .hero {
-                padding-top: calc(2rem + env(safe-area-inset-top));
-            }
-        }
-
-        @media (hover: none) {
-            .feature-card:hover {
-                transform: none;
-            }
-
-            .cta-button:hover {
-                transform: none;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation: none !important;
-                transition: none !important;
-            }
-        }
-
-        @supports (-webkit-touch-callout: none) {
             .features {
-                padding-bottom: 4rem;
+                padding: 1rem;
+                gap: 2rem;
+            }
+
+            .message-content {
+                font-size: 0.85rem;
+                padding: 0.8rem;
+            }
+
+            .code-block {
+                font-size: 0.75rem;
+                padding: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chat-window {
+                border-radius: 16px;
+            }
+
+            .message {
+                gap: 0.5rem;
+            }
+
+            .avatar {
+                width: 25px;
+                height: 25px;
+                font-size: 0.7rem;
+            }
+
+            .control {
+                width: 8px;
+                height: 8px;
             }
         }
     </style>
 </head>
 <body>
     <nav class="navbar">
-        <a href="/" class="logo">MeemoAI</a>
-        <div class="nav-links">
-            <a href="ai.html"><i class="fas fa-robot"></i> AI Chat</a>
-            <a href="immagegen.html"><i class="fas fa-palette"></i> Image Generation</a>
-            <a href="premium.html"><i class="fas fa-crown"></i> Premium</a>
-            <a href="faq.html"><i class="fas fa-question-circle"></i> FAQ</a>
+        <div class="nav-content">
+            <a href="/" class="logo">MeemoAI</a>
+            <div class="nav-links">
+                <a href="ai.html">Academic AI</a>
+                <a href="imagegen.html">Image Creation</a>
+                <a href="faq.html">Frequently asked questions</a>
+                <a href="premium.html">Premium</a>
+            </div>
         </div>
     </nav>
 
-    <section class="hero">
-        <h1 id="animated-title">Meet Meemo</h1>
-        <p>Unlock the power of artificial intelligence with MeemoAI Evo. From intelligent conversations to stunning image generation, we're here to transform your ideas into reality.</p>
+    <section class="section">
+        <div class="section-content">
+            <h2>Think Different with AI</h2>
+            <p>Experience intelligence that adapts to your needs. From complex calculations to creative endeavors, unlock your full potential.</p>
+            <a href="#features" class="cta-button">Explore Features</a>
+        </div>
     </section>
 
-    <section class="features">
-        <div class="feature-card">
-            <div class="feature-icon"><i class="fas fa-robot"></i></div>
-            <h2 class="feature-title">AI Chat Assistant</h2>
-            <p class="feature-description">Engage in meaningful conversations with our advanced AI. Get help with coding, writing, analysis, and more. Experience natural, context-aware responses.</p>
-            <a href="ai.html" class="cta-button">Start Chatting <i class="fas fa-arrow-right"></i></a>
+    <section class="features" id="features">
+        <div class="chat-window">
+            <div class="chat-header">
+                <div class="window-controls">
+                    <div class="control red"></div>
+                    <div class="control yellow"></div>
+                    <div class="control green"></div>
+                </div>
+                <div class="chat-title">Mathematics Assistant</div>
+            </div>
+            <div class="chat-messages">
+                <div class="message">
+                    <div class="avatar user-avatar">U</div>
+                    <div class="message-content">Can you help me solve this calculus problem? Find the derivative of f(x) = x³ + 2x² - 4x + 1</div>
+                </div>
+                <div class="message">
+                    <div class="avatar ai-avatar">M</div>
+                    <div class="message-content">
+                        I'll help you find the derivative step by step:
+                        
+                        1) For x³: The derivative is 3x²
+                        2) For 2x²: The derivative is 4x
+                        3) For -4x: The derivative is -4
+                        4) For +1: The derivative is 0
+                        
+                        Combining all terms:
+                        f'(x) = 3x² + 4x - 4
+                    </div>
+                </div>
+            </div>
+            <div class="feature-text">
+                <p>Advanced Mathematical Problem Solving</p>
+                <p>Step-by-step Solutions</p>
+                <p>Visual Math Explanations</p>
+            </div>
         </div>
 
-        <div class="feature-card">
-            <div class="feature-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
-            <h2 class="feature-title">Image Generation</h2>
-            <p class="feature-description">Transform your ideas into stunning visuals with our AI image generator. Create unique artwork, designs, and illustrations with just a text description.</p>
-            <a href="immagegen.html" class="cta-button">Generate Images <i class="fas fa-arrow-right"></i></a>
+        <div class="chat-window">
+            <div class="chat-header">
+                <div class="window-controls">
+                    <div class="control red"></div>
+                    <div class="control yellow"></div>
+                    <div class="control green"></div>
+                </div>
+                <div class="chat-title">Coding Assistant</div>
+            </div>
+            <div class="chat-messages">
+                <div class="message">
+                    <div class="avatar user-avatar">U</div>
+                    <div class="message-content">How do I create a function in Python to check if a number is prime?</div>
+                </div>
+                <div class="message">
+                    <div class="avatar ai-avatar">M</div>
+                    <div class="message-content">
+                        Here's a simple and efficient function to check if a number is prime:
+                        <div class="code-block">
+def is_prime(n):
+    if n < 2:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+# Example usage:
+print(is_prime(17))  # Output: True
+print(is_prime(4))   # Output: False</div>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-text">
+                <p>Intelligent Code Generation</p>
+                <p>Multiple Language Support</p>
+                <p>Real-time Code Optimization</p>
+            </div>
         </div>
 
-        <div class="feature-card">
-            <div class="feature-icon"><i class="fas fa-crown"></i></div>
-            <h2 class="feature-title">Premium Features</h2>
-            <p class="feature-description">Upgrade to premium for unlimited access, priority processing, advanced AI models, and exclusive tools. Experience AI without limits.</p>
-            <button onclick="startSubscription()" class="cta-button">Try Premium Free <i class="fas fa-crown"></i></button>
+        <div class="chat-window">
+            <div class="chat-header">
+                <div class="window-controls">
+                    <div class="control red"></div>
+                    <div class="control yellow"></div>
+                    <div class="control green"></div>
+                </div>
+                <div class="chat-title">Creative Writing Assistant</div>
+            </div>
+            <div class="chat-messages">
+                <div class="message">
+                    <div class="avatar user-avatar">U</div>
+                    <div class="message-content">Can you help me write a short story opening about a mysterious door in an old house?</div>
+                </div>
+                <div class="message">
+                    <div class="avatar ai-avatar">M</div>
+                    <div class="message-content">
+                        The brass doorknob felt unusually warm beneath Sarah's trembling fingers. In all her years of exploring the Victorian mansion's endless corridors, she had never noticed this particular door before. Its dark mahogany surface seemed to absorb the flickering candlelight, and the intricate carvings around its frame depicted scenes she couldn't quite make out, yet somehow felt familiar. As she turned the handle, a faint humming emanated from behind the door, growing louder with each degree of rotation. Sarah's heart pounded against her ribs, knowing that whatever lay beyond would change everything she thought she knew about her grandmother's house.
+                    </div>
+                </div>
+            </div>
+            <div class="feature-text">
+                <p>Creative Story Generation</p>
+                <p>Style and Tone Adaptation</p>
+                <p>Character Development</p>
+            </div>
         </div>
     </section>
 
     <footer class="footer">
-        <p>&copy; 2023 MeemoAI. All rights reserved. | Powering the future with artificial intelligence</p>
+        <p>&copy; 2023 MeemoAI - Empowering Your Future with AI</p>
     </footer>
 
     <script>
-        const stripe = Stripe('your_publishable_key');
+        let lastScrollY = window.scrollY;
+        const navbar = document.querySelector('.navbar');
 
-        // Handle mobile viewport height
-        function updateVH() {
-            let vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
-        }
-        
-        window.addEventListener('resize', updateVH);
-        window.addEventListener('orientationchange', updateVH);
-        updateVH();
-
-        async function startSubscription() {
-            try {
-                const response = await fetch('/create-checkout-session', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-                
-                const session = await response.json();
-                
-                const result = await stripe.redirectToCheckout({
-                    sessionId: session.id
-                });
-
-                if (result.error) {
-                    alert(result.error.message);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Something went wrong. Please try again later.');
-            }
-        }
-
-        // Typing animation for the title
-        const title = document.getElementById('animated-title');
-        const phrases = [
-            "Meet Meemo",
-            "Your AI Assistant",
-            "Let's Create",
-            "Chat with Meemo"
-        ];
-        let phraseIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        let typingSpeed = 80;
-        let pauseEnd = 1500;
-
-        function typeAnimation() {
-            const currentPhrase = phrases[phraseIndex];
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
             
-            if (isDeleting) {
-                title.textContent = currentPhrase.substring(0, charIndex - 1);
-                charIndex--;
+            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                navbar.classList.add('hidden');
             } else {
-                title.textContent = currentPhrase.substring(0, charIndex + 1);
-                charIndex++;
+                navbar.classList.remove('hidden');
             }
+            
+            lastScrollY = currentScrollY;
+        });
 
-            if (!isDeleting && charIndex === currentPhrase.length) {
-                setTimeout(() => isDeleting = true, pauseEnd);
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-            }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    
+                    if (entry.target.classList.contains('features')) {
+                        const chatWindows = entry.target.querySelectorAll('.chat-window');
+                        chatWindows.forEach((window, index) => {
+                            setTimeout(() => {
+                                window.classList.add('visible');
+                                
+                                const messages = window.querySelectorAll('.message');
+                                messages.forEach((message, msgIndex) => {
+                                    setTimeout(() => {
+                                        message.classList.add('visible');
+                                    }, msgIndex * 200);
+                                });
+                                
+                                const featureText = window.querySelector('.feature-text');
+                                setTimeout(() => {
+                                    featureText.classList.add('visible');
+                                }, messages.length * 200);
+                                
+                            }, index * 300);
+                        });
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
 
-            setTimeout(typeAnimation, typingSpeed);
-        }
+        document.querySelectorAll('.section, .features').forEach(section => {
+            observer.observe(section);
+        });
 
-        typeAnimation();
-
-        // Prevent bounce effect on iOS
-        document.body.addEventListener('touchmove', function(e) {
-            if (e.target.closest('.features')) return;
+        document.querySelector('.cta-button').addEventListener('click', (e) => {
             e.preventDefault();
-        }, { passive: false });
+            const featuresSection = document.querySelector('#features');
+            featuresSection.scrollIntoView({ behavior: 'smooth' });
+        });
     </script>
 </body>
 </html>
