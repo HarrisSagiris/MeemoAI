@@ -406,9 +406,24 @@
             }
         }
 
+        /* Show model selector on mobile */
         @media (max-width: 767px) {
             .model-selector-wrapper {
-                display: none;
+                display: block;
+            }
+            
+            .model-selector-button {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .model-dropdown {
+                right: -10px;
+                width: 240px;
+            }
+
+            .chat-header h1 {
+                font-size: 1.1rem;
             }
         }
 
@@ -494,6 +509,7 @@
                     placeholder="Message MeemoAI..."
                     rows="1"
                     autofocus
+                    inputmode="text"
                 ></textarea>
                 <button class="send-button" onclick="sendMessage()" title="Send message">
                     <i class="fas fa-paper-plane"></i>
@@ -524,14 +540,16 @@
         }, { passive: false });
 
         // Handle keyboard visibility
-        window.addEventListener('resize', () => {
+        window.visualViewport.addEventListener('resize', () => {
             const newKeyboardVisible = window.visualViewport.height < window.innerHeight;
             if (newKeyboardVisible !== isKeyboardVisible) {
                 isKeyboardVisible = newKeyboardVisible;
                 if (isKeyboardVisible) {
                     document.body.style.height = window.visualViewport.height + 'px';
+                    document.documentElement.style.height = window.visualViewport.height + 'px';
                 } else {
                     document.body.style.height = '100%';
+                    document.documentElement.style.height = '100%';
                 }
             }
         });
@@ -701,7 +719,7 @@
                 document.body.scrollTop = 0;
                 const chatMessages = document.getElementById('chat-messages');
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 100);
+            }, 300);
         });
 
         // Prevent zoom on double tap for iOS
