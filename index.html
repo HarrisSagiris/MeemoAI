@@ -53,12 +53,13 @@
             top: 0;
             width: 100%;
             z-index: 1000;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .navbar.hidden {
-            transform: translateY(-100%);
+            transform: translateY(-100%) scale(0.98);
+            opacity: 0;
         }
 
         .nav-content {
@@ -74,14 +75,16 @@
             font-weight: 700;
             color: var(--text-light);
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             background: linear-gradient(90deg, var(--primary), var(--primary-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            position: relative;
         }
 
         .logo:hover {
-            transform: scale(1.05);
+            transform: scale(1.1) translateY(-2px);
+            filter: brightness(1.2);
         }
 
         .nav-links {
@@ -95,40 +98,71 @@
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
         }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
 
         .nexorq-button {
             background: rgba(255, 255, 255, 0.1);
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: var(--text-light);
             text-decoration: none;
             font-size: 0.8rem;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             margin-left: 1rem;
+            backdrop-filter: blur(10px);
         }
 
         .nexorq-button:hover {
             background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: 2rem;
+        }
+        .register-button {
+            background: #000000;
+            color: #FFFFFF;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .register-button:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+            filter: brightness(1.1);
+        }
+
+        .username-display {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            display: inline-block;
         }
 
         .section {
@@ -138,15 +172,15 @@
             justify-content: center;
             padding: 6rem 1rem;
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(50px) scale(0.95);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
         }
 
         .section.active {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         .section-content {
@@ -167,13 +201,13 @@
             -webkit-text-fill-color: transparent;
             line-height: 1.2;
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s ease;
+            transform: translateY(30px) scale(0.95);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .section.active h2 {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         .section p {
@@ -183,8 +217,8 @@
             margin: 0 auto 3rem;
             line-height: 1.6;
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s ease 0.2s;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
             padding: 0 1rem;
         }
 
@@ -208,20 +242,24 @@
             overflow: hidden;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transform: translateY(50px);
+            transform: translateY(50px) scale(0.95);
             opacity: 0;
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
             width: 100%;
             max-width: 100%;
+            perspective: 1000px;
+            position: sticky;
+            top: 100px;
+            margin-bottom: 100vh;
         }
 
         .chat-window.visible {
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
             opacity: 1;
         }
 
         .chat-window:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.02) rotateX(2deg);
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
         }
 
@@ -230,8 +268,12 @@
             margin-top: 2rem;
             opacity: 0;
             transform: translateY(20px);
-            transition: all 0.6s ease;
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             padding: 0 1rem;
+            position: absolute;
+            bottom: -80px;
+            left: 0;
+            right: 0;
         }
 
         .feature-text.visible {
@@ -243,6 +285,12 @@
             color: var(--text-gray);
             margin: 0.5rem 0;
             font-size: clamp(0.9rem, 2vw, 1.1rem);
+            transition: all 0.3s ease;
+        }
+
+        .feature-text p:hover {
+            color: var(--text-light);
+            transform: translateX(5px);
         }
 
         .chat-header {
@@ -252,6 +300,11 @@
             align-items: center;
             gap: 0.5rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .chat-header:hover {
+            background: rgba(60, 60, 60, 0.95);
         }
 
         .window-controls {
@@ -260,14 +313,16 @@
         }
 
         .control {
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
         }
 
         .control:hover {
-            transform: scale(1.1);
+            transform: scale(1.2);
+            filter: brightness(1.2);
         }
 
         .control.red { background: #FF5F56; }
@@ -277,92 +332,135 @@
         .chat-title {
             margin-left: 1rem;
             color: var(--text-gray);
-            font-size: 0.8rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .chat-title:hover {
+            color: var(--text-light);
         }
 
         .chat-messages {
-            padding: 1rem;
+            padding: 1.5rem;
         }
 
         .message {
             margin-bottom: 1.5rem;
             display: flex;
-            gap: 0.8rem;
+            gap: 1rem;
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease;
+            transform: translateX(-20px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .message.visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateX(0);
         }
 
         .avatar {
-            width: 30px;
-            height: 30px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
             flex-shrink: 0;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+        }
+
+        .avatar:hover {
+            transform: scale(1.15) rotate(5deg);
         }
 
         .user-avatar {
-            background: #147CE5;
+            background: linear-gradient(135deg, #147CE5, #0E5CAD);
         }
 
         .ai-avatar {
-            background: #333;
+            background: linear-gradient(135deg, #333, #222);
         }
 
         .message-content {
             background: rgba(255, 255, 255, 0.05);
-            padding: 1rem;
+            padding: 1.2rem;
             border-radius: 16px;
-            font-size: 0.9rem;
-            line-height: 1.5;
+            font-size: 0.95rem;
+            line-height: 1.6;
             width: 100%;
+            transition: all 0.3s ease;
+            transform-origin: left center;
+        }
+
+        .message-content:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: scale(1.02);
         }
 
         .code-block {
             background: rgba(0, 0, 0, 0.3);
-            padding: 1rem;
+            padding: 1.2rem;
             border-radius: 12px;
             font-family: monospace;
-            margin-top: 0.5rem;
+            margin-top: 0.8rem;
             overflow-x: auto;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             white-space: pre-wrap;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .code-block:hover {
+            background: rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
 
         .cta-button {
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: black;
-            padding: 0.8rem 2rem;
+            padding: 1rem 2.5rem;
             border-radius: 3rem;
             text-decoration: none;
             font-weight: 600;
             font-size: clamp(0.9rem, 2vw, 1.1rem);
             display: inline-block;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
             box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
             cursor: pointer;
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s ease 0.4s;
+            transform: translateY(20px) scale(0.95);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.3));
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
         }
 
         .section.active .cta-button {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         .cta-button:hover {
-            transform: translateY(-3px);
+            transform: translateY(-5px) scale(1.05);
             box-shadow: 0 15px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-button:hover::before {
+            transform: translateX(100%);
         }
 
         .footer {
@@ -372,6 +470,60 @@
             font-size: 0.9rem;
             background: rgba(0, 0, 0, 0.3);
             border-top: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .footer:hover {
+            background: rgba(0, 0, 0, 0.4);
+            color: var(--text-light);
+        }
+
+        .product-intro {
+            min-height: 300vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intro-item {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 2rem;
+            position: sticky;
+            top: 0;
+        }
+
+        .intro-item h3 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: left;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .intro-item p {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: var(--text-gray);
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+            text-align: left;
+            max-width: 800px;
+            margin: 2rem auto 0;
+            line-height: 1.4;
+        }
+
+        .intro-item.visible h3,
+        .intro-item.visible p {
+            opacity: 1;
+            transform: translateX(0);
         }
 
         @media (max-width: 768px) {
@@ -400,6 +552,11 @@
                 margin: 0.5rem 0;
             }
 
+            .auth-section {
+                margin: 1rem 0;
+                justify-content: center;
+            }
+
             .section {
                 padding: 8rem 1rem 4rem 1rem;
             }
@@ -418,6 +575,10 @@
                 font-size: 0.75rem;
                 padding: 0.8rem;
             }
+
+            .intro-item {
+                padding: 0 1rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -430,14 +591,14 @@
             }
 
             .avatar {
-                width: 25px;
-                height: 25px;
-                font-size: 0.7rem;
+                width: 30px;
+                height: 30px;
+                font-size: 0.8rem;
             }
 
             .control {
-                width: 8px;
-                height: 8px;
+                width: 10px;
+                height: 10px;
             }
         }
     </style>
@@ -451,7 +612,11 @@
                 <a href="imagegen.html">Image Creation</a>
                 <a href="faq.html">Frequently asked questions</a>
                 <a href="premium.html">Premium</a>
-                <a href="nexorq.html" class="nexorq-button">Nexorq</a>
+                <a href="nexorq.html" class="nexorq-button">About us (Nexor)</a>
+                <div class="auth-section">
+                    <a href="register.html" class="register-button">Register</a>
+                    <span class="username-display"></span>
+                </div>
             </div>
         </div>
     </nav>
@@ -459,7 +624,7 @@
     <section class="section">
         <div class="section-content">
             <h2>Think Different with AI</h2>
-            <p>Experience intelligence that adapts to your needs. From complex calculations to creative endeavors, unlock your full potential with MeemoAI, a Nexorq company.</p>
+            <p>Experience intelligence that adapts to your needs. From complex calculations to creative endeavors, unlock your full potential with MeemoAI, a Nexor company.</p>
             <a href="#features" class="cta-button">Explore Features</a>
         </div>
     </section>
@@ -570,6 +735,21 @@ print(is_prime(4))   # Output: False</div>
         </div>
     </section>
 
+    <section class="product-intro">
+        <div class="intro-item">
+            <h3>Supercharged Intelligence</h3>
+            <p>MeemoAI doesn't just respond - it understands context, learns from interactions, and adapts to your unique needs.</p>
+        </div>
+        <div class="intro-item">
+            <h3>Seamless Integration</h3>
+            <p>Whether you're a student, professional, or creative, MeemoAI integrates perfectly into your workflow.</p>
+        </div>
+        <div class="intro-item">
+            <h3>Privacy First</h3>
+            <p>Your conversations and data are encrypted end-to-end. We believe in providing intelligence without compromising privacy.</p>
+        </div>
+    </section>
+
     <footer class="footer">
         <p>&copy; 2023 MeemoAI - Empowering Your Future with AI</p>
     </footer>
@@ -577,6 +757,28 @@ print(is_prime(4))   # Output: False</div>
     <script>
         let lastScrollY = window.scrollY;
         const navbar = document.querySelector('.navbar');
+
+        // Check if user is logged in
+        function checkLoginStatus() {
+            const username = localStorage.getItem('username');
+            const registerButton = document.querySelector('.register-button');
+            const loginButton = document.querySelector('.login-button');
+            const usernameDisplay = document.querySelector('.username-display');
+            
+            if (username) {
+                registerButton.style.display = 'none';
+                loginButton.style.display = 'none';
+                usernameDisplay.style.display = 'block';
+                usernameDisplay.textContent = username;
+            } else {
+                registerButton.style.display = 'block';
+                loginButton.style.display = 'block';
+                usernameDisplay.style.display = 'none';
+            }
+        }
+
+        // Check login status on page load
+        window.addEventListener('load', checkLoginStatus);
 
         window.addEventListener('scroll', () => {
             const currentScrollY = window.scrollY;
@@ -605,23 +807,36 @@ print(is_prime(4))   # Output: False</div>
                                 messages.forEach((message, msgIndex) => {
                                     setTimeout(() => {
                                         message.classList.add('visible');
-                                    }, msgIndex * 200);
+                                    }, msgIndex * 300);
                                 });
                                 
                                 const featureText = window.querySelector('.feature-text');
                                 setTimeout(() => {
                                     featureText.classList.add('visible');
-                                }, messages.length * 200);
+                                }, messages.length * 300);
                                 
-                            }, index * 300);
+                            }, index * 400);
                         });
                     }
                 }
             });
         }, { threshold: 0.1 });
 
+        // Add observer for intro items
+        const introObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.5 });
+
         document.querySelectorAll('.section, .features').forEach(section => {
             observer.observe(section);
+        });
+
+        document.querySelectorAll('.intro-item').forEach(item => {
+            introObserver.observe(item);
         });
 
         document.querySelector('.cta-button').addEventListener('click', (e) => {

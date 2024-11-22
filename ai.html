@@ -200,9 +200,10 @@
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
             overscroll-behavior: contain;
-            padding-bottom: calc(var(--safe-area-inset-bottom) + 60px);
+            padding-bottom: calc(var(--safe-area-inset-bottom) + 120px); /* Increased padding to prevent content being hidden */
             will-change: transform;
             position: relative;
+            max-height: calc(100vh - 60px - var(--safe-area-inset-bottom)); /* Set max height accounting for header and input */
         }
 
         .message {
@@ -291,11 +292,12 @@
             font-family: inherit;
             resize: none;
             outline: none;
-            max-height: 120px;
+            max-height: 150px; /* Limit textarea height */
             line-height: 1.5;
             -webkit-appearance: none;
             position: relative;
             z-index: 1;
+            overflow-y: auto;
         }
 
         .send-button, .stop-button {
@@ -693,7 +695,7 @@
             
             // Smooth scroll with a slight delay for better UX
             setTimeout(() => {
-                messageDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                chatMessages.scrollTop = chatMessages.scrollHeight;
             }, 100);
             
             return messageDiv;
@@ -750,8 +752,8 @@
             userInput.value = '';
             userInput.style.height = 'auto';
             
-            // Blur input to hide keyboard on mobile
-            userInput.blur();
+            // Keep focus on input
+            userInput.focus();
 
             document.querySelector('.send-button').style.display = 'none';
             document.querySelector('.stop-button').style.display = 'flex';
@@ -780,6 +782,9 @@
                 const botResponse = data[0].generated_text.split('<|im_start|>assistant\n')[1].split('<|im_end|>')[0];
                 thinkingMessage.remove();
                 appendMessage('bot', botResponse);
+                
+                // Keep focus on input after response
+                userInput.focus();
             } catch (error) {
                 thinkingMessage.remove();
                 if (error.name === 'AbortError') {
@@ -788,6 +793,8 @@
                     appendMessage('bot', 'An error occurred. Please try again.');
                     console.error('Error:', error);
                 }
+                // Keep focus on input after error
+                userInput.focus();
             } finally {
                 currentController = null;
                 document.querySelector('.send-button').style.display = 'flex';
@@ -799,7 +806,12 @@
         
         userInput.addEventListener('input', function() {
             this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+            const newHeight = Math.min(this.scrollHeight, 150); // Limit height to 150px
+            this.style.height = newHeight + 'px';
+            
+            // Scroll chat messages when input grows
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         });
 
         userInput.addEventListener('keydown', function(e) {
@@ -809,14 +821,9 @@
             }
         });
 
-        // Better handling of iOS keyboard
-        userInput.addEventListener('focus', () => {
-            setTimeout(() => {
-                window.scrollTo(0, 0);
-                document.body.scrollTop = 0;
-                const chatMessages = document.getElementById('chat-messages');
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 300);
+        // Keep focus on input when clicking anywhere in chat
+        document.querySelector('.chat-container').addEventListener('click', () => {
+            userInput.focus();
         });
 
         // Prevent zoom on double tap for iOS

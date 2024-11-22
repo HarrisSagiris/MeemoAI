@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MesemoAI">
+    <meta name="theme-color" content="#000000">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="icon" type="image/png" href="/meemoai.jpg">
+    <title>MeemoAI - Sign In</title>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000;
+            --text: #ffffff;
+            --text-secondary: #86868b;
+            --primary: #0071e3;
+            --input-bg: #1c1c1e;
+            --border: #424245;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 380px;
+            padding: 2rem;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .auth-header h1 {
+            font-size: 1.8rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .auth-btn:hover {
+            opacity: 0.9;
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .auth-switch a {
+            color: var(--primary);
+            text-decoration: none;
+            margin-left: 0.3rem;
+        }
+
+        .error-message {
+            color: #ff453a;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .success-message {
+            color: #32d74b;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>Welcome to MeemoAI</h1>
+            <p id="auth-subtitle">Sign in to continue</p>
+        </div>
+
+        <form id="auth-form">
+            <div class="form-group">
+                <input type="email" id="email" required placeholder="Email">
+            </div>
+
+            <div class="form-group">
+                <input type="password" id="password" required placeholder="Password">
+            </div>
+
+            <button type="submit" class="auth-btn" id="auth-btn">Sign In</button>
+            <div class="error-message" id="error-message"></div>
+            <div class="success-message" id="success-message"></div>
+        </form>
+
+        <div class="auth-switch">
+            <span>Don't have an account?</span>
+            <a href="#" id="toggle-auth">Sign Up</a>
+        </div>
+    </div>
+
+    <script>
+        const authForm = document.getElementById('auth-form');
+        const authBtn = document.getElementById('auth-btn');
+        const authSubtitle = document.getElementById('auth-subtitle');
+        const toggleAuth = document.getElementById('toggle-auth');
+        const errorMessage = document.getElementById('error-message');
+        const successMessage = document.getElementById('success-message');
+
+        let isSignUp = false;
+
+        toggleAuth.addEventListener('click', (e) => {
+            e.preventDefault();
+            isSignUp = !isSignUp;
+            
+            authBtn.textContent = isSignUp ? 'Sign Up' : 'Sign In';
+            authSubtitle.textContent = isSignUp ? 'Create your account' : 'Sign in to continue';
+            toggleAuth.textContent = isSignUp ? 'Sign In' : 'Sign Up';
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+        });
+
+        authForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            authBtn.classList.add('loading');
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/auth', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email,
+                        password,
+                        action: isSignUp ? 'signup' : 'login'
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    successMessage.textContent = isSignUp ? 'Account created successfully!' : 'Welcome back!';
+                    successMessage.style.display = 'block';
+                    
+                    localStorage.setItem('token', data.token);
+                    
+                    setTimeout(() => {
+                        window.location.href = '/index.html';
+                    }, 1000);
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                errorMessage.textContent = error.message || 'An error occurred. Please try again.';
+                errorMessage.style.display = 'block';
+            } finally {
+                authBtn.classList.remove('loading');
+            }
+        });
+    </script>
+</body>
+</html>
