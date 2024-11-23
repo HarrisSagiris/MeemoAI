@@ -11,9 +11,14 @@ app.use(express.json());
 app.use(express.static('static')); // Changed from 'public' to 'static'
 
 // MongoDB connection
-mongoose.connect('mongodb+srv://appleidmusic960:Dataking8@tapsidecluster.oeofi.mongodb.net/', {
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://appleidmusic960:Dataking8@tapsidecluster.oeofi.mongodb.net/';
+mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
+}).then(() => {
+    console.log('Connected to MongoDB');
+}).catch(err => {
+    console.error('MongoDB connection error:', err);
 });
 
 // User Schema
@@ -28,7 +33,7 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 // JWT Secret
-const JWT_SECRET = 'your-secret-key';
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 // Authentication middleware
 const auth = async (req, res, next) => {
