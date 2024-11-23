@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 
 const app = express();
-
+//first version of the server deployed on vercel
 // Middleware
 app.use(express.json());
 app.use(express.static('static'));
