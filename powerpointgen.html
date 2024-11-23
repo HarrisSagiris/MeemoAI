@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1A1A1A">
+    <title>PowerPoint Generator - MeemoAI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7C3AED;
+            --primary-light: #8B5CF6;
+            --bg-dark: #1A1A1A;
+            --bg-card: #2D2D2D;
+            --text-light: #FFFFFF;
+            --text-gray: #A1A1AA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .input-section {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 8px;
+            padding: 1rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            resize: vertical;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: var(--primary-light);
+        }
+
+        #loading {
+            display: none;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        #download {
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI PowerPoint Generator</h1>
+            <p>Enter your topic and requirements below to generate a professional presentation</p>
+        </div>
+
+        <div class="input-section">
+            <textarea id="prompt" placeholder="Describe what you want in your presentation. For example:&#10;&#10;Create a presentation about Artificial Intelligence with:&#10;- Introduction to AI&#10;- Types of AI&#10;- Applications&#10;- Future implications&#10;- Include relevant images and charts"></textarea>
+            <button onclick="generatePresentation()">Generate PowerPoint</button>
+        </div>
+
+        <div id="loading">
+            <i class="fas fa-spinner fa-spin fa-2x"></i>
+            <p>Generating your presentation...</p>
+        </div>
+
+        <div id="download">
+            <button onclick="downloadPresentation()">
+                <i class="fas fa-download"></i> Download PowerPoint
+            </button>
+        </div>
+    </div>
+
+    <script>
+        async function generatePresentation() {
+            const prompt = document.getElementById('prompt').value;
+            if (!prompt) {
+                alert('Please enter a description for your presentation');
+                return;
+            }
+
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('download').style.display = 'none';
+
+            try {
+                // Using Hugging Face Inference API
+                const response = await fetch('https://api-inference.huggingface.co/models/microsoft/trocr-base-handwritten', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer YOUR_HUGGING_FACE_API_KEY',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        inputs: prompt,
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to generate presentation');
+                }
+
+                // Handle the response and create PowerPoint
+                // Note: This is a simplified version. You'll need to implement
+                // the actual PowerPoint generation logic based on the API response
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('download').style.display = 'block';
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while generating the presentation');
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        function downloadPresentation() {
+            // Implement the download functionality
+            // This would typically involve creating and downloading a .pptx file
+            alert('Download functionality to be implemented');
+        }
+    </script>
+</body>
+</html>

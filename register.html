@@ -13,12 +13,14 @@
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #000000;
+            --bg: #0a0a0a;
             --text: #ffffff;
-            --text-secondary: #86868b;
-            --primary: #0071e3;
-            --input-bg: #1c1c1e;
-            --border: #424245;
+            --text-secondary: #a0a0a0;
+            --primary: #007AFF;
+            --primary-dark: #0051a8;
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            --card-bg: rgba(255, 255, 255, 0.03);
         }
 
         * {
@@ -36,108 +38,173 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 1.5rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,122,255,0.1) 0%, rgba(0,0,0,0) 70%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
 
         .auth-container {
             width: 100%;
-            max-width: 380px;
-            padding: 2rem;
+            max-width: 420px;
+            padding: 2.5rem;
+            background: var(--card-bg);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4),
+                       0 0 100px rgba(0,122,255,0.1);
+            position: relative;
+            z-index: 1;
         }
 
         .auth-header {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
         }
 
         .auth-header h1 {
-            font-size: 1.8rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
+            font-size: 2.4rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            background: linear-gradient(135deg, #fff 0%, #007AFF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
         }
 
         .auth-header p {
             color: var(--text-secondary);
-            font-size: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
+            position: relative;
         }
 
         .form-group input {
             width: 100%;
-            padding: 0.8rem 1rem;
+            padding: 1.2rem;
             background: var(--input-bg);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 16px;
             color: var(--text);
-            font-size: 1rem;
-            transition: all 0.2s ease;
+            font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .form-group input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15);
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
         }
 
         .auth-btn {
             width: 100%;
-            padding: 0.8rem;
-            background: var(--primary);
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 500;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
         }
 
         .auth-btn:hover {
-            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+            background: linear-gradient(135deg, var(--primary) 20%, var(--primary-dark) 100%);
         }
 
         .auth-switch {
             text-align: center;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
 
         .auth-switch a {
             color: var(--primary);
             text-decoration: none;
-            margin-left: 0.3rem;
+            margin-left: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .auth-switch a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: var(--primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .auth-switch a:hover::after {
+            transform: scaleX(1);
         }
 
         .error-message {
-            color: #ff453a;
+            color: #ff3b30;
             text-align: center;
             margin-top: 1rem;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             display: none;
+            animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .success-message {
-            color: #32d74b;
+            color: #34c759;
             text-align: center;
             margin-top: 1rem;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             display: none;
+            animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .loading {
             opacity: 0.7;
             pointer-events: none;
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
     <div class="auth-container">
         <div class="auth-header">
-            <h1>Welcome to MeemoAI</h1>
+            <h1>MeemoAI</h1>
             <p id="auth-subtitle">Sign in to continue</p>
         </div>
 
@@ -208,14 +275,15 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                    successMessage.textContent = isSignUp ? 'Account created successfully!' : 'Welcome back!';
+                    successMessage.textContent = isSignUp ? 'Account created successfully!' : `Welcome back, ${email}!`;
                     successMessage.style.display = 'block';
                     
                     localStorage.setItem('token', data.token);
+                    localStorage.setItem('email', email);
                     
                     setTimeout(() => {
                         window.location.href = '/index.html';
-                    }, 1000);
+                    }, 1500);
                 } else {
                     throw new Error(data.message);
                 }

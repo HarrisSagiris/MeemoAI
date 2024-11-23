@@ -2,25 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Nexorq">
-    <meta name="theme-color" content="#000000">
-    <meta name="description" content="Nexor - Leading innovation in technology solutions and AI development. Experience MeemoAI, our revolutionary AI platform for chat, image generation and more.">
-    <meta name="keywords" content="Nexor, MeemoAI, AI chat, AI image generation, artificial intelligence, technology, innovation">
-    <meta property="og:title" content="Nexor - Advanced AI Solutions">
-    <meta property="og:description" content="Experience MeemoAI - Our revolutionary AI platform for chat, image generation and more. Pioneering the future of AI technology.">
-    <meta property="og:image" content="/nexorq-og.jpg">
-    <meta property="og:url" content="https://nexorq.com">
-    <link rel="apple-touch-icon" href="/icon.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/icon-152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="/icon-167.png">
-    <link rel="icon" type="image/png" href="/nexorq.jpg">
-    <link rel="manifest" href="/manifest.json">
-    <title>Nexor - Pioneering AI Solutions</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexor - AI Innovation</title>
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -29,7 +12,6 @@
             --bg-dark: #000000;
             --text-light: #FFFFFF;
             --text-gray: #CCCCCC;
-            --bg-card: rgba(0, 247, 255, 0.05);
         }
 
         * {
@@ -42,9 +24,7 @@
         body {
             background: var(--bg-dark);
             color: var(--text-light);
-            min-height: 100vh;
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
         .navbar {
@@ -52,12 +32,11 @@
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(20px);
             padding: 1rem 2rem;
             z-index: 1000;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-bottom: 1px solid rgba(0, 247, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .nav-content {
@@ -69,268 +48,148 @@
         }
 
         .logo {
-            color: var(--primary);
+            color: var(--text-light);
             text-decoration: none;
-            font-size: 1.8rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .logo::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-
-        .logo:hover::after {
-            transform: scaleX(1);
+            font-size: 1.5rem;
+            font-weight: 600;
         }
 
         .nav-links {
             display: flex;
-            gap: 2.5rem;
+            gap: 2rem;
+            align-items: center;
         }
 
         .nav-links a {
             color: var(--text-light);
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
-            font-weight: 500;
-        }
-
-        .nav-links a::before {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--primary);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
         }
 
         .nav-links a:hover {
-            color: var(--primary);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
 
-        .nav-links a:hover::before {
-            transform: scaleX(1);
+        .nexorq-button {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
         }
 
-        .section {
-            padding: 10rem 2rem 6rem;
-            text-align: center;
+        .nexorq-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 1rem;
             background: radial-gradient(circle at center, rgba(0, 247, 255, 0.1) 0%, transparent 70%);
         }
 
-        .section-content {
-            max-width: 900px;
-            margin: 0 auto;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s ease forwards;
+        .hero-content {
+            max-width: 800px;
+            text-align: center;
+            padding: 0 1rem;
         }
 
-        .section h2 {
-            font-size: 3.5rem;
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
             margin-bottom: 1.5rem;
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: gradientFlow 8s linear infinite;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .cta-button {
             display: inline-block;
-            background: linear-gradient(45deg, var(--primary), var(--primary-light));
+            background: var(--primary);
             color: var(--bg-dark);
-            padding: 1.2rem 3rem;
-            border-radius: 50px;
+            padding: 1rem 2rem;
+            border-radius: 30px;
             text-decoration: none;
-            font-weight: bold;
-            margin-top: 2rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 247, 255, 0.3);
+            font-weight: 600;
+            transition: all 0.4s ease;
         }
 
         .cta-button:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(0, 247, 255, 0.4);
-        }
-
-        .cta-button::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transform: rotate(45deg);
-            animation: shimmer 3s infinite;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 247, 255, 0.4);
         }
 
         .features {
             padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
         }
 
         .feature-card {
-            background: var(--bg-card);
-            padding: 2.5rem;
+            padding: 2rem;
             border-radius: 20px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(0, 247, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
             border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(0, 247, 255, 0.2);
         }
 
-        .stats-container {
-            padding: 6rem 2rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .stat-card {
-            background: var(--bg-card);
-            padding: 3rem;
-            border-radius: 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(0, 247, 255, 0.1);
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent, rgba(0, 247, 255, 0.1), transparent);
-            animation: pulse 2s infinite;
-        }
-
-        .stat-number {
-            font-size: 3.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            opacity: 0;
-            transform: translateY(20px);
+        .feature-card h3 {
             color: var(--primary);
-        }
-
-        .stat-number.visible {
-            animation: countUpAndGlow 2s ease-out forwards;
-        }
-
-        .stat-label {
-            color: var(--text-gray);
-            font-size: 1.2rem;
-            font-weight: 500;
+            margin-bottom: 1rem;
         }
 
         .footer {
-            background: rgba(0, 0, 0, 0.9);
-            padding: 3rem;
+            padding: 2rem;
             text-align: center;
-            margin-top: 4rem;
-            border-top: 1px solid rgba(0, 247, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .footer a {
             color: var(--primary);
             text-decoration: none;
-            margin: 0 1rem;
-            transition: color 0.3s ease;
-        }
-
-        .footer a:hover {
-            color: var(--primary-light);
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes gradientFlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 0.8; }
-            100% { opacity: 0.5; }
-        }
-
-        @keyframes countUpAndGlow {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-                text-shadow: none;
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-                text-shadow: 0 0 20px rgba(0, 247, 255, 0.5);
-            }
+            margin: 0 0.5rem;
         }
 
         @media (max-width: 768px) {
             .nav-content {
                 flex-direction: column;
-                gap: 1.5rem;
+                gap: 1rem;
             }
 
             .nav-links {
                 flex-direction: column;
-                align-items: center;
-                gap: 1.5rem;
+                width: 100%;
             }
 
-            .section {
+            .hero {
                 padding: 8rem 1rem 4rem;
-            }
-
-            .section h2 {
-                font-size: 2.5rem;
             }
         }
     </style>
@@ -340,93 +199,50 @@
         <div class="nav-content">
             <a href="/" class="logo">Nexor</a>
             <div class="nav-links">
-                <a href="ai.html">MeemoAI chat</a>
-                <a href="imagegen.html">Image Creation</a>
-                <a href="faq.html">Frequently asked questions</a>
+                <a href="ai.html">AI Chat</a>
+                <a href="imagegen.html">Create</a>
+                <a href="faq.html">FAQ</a>
                 <a href="premium.html">Premium</a>
-                <a href="nexorq.html" class="nexorq-button">Nexorq</a>
             </div>
         </div>
     </nav>
 
-    <section class="section">
-        <div class="section-content">
-            <h2>Think Different with AI</h2>
-            <p>Experience intelligence that adapts to your needs. From complex calculations to creative endeavors, unlock your full potential with MeemoAI, a Nexorq company.</p>
-            <a href="#features" class="cta-button">Explore Features</a>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>The Future of AI</h1>
+            <p>Experience a new era of artificial intelligence. Create, communicate, and innovate with our cutting-edge AI solutions.</p>
+            <a href="#features" class="cta-button">Get Started</a>
         </div>
     </section>
 
     <div class="features" id="features">
         <div class="feature-card">
-            <h3>AI Chat Assistant</h3>
-            <p>Engage with our advanced AI chat system. Get help with coding, writing, analysis and more through natural conversations.</p>
+            <h3>AI Assistant</h3>
+            <p>Intelligent conversations powered by advanced language models. Get instant help with any task.</p>
         </div>
         <div class="feature-card">
-            <h3>Image Generation</h3>
-            <p>Create stunning AI-generated images from text descriptions. Transform your ideas into visual masterpieces instantly.</p>
+            <h3>Image Creation</h3>
+            <p>Transform your ideas into stunning visuals with our AI-powered image generation tools.</p>
         </div>
         <div class="feature-card">
-            <h3>Premium Features</h3>
-            <p>Unlock advanced capabilities with MeemoAI Premium. Faster responses, priority access, and exclusive features.</p>
-        </div>
-    </div>
-
-    <div class="stats-container" id="stats">
-        <div class="stat-card">
-            <div class="stat-number">1M+</div>
-            <div class="stat-label">AI Conversations</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">500K+</div>
-            <div class="stat-label">Images Generated</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">50K+</div>
-            <div class="stat-label">Premium Users</div>
+            <h3>Premium Access</h3>
+            <p>Unlock unlimited potential with priority features and exclusive AI capabilities.</p>
         </div>
     </div>
 
     <footer class="footer">
-        <p>&copy; 2024 Nexor Technologies | <a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms of Service</a></p>
+        <p>&copy; 2024 Nexor | <a href="/privacy">Privacy</a> | <a href="/terms">Terms</a></p>
     </footer>
 
     <script>
-        // Enhanced scroll behavior with smooth transition
-        let lastScrollY = window.scrollY;
         const navbar = document.querySelector('.navbar');
+        let lastScroll = 0;
 
         window.addEventListener('scroll', () => {
             const currentScroll = window.scrollY;
-            navbar.style.transform = currentScroll > lastScrollY ? 
-                'translateY(-100%)' : 'translateY(0)';
-            lastScrollY = currentScroll;
+            navbar.style.transform = currentScroll > lastScroll ? 'translateY(-100%)' : 'translateY(0)';
+            lastScroll = currentScroll;
         });
-
-        // Improved stats animation with intersection observer
-        const animateStats = () => {
-            const stats = document.querySelectorAll('.stat-number');
-            stats.forEach(stat => {
-                stat.classList.add('visible');
-            });
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateStats();
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { 
-            threshold: 0.5,
-            rootMargin: '0px'
-        });
-
-        const statsContainer = document.querySelector('.stats-container');
-        if (statsContainer) {
-            observer.observe(statsContainer);
-        }
     </script>
 </body>
 </html>

@@ -5,11 +5,10 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static('static')); // Changed from 'public' to 'static'
 
 // MongoDB connection
 mongoose.connect('mongodb+srv://appleidmusic960:Dataking8@tapsidecluster.oeofi.mongodb.net/', {
@@ -22,7 +21,8 @@ const userSchema = new mongoose.Schema({
     email: { type: String, unique: true, required: true },
     password: String,
     messageCount: { type: Number, default: 0 },
-    currentModel: { type: String, default: 'Qwen/Qwen2.5-Coder-32B-Instruct' }
+    currentModel: { type: String, default: 'Qwen/Qwen2.5-Coder-32B-Instruct' },
+    lastLogin: { type: Date, default: Date.now }
 });
 
 const User = mongoose.model('User', userSchema);
@@ -41,6 +41,10 @@ const auth = async (req, res, next) => {
             throw new Error();
         }
         
+        // Update last login time
+        user.lastLogin = new Date();
+        await user.save();
+        
         req.user = user;
         next();
     } catch (error) {
@@ -50,12 +54,12 @@ const auth = async (req, res, next) => {
 
 // Serve register.html as the default page
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'register.html'));
+    res.sendFile(path.join(__dirname, 'static', 'register.html')); // Changed from 'public' to 'static'
 });
 
 // Serve index.html
 app.get('/index.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'static', 'index.html')); // Changed from 'public' to 'static'
 });
 
 // Routes
@@ -76,18 +80,22 @@ app.post('/api/auth', async (req, res) => {
             // Create new user
             const user = new User({
                 email,
-                password: hashedPassword
+                password: hashedPassword,
+                lastLogin: new Date()
             });
 
             await user.save();
 
-            // Generate JWT
-            const token = jwt.sign({ userId: user._id }, JWT_SECRET);
+            // Generate JWT with longer expiration
+            const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '30d' });
             res.json({ 
                 success: true, 
                 token,
                 user: {
-                    email: user.email
+                    email: user.email,
+                    messageCount: user.messageCount,
+                    currentModel: user.currentModel,
+                    lastLogin: user.lastLogin
                 }
             });
 
@@ -104,13 +112,20 @@ app.post('/api/auth', async (req, res) => {
                 return res.status(400).json({ success: false, message: 'Invalid credentials' });
             }
 
-            // Generate JWT
-            const token = jwt.sign({ userId: user._id }, JWT_SECRET);
+            // Update last login
+            user.lastLogin = new Date();
+            await user.save();
+
+            // Generate JWT with longer expiration
+            const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '30d' });
             res.json({ 
                 success: true, 
                 token,
                 user: {
-                    email: user.email
+                    email: user.email,
+                    messageCount: user.messageCount,
+                    currentModel: user.currentModel,
+                    lastLogin: user.lastLogin
                 }
             });
         }
@@ -152,7 +167,8 @@ app.get('/api/user', auth, async (req, res) => {
             user: {
                 email: req.user.email,
                 messageCount: req.user.messageCount,
-                currentModel: req.user.currentModel
+                currentModel: req.user.currentModel,
+                lastLogin: req.user.lastLogin
             }
         });
     } catch (error) {
@@ -160,6 +176,30 @@ app.get('/api/user', auth, async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+// Check token validity endpoint
+app.post('/api/verify-token', async (req, res) => {
+    try {
+        const token = req.header('Authorization').replace('Bearer ', '');
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const user = await User.findOne({ _id: decoded.userId });
+        
+        if (!user) {
+            return res.status(401).json({ success: false, message: 'Invalid token' });
+        }
+
+        res.json({ 
+            success: true,
+            user: {
+                email: user.email,
+                messageCount: user.messageCount,
+                currentModel: user.currentModel,
+                lastLogin: user.lastLogin
+            }
+        });
+    } catch (error) {
+        res.status(401).json({ success: false, message: 'Invalid token' });
+    }
 });
+
+// Export the Express API
+module.exports = app;

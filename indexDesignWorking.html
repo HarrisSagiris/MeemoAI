@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MesemoAI">
+    <meta name="theme-color" content="#0F172A">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icon-152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/icon-167.png">
+    <link rel="icon" type="image/png" href="/meemoai.jpg">
+    <title>MeemoAI - Your AI Creative Partner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        :root {
+            --primary: #6366F1;
+            --primary-light: #818CF8;
+            --primary-dark: #4F46E5;
+            --secondary: #EC4899;
+            --bg-dark: #0F172A;
+            --bg-card: #1E293B;
+            --text-light: #F8FAFC;
+            --text-gray: #94A3B8;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --vh: 1vh;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            position: fixed;
+            width: 100%;
+        }
+
+        .navbar {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.25rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.75rem 1.25rem;
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-links a:hover {
+            background: rgba(99, 102, 241, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            padding: 8rem 2rem;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(99, 102, 241, 0.15) 0%, rgba(15, 23, 42, 0) 70%);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-gray);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .feature-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature-description {
+            color: var(--text-gray);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .cta-button {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0));
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover::before {
+            transform: translateY(0);
+        }
+
+        .footer {
+            background: var(--bg-card);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--text-gray);
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .nav-links a {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero {
+                padding: 4rem 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <i class="fas fa-brain"></i>
+                MeemoAI
+            </a>
+            <div class="nav-links">
+                <a href="ai.html"><i class="fas fa-robot"></i>AI Chat</a>
+                <a href="immagegen.html"><i class="fas fa-wand-magic-sparkles"></i>Create Art</a>
+                <a href="premium.html"><i class="fas fa-crown"></i>Go Premium</a>
+                <a href="faq.html"><i class="fas fa-circle-question"></i>Help Center</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1 id="animated-title">Unleash Your Creative Potential</h1>
+        <p>Experience the next generation of AI with MeemoAI. Whether you're looking to create stunning artwork, engage in meaningful conversations, or boost your productivity, we've got you covered.</p>
+    </section>
+
+    <section class="features">
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-message-dots"></i></div>
+            <h2 class="feature-title">Intelligent Conversations</h2>
+            <p class="feature-description">Engage with our advanced AI assistant for help with writing, analysis, coding, and more. Experience natural, context-aware conversations that adapt to your needs.</p>
+            <a href="ai.html" class="cta-button">Start Chatting <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-sparkles"></i></div>
+            <h2 class="feature-title">AI Art Studio</h2>
+            <p class="feature-description">Transform your imagination into stunning visuals. Create unique artwork, illustrations, and designs with our state-of-the-art AI image generation technology.</p>
+            <a href="immagegen.html" class="cta-button">Create Art <i class="fas fa-palette"></i></a>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-crown"></i></div>
+            <h2 class="feature-title">Premium Experience</h2>
+            <p class="feature-description">Unlock unlimited potential with priority access, advanced AI models, and exclusive features. Experience the full power of AI without limitations.</p>
+            <button onclick="startSubscription()" class="cta-button">Upgrade Now <i class="fas fa-bolt"></i></button>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2023 MeemoAI | Empowering Creativity Through Artificial Intelligence</p>
+    </footer>
+
+    <script>
+        const stripe = Stripe('your_publishable_key');
+
+        function updateVH() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        
+        window.addEventListener('resize', updateVH);
+        window.addEventListener('orientationchange', updateVH);
+        updateVH();
+
+        async function startSubscription() {
+            try {
+                const response = await fetch('/create-checkout-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                
+                const session = await response.json();
+                
+                const result = await stripe.redirectToCheckout({
+                    sessionId: session.id
+                });
+
+                if (result.error) {
+                    alert(result.error.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Something went wrong. Please try again later.');
+            }
+        }
+
+        const title = document.getElementById('animated-title');
+        const phrases = [
+            "Unleash Your Creative Potential",
+            "Create Amazing Things",
+            "Chat with Intelligence",
+            "Transform Your Ideas"
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 50;
+        let pauseEnd = 2000;
+
+        function typeAnimation() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                title.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                title.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                setTimeout(() => isDeleting = true, pauseEnd);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+            }
+
+            setTimeout(typeAnimation, typingSpeed);
+        }
+
+        typeAnimation();
+
+        document.body.addEventListener('touchmove', function(e) {
+            if (e.target.closest('.features')) return;
+            e.preventDefault();
+        }, { passive: false });
+    </script>
+</body>
+</html>

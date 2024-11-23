@@ -7,11 +7,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="MesemoAI">
     <meta name="theme-color" content="#000000">
-    <link rel="apple-touch-icon" href="/icon.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/icon-152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="/icon-167.png">
-    <link rel="icon" type="image/png" href="/meemoai.jpg">
+    <link rel="apple-touch-icon" href="/static/icon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/icon-152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/icon-180.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/static/icon-167.png">
+    <link rel="icon" type="image/png" href="/static/meemoai.jpg">
     <title>MeemoAI - Your Creative AI Partner</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -156,13 +156,14 @@
         }
 
         .username-display {
+            display: none; /* Hide the email display */
             color: var(--text-light);
             font-size: 0.9rem;
             font-weight: 500;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.2rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .section {
@@ -526,6 +527,860 @@
             transform: translateX(0);
         }
 
+        .get-started-section {
+            text-align: center;
+            padding: 4rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .get-started-button {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: black;
+            padding: 1.2rem 3rem;
+            border-radius: 3rem;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: inline-block;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .get-started-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.3));
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .get-started-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0.8rem;
+            }
+            
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+                width: 100%;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 0.5rem;
+            }
+
+            .nexorq-button {
+                margin: 0.5rem 0;
+            }
+
+            .auth-section {
+                margin: 1rem 0;
+                justify-content: center;
+            }
+
+            .section {
+                padding: 8rem 1rem 4rem 1rem;
+            }
+
+            .features {
+                padding: 1rem;
+                gap: 2rem;
+            }
+
+            .message-content {
+                font-size: 0.85rem;
+                padding: 0.8rem;
+            }
+
+            .code-block {
+                font-size: 0.75rem;
+                padding: 0.8rem;
+            }
+
+            .intro-item {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chat-window {
+                border-radius: 16px;
+            }
+
+            .message {
+                gap: 0.5rem;
+            }
+
+            .avatar {
+                width: 30px;
+                height: 30px;
+                font-size: 0.8rem;
+            }
+
+            .control {
+                width: 10px;
+                height: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="/" class="logo">MeemoAI</a>
+            <div class="nav-links">
+                <a href="/static/ai.html">MeemoAI chat</a>
+                <a href="/static/imagegen.html">Image Creation</a>
+                <a href="/static/faq.html">Frequently asked questions</a>
+                <a href="/static/premium.html">Premium</a>
+                <a href="/static/nexorq.html" class="nexorq-button">About us (Nexor)</a>
+                <div class="auth-section">
+                    <a href="/static/register.html" class="register-button">Register</a>
+                    <span class="username-display"></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="section">
+        <div class="section-content">
+            <h2>Think Different with AI</h2>
+            <p>Experience intelligence that adapts to your needs. From complex calculations to creative endeavors, unlock your full potential with MeemoAI, a Nexor company.</p>
+            <a href="#features" class="cta-button">Explore Features</a>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="chat-window">
+            <div class="chat-header">
+                <div class="window-controls">
+                    <div class="control red"></div>
+                    <div class="control yellow"></div>
+                    <div class="control green"></div>
+                </div>
+                <div class="chat-title">Mathematics Assistant</div>
+            </div>
+            <div class="chat-messages">
+                <div class="message">
+                    <div class="avatar user-avatar">U</div>
+                    <div class="message-content">Can you help me solve this calculus problem? Find the derivative of f(x) = x³ + 2x² - 4x + 1</div>
+                </div>
+                <div class="message">
+                    <div class="avatar ai-avatar">M</div>
+                    <div class="message-content">
+                        I'll help you find the derivative step by step:
+                        
+                        1) For x³: The derivative is 3x²
+                        2) For 2x²: The derivative is 4x
+                        3) For -4x: The derivative is -4
+                        4) For +1: The derivative is 0
+                        
+                        Combining all terms:
+                        f'(x) = 3x² + 4x - 4
+                    </div>
+                </div>
+            </div>
+            <div class="feature-text">
+                <p>Advanced Mathematical Problem Solving</p>
+                <p>Step-by-step Solutions</p>
+                <p>Visual Math Explanations</p>
+            </div>
+        </div>
+
+        <div class="chat-window">
+            <div class="chat-header">
+                <div class="window-controls">
+                    <div class="control red"></div>
+                    <div class="control yellow"></div>
+                    <div class="control green"></div>
+                </div>
+                <div class="chat-title">Coding Assistant</div>
+            </div>
+            <div class="chat-messages">
+                <div class="message">
+                    <div class="avatar user-avatar">U</div>
+                    <div class="message-content">How do I create a function in Python to check if a number is prime?</div>
+                </div>
+                <div class="message">
+                    <div class="avatar ai-avatar">M</div>
+                    <div class="message-content">
+                        Here's a simple and efficient function to check if a number is prime:
+                        <div class="code-block">
+def is_prime(n):
+    if n < 2:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+# Example usage:
+print(is_prime(17))  # Output: True
+print(is_prime(4))   # Output: False</div>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-text">
+                <p>Intelligent Code Generation</p>
+                <p>Multiple Language Support</p>
+                <p>Real-time Code Optimization</p>
+            </div>
+        </div>
+
+        <div class="chat-window">
+            <div class="chat-header">
+                <div class="window-controls">
+                    <div class="control red"></div>
+                    <div class="control yellow"></div>
+                    <div class="control green"></div>
+                </div>
+                <div class="chat-title">Creative Writing Assistant</div>
+            </div>
+            <div class="chat-messages">
+                <div class="message">
+                    <div class="avatar user-avatar">U</div>
+                    <div class="message-content">Can you help me write a short story opening about a mysterious door in an old house?</div>
+                </div>
+                <div class="message">
+                    <div class="avatar ai-avatar">M</div>
+                    <div class="message-content">
+                        The brass doorknob felt unusually warm beneath Sarah's trembling fingers. In all her years of exploring the Victorian mansion's endless corridors, she had never noticed this particular door before. Its dark mahogany surface seemed to absorb the flickering candlelight, and the intricate carvings around its frame depicted scenes she couldn't quite make out, yet somehow felt familiar. As she turned the handle, a faint humming emanated from behind the door, growing louder with each degree of rotation. Sarah's heart pounded against her ribs, knowing that whatever lay beyond would change everything she thought she knew about her grandmother's house.
+                    </div>
+                </div>
+            </div>
+            <div class="feature-text">
+                <p>Creative Story Generation</p>
+                <p>Style and Tone Adaptation</p>
+                <p>Character Development</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="product-intro">
+        <div class="intro-item">
+            <h3>Supercharged Intelligence</h3>
+            <p>MeemoAI doesn't just respond - it understands context, learns from interactions, and adapts to your unique needs.</p>
+        </div>
+        <div class="intro-item">
+            <h3>Seamless Integration</h3>
+            <p>Whether you're a student, professional, or creative, MeemoAI integrates perfectly into your workflow.</p>
+        </div>
+        <div class="intro-item">
+            <h3>Privacy First</h3>
+            <p>Your conversations and data are encrypted end-to-end. We believe in providing intelligence without compromising privacy.</p>
+        </div>
+    </section>
+
+    <section class="get-started-section">
+        <a href="/static/register.html" class="get-started-button">Get Started Now</a>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2023 MeemoAI - Empowering Your Future with AI</p>
+    </footer>
+
+    <script>
+        let lastScrollY = window.scrollY;
+        const navbar = document.querySelector('.navbar');
+
+        // Check if user is logged in
+        function checkLoginStatus() {
+            const token = localStorage.getItem('token');
+            const userEmail = localStorage.getItem('userEmail');
+            const registerButton = document.querySelector('.register-button');
+            const usernameDisplay = document.querySelector('.username-display');
+            const getStartedButton = document.querySelector('.get-started-button');
+            
+            if (token && userEmail) {
+                // Verify token is still valid with server
+                fetch('/api/verify-token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Token is valid, hide register button and show email
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MesemoAI">
+    <meta name="theme-color" content="#000000">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icon-152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/icon-167.png">
+    <link rel="icon" type="image/png" href="/meemoai.jpg">
+    <title>MeemoAI - Your Creative AI Partner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        :root {
+            --primary: #FFFFFF;
+            --primary-light: #FFFFFF;
+            --bg-dark: #000000;
+            --text-light: #FFFFFF;
+            --text-gray: #CCCCCC;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-hover: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .navbar.hidden {
+            transform: translateY(-100%) scale(0.98);
+            opacity: 0;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .logo:hover {
+            transform: scale(1.1) translateY(-2px);
+            filter: brightness(1.2);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nexorq-button {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-left: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .nexorq-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: 2rem;
+        }
+        .register-button {
+            background: #000000;
+            color: #FFFFFF;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .register-button:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+            filter: brightness(1.1);
+        }
+
+        .username-display {
+            display: none; /* Hide the email display */
+        }
+
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 1rem;
+            opacity: 0;
+            transform: translateY(50px) scale(0.95);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .section-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            padding: 0 1rem;
+        }
+
+        .section h2 {
+            font-size: clamp(2rem, 5vw, 4.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .section.active h2 {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .section p {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+            padding: 0 1rem;
+        }
+
+        .section.active p {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .chat-window {
+            background: rgba(28, 28, 30, 0.95);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(50px) scale(0.95);
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+            width: 100%;
+            max-width: 100%;
+            perspective: 1000px;
+            position: sticky;
+            top: 100px;
+            margin-bottom: 100vh;
+        }
+
+        .chat-window.visible {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .chat-window:hover {
+            transform: translateY(-10px) scale(1.02) rotateX(2deg);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .feature-text {
+            text-align: center;
+            margin-top: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 0 1rem;
+            position: absolute;
+            bottom: -80px;
+            left: 0;
+            right: 0;
+        }
+
+        .feature-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-text p {
+            color: var(--text-gray);
+            margin: 0.5rem 0;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            transition: all 0.3s ease;
+        }
+
+        .feature-text p:hover {
+            color: var(--text-light);
+            transform: translateX(5px);
+        }
+
+        .chat-header {
+            background: rgba(50, 50, 50, 0.95);
+            padding: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .chat-header:hover {
+            background: rgba(60, 60, 60, 0.95);
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+        }
+
+        .control:hover {
+            transform: scale(1.2);
+            filter: brightness(1.2);
+        }
+
+        .control.red { background: #FF5F56; }
+        .control.yellow { background: #FFBD2E; }
+        .control.green { background: #27C93F; }
+
+        .chat-title {
+            margin-left: 1rem;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .chat-title:hover {
+            color: var(--text-light);
+        }
+
+        .chat-messages {
+            padding: 1.5rem;
+        }
+
+        .message {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .message.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+        }
+
+        .avatar:hover {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .user-avatar {
+            background: linear-gradient(135deg, #147CE5, #0E5CAD);
+        }
+
+        .ai-avatar {
+            background: linear-gradient(135deg, #333, #222);
+        }
+
+        .message-content {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.2rem;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            width: 100%;
+            transition: all 0.3s ease;
+            transform-origin: left center;
+        }
+
+        .message-content:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: scale(1.02);
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.2rem;
+            border-radius: 12px;
+            font-family: monospace;
+            margin-top: 0.8rem;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            white-space: pre-wrap;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .code-block:hover {
+            background: rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: black;
+            padding: 1rem 2.5rem;
+            border-radius: 3rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            display: inline-block;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.3));
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .section.active .cta-button {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-button:hover::before {
+            transform: translateX(100%);
+        }
+
+        .footer {
+            padding: 2rem 1rem;
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .footer:hover {
+            background: rgba(0, 0, 0, 0.4);
+            color: var(--text-light);
+        }
+
+        .product-intro {
+            min-height: 300vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intro-item {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 2rem;
+            position: sticky;
+            top: 0;
+        }
+
+        .intro-item h3 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: left;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .intro-item p {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: var(--text-gray);
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+            text-align: left;
+            max-width: 800px;
+            margin: 2rem auto 0;
+            line-height: 1.4;
+        }
+
+        .intro-item.visible h3,
+        .intro-item.visible p {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .get-started-section {
+            text-align: center;
+            padding: 4rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .get-started-button {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: black;
+            padding: 1.2rem 3rem;
+            border-radius: 3rem;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: inline-block;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .get-started-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.3));
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .get-started-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.3);
+        }
+
         @media (max-width: 768px) {
             .navbar {
                 padding: 0.8rem;
@@ -750,6 +1605,10 @@ print(is_prime(4))   # Output: False</div>
         </div>
     </section>
 
+    <section class="get-started-section">
+        <a href="register.html" class="get-started-button">Get Started Now</a>
+    </section>
+
     <footer class="footer">
         <p>&copy; 2023 MeemoAI - Empowering Your Future with AI</p>
     </footer>
@@ -760,25 +1619,49 @@ print(is_prime(4))   # Output: False</div>
 
         // Check if user is logged in
         function checkLoginStatus() {
-            const username = localStorage.getItem('username');
+            const token = localStorage.getItem('token');
+            const userEmail = localStorage.getItem('userEmail');
             const registerButton = document.querySelector('.register-button');
-            const loginButton = document.querySelector('.login-button');
             const usernameDisplay = document.querySelector('.username-display');
+            const getStartedButton = document.querySelector('.get-started-button');
             
-            if (username) {
-                registerButton.style.display = 'none';
-                loginButton.style.display = 'none';
-                usernameDisplay.style.display = 'block';
-                usernameDisplay.textContent = username;
+            if (token && userEmail) {
+                // Verify token is still valid with server
+                fetch('/api/verify-token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Token is valid, hide register button
+                        registerButton.style.display = 'none';
+                    } else {
+                        // Token is invalid, clear storage and show register button
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('userEmail');
+                        registerButton.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error verifying token:', error);
+                });
             } else {
                 registerButton.style.display = 'block';
-                loginButton.style.display = 'block';
                 usernameDisplay.style.display = 'none';
             }
         }
 
         // Check login status on page load
         window.addEventListener('load', checkLoginStatus);
+
+        // Also check when storage changes (in case user logs in/out in another tab)
+        window.addEventListener('storage', checkLoginStatus);
+
+        // Periodically verify token (every 5 minutes)
+        setInterval(checkLoginStatus, 300000);
 
         window.addEventListener('scroll', () => {
             const currentScrollY = window.scrollY;
