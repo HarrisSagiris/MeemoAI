@@ -8,18 +8,30 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(express.static('static')); // Changed from 'public' to 'static'
+app.use(express.static('static'));
 
-// MongoDB connection
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://appleidmusic960:Dataking8@tapsidecluster.oeofi.mongodb.net/';
-mongoose.connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
-    console.log('Connected to MongoDB');
-}).catch(err => {
-    console.error('MongoDB connection error:', err);
-});
+// MongoDB connection function
+let cachedConnection = null;
+const connectToDatabase = async () => {
+    if (cachedConnection) {
+        return cachedConnection;
+    }
+    
+    const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://appleidmusic960:Dataking8@tapsidecluster.oeofi.mongodb.net/';
+    try {
+        const connection = await mongoose.connect(MONGODB_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            bufferCommands: false,
+            serverSelectionTimeoutMS: 5000
+        });
+        cachedConnection = connection;
+        return connection;
+    } catch (error) {
+        console.error('MongoDB connection error:', error);
+        throw error;
+    }
+};
 
 // User Schema
 const userSchema = new mongoose.Schema({
@@ -38,6 +50,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 // Authentication middleware
 const auth = async (req, res, next) => {
     try {
+        await connectToDatabase();
         const token = req.header('Authorization').replace('Bearer ', '');
         const decoded = jwt.verify(token, JWT_SECRET);
         const user = await User.findOne({ _id: decoded.userId });
@@ -46,7 +59,6 @@ const auth = async (req, res, next) => {
             throw new Error();
         }
         
-        // Update last login time
         user.lastLogin = new Date();
         await user.save();
         
@@ -58,31 +70,31 @@ const auth = async (req, res, next) => {
 };
 
 // Serve register.html as the default page
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'static', 'register.html')); // Changed from 'public' to 'static'
+app.get('/', async (req, res) => {
+    await connectToDatabase();
+    res.sendFile(path.join(__dirname, 'static', 'register.html'));
 });
 
 // Serve index.html
-app.get('/index.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'static', 'index.html')); // Changed from 'public' to 'static'
+app.get('/index.html', async (req, res) => {
+    await connectToDatabase();
+    res.sendFile(path.join(__dirname, 'static', 'index.html'));
 });
 
 // Routes
 app.post('/api/auth', async (req, res) => {
     try {
+        await connectToDatabase();
         const { email, password, action } = req.body;
 
         if (action === 'signup') {
-            // Check if user already exists
             const existingUser = await User.findOne({ email });
             if (existingUser) {
                 return res.status(400).json({ success: false, message: 'Email already registered' });
             }
 
-            // Hash password
             const hashedPassword = await bcrypt.hash(password, 10);
 
-            // Create new user
             const user = new User({
                 email,
                 password: hashedPassword,
@@ -91,7 +103,6 @@ app.post('/api/auth', async (req, res) => {
 
             await user.save();
 
-            // Generate JWT with longer expiration
             const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '30d' });
             res.json({ 
                 success: true, 
@@ -105,23 +116,19 @@ app.post('/api/auth', async (req, res) => {
             });
 
         } else if (action === 'login') {
-            // Find user by email
             const user = await User.findOne({ email });
             if (!user) {
                 return res.status(400).json({ success: false, message: 'Invalid credentials' });
             }
 
-            // Check password
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {
                 return res.status(400).json({ success: false, message: 'Invalid credentials' });
             }
 
-            // Update last login
             user.lastLogin = new Date();
             await user.save();
 
-            // Generate JWT with longer expiration
             const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '30d' });
             res.json({ 
                 success: true, 
@@ -142,12 +149,11 @@ app.post('/api/auth', async (req, res) => {
 // Message count and model switching endpoint
 app.post('/api/message', auth, async (req, res) => {
     try {
+        await connectToDatabase();
         const user = req.user;
         
-        // Increment message count
         user.messageCount += 1;
         
-        // Switch model if message count exceeds 20
         if (user.messageCount > 20) {
             user.currentModel = 'mistralai/Mixtral-8x7B-Instruct-v0.1';
         }
@@ -167,6 +173,7 @@ app.post('/api/message', auth, async (req, res) => {
 // Get user info endpoint
 app.get('/api/user', auth, async (req, res) => {
     try {
+        await connectToDatabase();
         res.json({ 
             success: true, 
             user: {
@@ -184,6 +191,7 @@ app.get('/api/user', auth, async (req, res) => {
 // Check token validity endpoint
 app.post('/api/verify-token', async (req, res) => {
     try {
+        await connectToDatabase();
         const token = req.header('Authorization').replace('Bearer ', '');
         const decoded = jwt.verify(token, JWT_SECRET);
         const user = await User.findOne({ _id: decoded.userId });
